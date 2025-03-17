@@ -4,34 +4,39 @@ import (
 	"fmt"
 )
 
-// 定义常量词条类型
+// ------------------------ 常量定义 ------------------------
 const (
 	AttackPercentage = "AttackPercentage"
 	Critical         = "Critical"
 	ExplosiveInjury  = "ExplosiveInjury"
 	IncreasedDamage  = "IncreasedDamage"
 	Penetrate        = "Penetrate"
-	// 全局参数：有效词条数与暴击上限
-	GlobalMainArticle = 1
-	GlobalCritical    = 95
+
+	// 每个队伍可分配的词条数（示例值）
+	GlobalMainArticle = 45
+	// 暴击上限（示例值）
+	GlobalCritical = 95
 )
 
+// ------------------------ 主函数 ------------------------
 func main() {
-	// 多套队伍组合
+	// 初始化三套队伍
 	initializations := []*Initialization{
-		扳机嘉音(), // 队伍组合一
-		扳机妮可(), // 队伍组合二
-		扳机丽娜(), // 队伍组合三
+		扳机嘉音(), // 队伍组合一（包含5个技能）
+		扳机妮可(), // 队伍组合二（包含3个技能）
+		扳机丽娜(), // 队伍组合三（包含3个技能）
 	}
-	// 针对每套队伍组合进行计算
+
+	// 针对每套队伍进行计算
 	for idx, initialization := range initializations {
 		fmt.Printf("====== 队伍组合 %d: %s ======\n", idx+1, initialization.Name)
-		// 穷举所有词条分配方案，得到最佳方案
-		bestDamage, bestDistribution, bestPanel, _, bestCritConverted := initialization.FindOptimalDistribution()
+		// 穷举所有词条分配方案，获得最佳方案以及每个技能的伤害（整体最佳方案层面）
+		bestDamage, bestDistribution, bestPanel, _, bestCritConverted, _ := initialization.FindOptimalDistribution()
 
-		// 输出最佳词条分配方案和伤害
+		// 输出最佳词条分配方案和整体总伤害
+		fmt.Println("【整体最佳方案】")
 		fmt.Println("最佳词条分配方案:")
-		fmt.Printf("  攻击力: %d, 暴击: %d, 爆伤: %d, 增伤: %d, 穿透: %d, 暴击转换爆伤: %d\n",
+		fmt.Printf("  攻击力词条: %d, 暴击词条: %d, 爆伤词条: %d, 增伤词条: %d, 穿透词条: %d, 暴击转换爆伤词条: %d\n",
 			bestDistribution[AttackPercentage],
 			bestDistribution[Critical],
 			bestDistribution[ExplosiveInjury],
@@ -49,9 +54,9 @@ func main() {
 			bestPanel.Penetration,
 		)
 		fmt.Println("--------------------------------------------------")
-		// 遍历该队伍下所有计算模型，输出各模型对应的局内和局外面板
+		// 输出各计算模型（模型可能代表不同计算方法）的局内、局外面板及【单模型】的技能伤害明细
 		for _, model := range initialization.CalculationModels {
-			// 根据最佳分配方案构造面板
+			// 更新当前模型的局内面板
 			model.CharacterPanelWithDistribution(bestDistribution)
 			internalPanel := model.CurrentPanel
 			externalPanel := model.CalculateExternalPanel(bestDistribution, model.CritConverted)
@@ -70,18 +75,47 @@ func main() {
 				externalPanel.Critical,
 				externalPanel.ExplosiveInjury,
 			)
+			// ---------------- 新增部分 ----------------
+			// 根据当前模型的最终参数，计算并输出各技能的伤害明细
+			fmt.Println("各技能最终伤害:")
+			totalModelSkillDamage := 0.0
+			// 注意：由于每次调用 InitializationArea 会更新 Output，因此建议对每个技能分别调用
+			for _, mag := range model.Magnifications {
+				model.InitializationArea(mag)
+				skillDmg := model.Output.BasicDamageArea *
+					model.Output.IncreasedDamageArea *
+					model.Output.ExplosiveInjuryArea *
+					model.Output.DefenseArea *
+					model.Output.ReductionResistanceArea *
+					model.Output.VulnerableArea *
+					model.Output.SpecialDamageArea *
+					(1 + mag.SpecialDamage/100)
+				fmt.Printf("  技能 [%s] 伤害: %.6f\n", mag.Name, skillDmg)
+				totalModelSkillDamage += skillDmg
+			}
+			fmt.Printf("  技能总伤害: %.6f\n", totalModelSkillDamage)
 			fmt.Println("--------------------------------------------------")
-			fmt.Println()
 		}
+		//// 同时输出整体最佳方案下的各技能伤害（与所有模型综合后计算的结果）
+		//fmt.Println("【整体最佳方案 - 各技能伤害】")
+		//totalSkillDamage := 0.0
+		//for name, dmg := range skillDamages {
+		//	fmt.Printf("  技能 [%s] 伤害: %.6f\n", name, dmg)
+		//	totalSkillDamage += dmg
+		//}
+		//fmt.Printf("  技能总伤害: %.6f\n", totalSkillDamage)
+		fmt.Println("==================================================")
 	}
 }
+
+// ------------------------ 方法实现 ------------------------
 
 // CalculateExternalPanel 根据当前模型和词条分配计算局外面板
 // 公式：
 //
-//	攻击力 = Basic.BasicAttack * (1 + (Gain.AttackPowerPercentage + 攻击力词条数*3)/100) + Gain.AttackValue
-//	暴击率 = Basic.BasicCritical + 暴击词条数*2.4
-//	爆伤   = Basic.BasicExplosiveInjury + (爆伤词条数 + 暴击转换爆伤词条数量)*4.8
+//	攻击力 = BasicAttack * (1 + (AttackPowerPercentage + 攻击力词条数*3)/100) + AttackValue
+//	暴击率 = BasicCritical + 暴击词条数*2.4
+//	爆伤   = BasicExplosiveInjury + (爆伤词条数 + 暴击转换爆伤词条数量)*4.8
 func (i *Initialization) CalculateExternalPanel(distribution map[string]int, critConverted int) *ExternalPanel {
 	attack := i.Basic.BasicAttack*(1+(i.Gain.AttackPowerPercentage+float64(distribution[AttackPercentage])*3)/100) + i.Gain.AttackValue
 	critical := i.Basic.BasicCritical + float64(distribution[Critical])*2.4
@@ -99,13 +133,11 @@ func generateDistributions(total, slots int) [][]int {
 	var helper func(remaining, slots int, current []int)
 	helper = func(remaining, slots int, current []int) {
 		if slots == 1 {
-			// 最后一个槽直接获得剩余数量
 			newDist := append([]int{}, current...)
 			newDist = append(newDist, remaining)
 			results = append(results, newDist)
 			return
 		}
-		// 当前槽可以分配 0 ~ remaining 个词条
 		for i := 0; i <= remaining; i++ {
 			newCurrent := append([]int{}, current...)
 			newCurrent = append(newCurrent, i)
@@ -116,16 +148,16 @@ func generateDistributions(total, slots int) [][]int {
 	return results
 }
 
-// FindOptimalDistribution 穷举所有词条分配方案（使用递归生成方案），返回最佳方案对应的伤害、分配方案、局内面板及暴击转换词条数
-func (i *Initialization) FindOptimalDistribution() (bestDamage float64, bestDistribution map[string]int, bestPanel *CurrentPanel, bestOutput *Output, bestCritConverted int) {
-	// 使用递归生成所有分配方案：共有 5 个属性
+// FindOptimalDistribution 穷举所有词条分配方案，返回最佳方案对应的总伤害、词条分配、局内面板、输出、暴击转换数及各技能伤害（整体计算结果）
+func (i *Initialization) FindOptimalDistribution() (bestDamage float64, bestDistribution map[string]int, bestPanel *CurrentPanel, bestOutput *Output, bestCritConverted int, skillDamages map[string]float64) {
 	distributions := generateDistributions(i.MainArticle, 5)
 	bestDamage = -1.0
 	bestDistribution = make(map[string]int)
 	bestCritConverted = 0
+	var bestSim *Initialization
 
+	// 穷举每种词条分配方案
 	for _, dist := range distributions {
-		// 分配顺序：[AttackPercentage, Critical, ExplosiveInjury, IncreasedDamage, Penetrate]
 		distribution := map[string]int{
 			AttackPercentage: dist[0],
 			Critical:         dist[1],
@@ -135,7 +167,7 @@ func (i *Initialization) FindOptimalDistribution() (bestDamage float64, bestDist
 		}
 		var damage float64
 		var lastSim *Initialization
-		// 对每个 CalculationModel（计算模型）求总伤害
+		// 对每个计算模型求伤害和
 		for _, model := range i.CalculationModels {
 			sim := model.Clone()
 			sim.ResetCondition()
@@ -152,9 +184,27 @@ func (i *Initialization) FindOptimalDistribution() (bestDamage float64, bestDist
 			bestPanel = lastSim.ClonePanel()
 			bestOutput = lastSim.CloneOutput()
 			bestCritConverted = lastSim.CritConverted
+			bestSim = lastSim
 		}
 	}
-	return bestDamage, bestDistribution, bestPanel, bestOutput, bestCritConverted
+
+	// 在最佳模拟器下，计算每个技能的伤害（整体最佳方案）
+	bestSimClone := bestSim.Clone()
+	bestSimClone.CharacterPanelWithDistribution(bestDistribution)
+	skillDamages = make(map[string]float64)
+	for _, mag := range bestSimClone.Magnifications {
+		bestSimClone.InitializationArea(mag)
+		skillDamage := bestSimClone.Output.BasicDamageArea *
+			bestSimClone.Output.IncreasedDamageArea *
+			bestSimClone.Output.ExplosiveInjuryArea *
+			bestSimClone.Output.DefenseArea *
+			bestSimClone.Output.ReductionResistanceArea *
+			bestSimClone.Output.VulnerableArea *
+			bestSimClone.Output.SpecialDamageArea *
+			(1 + mag.SpecialDamage/100)
+		skillDamages[mag.Name] = skillDamage
+	}
+	return bestDamage, bestDistribution, bestPanel, bestOutput, bestCritConverted, skillDamages
 }
 
 // CharacterPanelWithDistribution 根据词条分配更新局内面板
@@ -212,10 +262,11 @@ func (i *Initialization) Clone() *Initialization {
 		Condition: &Condition{
 			Critical: i.Condition.Critical,
 		},
-		Output:        &Output{},
-		CurrentPanel:  &CurrentPanel{},
-		CritConverted: i.CritConverted,
-		Name:          i.Name,
+		Output:            &Output{},
+		CurrentPanel:      &CurrentPanel{},
+		CritConverted:     i.CritConverted,
+		Name:              i.Name,
+		CalculationModels: i.CalculationModels,
 	}
 }
 
@@ -231,8 +282,9 @@ func (i *Initialization) CloneOutput() *Output {
 	return &op
 }
 
-// ===== 以下各函数处理各词条对局内面板的加成 =====
+// ===== 以下各函数处理词条对局内面板的加成 =====
 
+// HandleBasicAttack 根据攻击力词条增加攻击力
 func (i *Initialization) HandleBasicAttack(key string, count int) {
 	attackPowerPercentage := i.Gain.AttackPowerPercentage
 	if key == AttackPercentage {
@@ -241,6 +293,7 @@ func (i *Initialization) HandleBasicAttack(key string, count int) {
 	i.CurrentPanel.Attack = (i.Basic.BasicAttack*(1+attackPowerPercentage/100) + i.Gain.AttackValue + i.Gain.AttackValue2) * (1 + i.Gain.AttackInternalPercentage/100)
 }
 
+// HandleBasicCritical 根据暴击词条更新暴击率，并计算转换为爆伤的词条数
 func (i *Initialization) HandleBasicCritical(key string, count int) {
 	if key == Critical {
 		baseCrit := i.Basic.BasicCritical + i.Gain.Critical
@@ -261,6 +314,7 @@ func (i *Initialization) HandleBasicCritical(key string, count int) {
 	}
 }
 
+// HandleBasicExplosiveInjury 根据爆伤词条更新爆伤
 func (i *Initialization) HandleBasicExplosiveInjury(key string, count int) {
 	explosiveInjury := i.Gain.ExplosiveInjury
 	if key == ExplosiveInjury {
@@ -270,6 +324,7 @@ func (i *Initialization) HandleBasicExplosiveInjury(key string, count int) {
 	i.CurrentPanel.ExplosiveInjury = i.Basic.BasicExplosiveInjury + explosiveInjury + convertedBonus
 }
 
+// HandleBasicIncreasedDamage 根据增伤词条更新增伤
 func (i *Initialization) HandleBasicIncreasedDamage(key string, count int) {
 	if key == IncreasedDamage {
 		var effectiveTokens int
@@ -288,6 +343,7 @@ func (i *Initialization) HandleBasicIncreasedDamage(key string, count int) {
 	}
 }
 
+// HandlePenetrateDamage 根据穿透词条更新穿透率
 func (i *Initialization) HandlePenetrateDamage(key string, count int) {
 	if key == Penetrate {
 		var effectiveTokens int
@@ -312,8 +368,9 @@ func (i *Initialization) HandlePenetrateDamage(key string, count int) {
 
 // ===== 以下各函数计算各分区加成 =====
 
+// CalculatingTotalDamage 计算所有倍率（技能）的总伤害
 func (i *Initialization) CalculatingTotalDamage() float64 {
-	var totalDamage float64
+	totalDamage := 0.0
 	for _, mag := range i.Magnifications {
 		i.InitializationArea(mag)
 		damage := i.Output.BasicDamageArea *
@@ -329,6 +386,7 @@ func (i *Initialization) CalculatingTotalDamage() float64 {
 	return totalDamage
 }
 
+// InitializationArea 依次计算各分区的加成
 func (i *Initialization) InitializationArea(magnification *Magnification) {
 	i.BasicDamageArea(magnification)
 	i.IncreasedDamageArea(magnification)
@@ -339,18 +397,22 @@ func (i *Initialization) InitializationArea(magnification *Magnification) {
 	i.SpecialDamageArea()
 }
 
+// BasicDamageArea 计算基础伤害分区
 func (i *Initialization) BasicDamageArea(magnification *Magnification) {
 	i.Output.BasicDamageArea = i.CurrentPanel.Attack * magnification.MagnificationValue / 100 * magnification.TriggerTimes
 }
 
+// IncreasedDamageArea 计算增伤分区
 func (i *Initialization) IncreasedDamageArea(magnification *Magnification) {
 	i.Output.IncreasedDamageArea = 1 + (magnification.IncreasedDamage+i.CurrentPanel.IncreasedDamage)/100
 }
 
+// ExplosiveInjuryArea 计算爆伤分区
 func (i *Initialization) ExplosiveInjuryArea(magnification *Magnification) {
 	i.Output.ExplosiveInjuryArea = 1 + (i.CurrentPanel.Critical*(i.CurrentPanel.ExplosiveInjury)*(1+magnification.ExplosiveInjury/100))/10000
 }
 
+// DefenseArea 计算破防分区
 func (i *Initialization) DefenseArea(magnification *Magnification) {
 	characterBase, TotalDefense := 793.783, 873.1613
 	penetration := (i.CurrentPanel.Penetration + magnification.Penetration) / 100
@@ -358,27 +420,29 @@ func (i *Initialization) DefenseArea(magnification *Magnification) {
 	i.Output.DefenseArea = characterBase / (TotalDefense*(1-penetration)*(1-defenseBreak) - i.Defense.PenetrationValue + characterBase)
 }
 
+// ReductionResistanceArea 计算减抗分区
 func (i *Initialization) ReductionResistanceArea(magnification *Magnification) {
 	i.Output.ReductionResistanceArea = 1 + (magnification.ReductionResistance+i.CurrentPanel.ReductionResistance)/100
 }
 
+// VulnerableArea 计算易伤分区
 func (i *Initialization) VulnerableArea() {
 	i.Output.VulnerableArea = 1 + (i.CurrentPanel.Vulnerable)/100
 }
 
+// SpecialDamageArea 计算特殊增伤分区
 func (i *Initialization) SpecialDamageArea() {
 	i.Output.SpecialDamageArea = 1 + (i.CurrentPanel.SpecialDamage)/100
 }
 
-// ==================== 数据结构定义 ====================
+// ------------------------ 数据结构定义 ------------------------
 
 type Initialization struct {
-	// 存放多套模型（不同计算方式、面板等）
-	Magnifications    []*Magnification  // 倍率列表
-	CalculationModels []*Initialization // 计算模型集合
+	Magnifications    []*Magnification  // 倍率列表（各技能）
+	CalculationModels []*Initialization // 计算模型集合（可以包含多套不同模型）
 	MainArticle       int               // 有效词条总数
 	CritConverted     int               // 记录暴击转换为爆伤的词条数量
-	Name              string            // 队伍（或模型）名称
+	Name              string            // 队伍或模型名称
 
 	Basic        *Basic
 	Gain         *Gain
@@ -395,61 +459,60 @@ type ExternalPanel struct {
 }
 
 type Basic struct {
-	BasicAttack              float64 // 基础攻击力
-	BasicCritical            float64 // 基础暴击
-	BasicExplosiveInjury     float64 // 基础爆伤
-	BasicIncreasedDamage     float64 // 基础增伤
-	BasicReductionResistance float64 // 基础减抗
-	BasicVulnerable          float64 // 基础易伤（百分比）
-	BasicSpecialDamage       float64 // 基础特殊增伤（百分比）
-	Penetration              float64 // 穿透率（百分比）
+	BasicAttack              float64
+	BasicCritical            float64
+	BasicExplosiveInjury     float64
+	BasicIncreasedDamage     float64
+	BasicReductionResistance float64
+	BasicVulnerable          float64
+	BasicSpecialDamage       float64
+	Penetration              float64
 }
 
 type CurrentPanel struct {
-	Attack              float64 // 攻击力
-	Critical            float64 // 暴击率（百分比）
-	ExplosiveInjury     float64 // 爆伤（百分比）
-	IncreasedDamage     float64 // 增伤（百分比）
-	ReductionResistance float64 // 减抗（百分比）
-	Vulnerable          float64 // 易伤（百分比）
-	SpecialDamage       float64 // 特殊增伤（百分比）
-	Penetration         float64 // 穿透率（百分比）
+	Attack              float64
+	Critical            float64
+	ExplosiveInjury     float64
+	IncreasedDamage     float64
+	ReductionResistance float64
+	Vulnerable          float64
+	SpecialDamage       float64
+	Penetration         float64
 }
 
 type Magnification struct {
-	MagnificationValue  float64 // 倍率值（百分比）
-	TriggerTimes        float64 // 触发次数
-	Name                string  // 伤害名称
-	IncreasedDamage     float64 // 指定增伤（百分比）
-	ReductionResistance float64 // 指定减抗（百分比）
-	DefenseBreak        float64 // 指定破防（百分比）
-	Penetration         float64 // 指定穿透（百分比）
-	SpecialDamage       float64 // 指定特殊增益（百分比）
-	ExplosiveInjury     float64 // 局内爆伤计算（百分比）
+	MagnificationValue  float64
+	TriggerTimes        float64
+	Name                string
+	IncreasedDamage     float64
+	ReductionResistance float64
+	DefenseBreak        float64
+	Penetration         float64
+	SpecialDamage       float64
+	ExplosiveInjury     float64
 }
 
 type Gain struct {
-	AttackValue              float64 // 攻击力增加值
-	AttackValue2             float64 // 攻击力增加值2
-	AttackPowerPercentage    float64 // 攻击力百分比加成
-	AttackInternalPercentage float64 // 局内攻击力加成
-	Critical                 float64 // 增加暴击
-	ExplosiveInjury          float64 // 增加爆伤
-	IncreasedDamage          float64 // 增伤（百分比）
-	ReductionResistance      float64 // 减抗（百分比）
-	Vulnerable               float64 // 易伤（百分比）
-	SpecialDamage            float64 // 特殊增伤（百分比）
+	AttackValue              float64
+	AttackValue2             float64
+	AttackPowerPercentage    float64
+	AttackInternalPercentage float64
+	Critical                 float64
+	ExplosiveInjury          float64
+	IncreasedDamage          float64
+	ReductionResistance      float64
+	Vulnerable               float64
+	SpecialDamage            float64
 }
 
 type Defense struct {
-	Penetration      float64 // 穿透率（百分比）
-	DefenseBreak     float64 // 破防（百分比）
-	PenetrationValue float64 // 穿透固定值
+	Penetration      float64
+	DefenseBreak     float64
+	PenetrationValue float64
 }
 
-// Condition 只保留需要使用的字段
 type Condition struct {
-	Critical float64 // 暴击率上限
+	Critical float64
 }
 
 type Output struct {
@@ -460,11 +523,4 @@ type Output struct {
 	ReductionResistanceArea float64
 	VulnerableArea          float64
 	SpecialDamageArea       float64
-}
-
-type Result struct {
-	CurrentPanel         *CurrentPanel
-	Output               *Output
-	Damage               float64
-	PercentageDifference float64
 }

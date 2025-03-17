@@ -49,7 +49,7 @@ func teamModelA() *Initialization {
 			Name:               "强化特殊技+特殊技",
 		},
 	}
-	return &Initialization{
+	init := &Initialization{
 		MainArticle:    GlobalMainArticle,
 		Magnifications: mags,
 		Name:           "安比01扳机00嘉音00站场",
@@ -83,6 +83,8 @@ func teamModelA() *Initialization {
 		Output:       &Output{},
 		CurrentPanel: &CurrentPanel{},
 	}
+	init.CalculationModels = []*Initialization{init.Clone()}
+	return init
 }
 
 func teamModelB() *Initialization {
@@ -118,7 +120,7 @@ func teamModelB() *Initialization {
 			Name:               "终结技+连携技",
 		},
 	}
-	return &Initialization{
+	init := &Initialization{
 		MainArticle:    GlobalMainArticle,
 		Magnifications: mags,
 		Name:           "安比01扳机00嘉音00失衡",
@@ -152,4 +154,6 @@ func teamModelB() *Initialization {
 		Output:       &Output{},
 		CurrentPanel: &CurrentPanel{},
 	}
+	init.CalculationModels = []*Initialization{init.Clone()}
+	return init
 }

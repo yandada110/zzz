@@ -48,7 +48,7 @@ func 计算扳机丽娜10站场() *Initialization {
 			Name:               "强化特殊技+特殊技",
 		},
 	}
-	return &Initialization{
+	init := &Initialization{
 		MainArticle:    GlobalMainArticle,
 		Magnifications: mags,
 		Name:           "安比01扳机00丽娜10站场",
@@ -82,6 +82,8 @@ func 计算扳机丽娜10站场() *Initialization {
 		Output:       &Output{},
 		CurrentPanel: &CurrentPanel{},
 	}
+	init.CalculationModels = []*Initialization{init.Clone()}
+	return init
 }
 
 func 计算扳机丽娜10失衡() *Initialization {
@@ -117,7 +119,7 @@ func 计算扳机丽娜10失衡() *Initialization {
 			Name:               "终结技+连携技",
 		},
 	}
-	return &Initialization{
+	init := &Initialization{
 		MainArticle:    GlobalMainArticle,
 		Magnifications: mags,
 		Name:           "安比01扳机00丽娜10失衡",
@@ -151,4 +153,6 @@ func 计算扳机丽娜10失衡() *Initialization {
 		Output:       &Output{},
 		CurrentPanel: &CurrentPanel{},
 	}
+	init.CalculationModels = []*Initialization{init.Clone()}
+	return init
 }
