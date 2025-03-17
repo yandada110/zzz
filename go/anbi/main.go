@@ -20,14 +20,13 @@ func main() {
 		扳机妮可(), // 队伍组合二
 		扳机丽娜(), // 队伍组合三
 	}
-
-	// 遍历每套队伍组合，计算最佳分配方案并输出局内/局外面板
+	// 针对每套队伍组合进行计算
 	for idx, initialization := range initializations {
 		fmt.Printf("====== 队伍组合 %d: %s ======\n", idx+1, initialization.Name)
 		// 穷举所有词条分配方案，得到最佳方案
 		bestDamage, bestDistribution, bestPanel, _, bestCritConverted := initialization.FindOptimalDistribution()
 
-		// 输出最佳词条分配方案和最高伤害
+		// 输出最佳词条分配方案和伤害
 		fmt.Println("最佳词条分配方案:")
 		fmt.Printf("  攻击力: %d, 暴击: %d, 爆伤: %d, 增伤: %d, 穿透: %d, 暴击转换爆伤: %d\n",
 			bestDistribution[AttackPercentage],
@@ -38,7 +37,7 @@ func main() {
 			bestCritConverted,
 		)
 		fmt.Printf("最高总伤害: %.6f\n", bestDamage)
-		fmt.Println("最佳局内面板（来自综合最优方案）:")
+		fmt.Println("最佳局内面板（综合最优方案）:")
 		fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%, 增伤: %.2f%%, 穿透: %.2f%%\n",
 			bestPanel.Attack,
 			bestPanel.Critical,
@@ -47,9 +46,9 @@ func main() {
 			bestPanel.Penetration,
 		)
 		fmt.Println("--------------------------------------------------")
-		// 遍历当前队伍的所有计算模型，输出各模型的局内和局外面板
+		// 遍历该队伍下所有计算模型，输出各模型对应的局内和局外面板
 		for _, model := range initialization.CalculationModels {
-			// 根据最佳分配方案构建面板
+			// 根据最佳分配方案构造面板
 			model.CharacterPanelWithDistribution(bestDistribution)
 			internalPanel := model.CurrentPanel
 			externalPanel := model.CalculateExternalPanel(bestDistribution, model.CritConverted)
@@ -70,12 +69,9 @@ func main() {
 			)
 			fmt.Println("--------------------------------------------------")
 			fmt.Println()
-			break
 		}
 	}
 }
-
-// ==================== 计算与面板构建逻辑 ====================
 
 // CalculateExternalPanel 根据当前模型和词条分配计算局外面板
 // 公式：
@@ -94,48 +90,65 @@ func (i *Initialization) CalculateExternalPanel(distribution map[string]int, cri
 	}
 }
 
-// FindOptimalDistribution 穷举所有词条分配方案，返回最佳方案对应的总伤害、词条分配、局内面板及暴击转换词条数
+// generateDistributions 递归生成将 total 个词条分配到 slots 个属性上的所有方案
+func generateDistributions(total, slots int) [][]int {
+	var results [][]int
+	var helper func(remaining, slots int, current []int)
+	helper = func(remaining, slots int, current []int) {
+		if slots == 1 {
+			// 最后一个槽直接获得剩余数量
+			newDist := append([]int{}, current...)
+			newDist = append(newDist, remaining)
+			results = append(results, newDist)
+			return
+		}
+		// 当前槽可以分配 0 ~ remaining 个词条
+		for i := 0; i <= remaining; i++ {
+			newCurrent := append([]int{}, current...)
+			newCurrent = append(newCurrent, i)
+			helper(remaining-i, slots-1, newCurrent)
+		}
+	}
+	helper(total, slots, []int{})
+	return results
+}
+
+// FindOptimalDistribution 穷举所有词条分配方案（使用递归生成方案），返回最佳方案对应的伤害、分配方案、局内面板及暴击转换词条数
 func (i *Initialization) FindOptimalDistribution() (bestDamage float64, bestDistribution map[string]int, bestPanel *CurrentPanel, bestOutput *Output, bestCritConverted int) {
-	totalTokens := i.MainArticle
+	// 使用递归生成所有分配方案：共有 5 个属性
+	distributions := generateDistributions(i.MainArticle, 5)
 	bestDamage = -1.0
 	bestDistribution = make(map[string]int)
 	bestCritConverted = 0
 
-	// 穷举所有组合：a+b+c+d+e = totalTokens（共 5 个词条类型）
-	for a := 0; a <= totalTokens; a++ {
-		for b := 0; a+b <= totalTokens; b++ {
-			for c := 0; a+b+c <= totalTokens; c++ {
-				for d := 0; a+b+c+d <= totalTokens; d++ {
-					e := totalTokens - (a + b + c + d)
-					distribution := map[string]int{
-						AttackPercentage: a,
-						Critical:         b,
-						ExplosiveInjury:  c,
-						IncreasedDamage:  d,
-						Penetrate:        e,
-					}
-					var damage float64
-					var lastSim *Initialization
-					// 对所有计算模型分别计算伤害总和
-					for _, model := range i.CalculationModels {
-						sim := model.Clone()
-						sim.ResetCondition()
-						sim.CharacterPanelWithDistribution(distribution)
-						damage += sim.CalculatingTotalDamage()
-						lastSim = sim
-					}
-					if damage > bestDamage {
-						bestDamage = damage
-						bestDistribution = make(map[string]int)
-						for k, v := range distribution {
-							bestDistribution[k] = v
-						}
-						bestPanel = lastSim.ClonePanel()
-						bestOutput = lastSim.CloneOutput()
-						bestCritConverted = lastSim.CritConverted
-					}
-				}
+	for _, dist := range distributions {
+		// 分配顺序：[AttackPercentage, Critical, ExplosiveInjury, IncreasedDamage, Penetrate]
+		distribution := map[string]int{
+			AttackPercentage: dist[0],
+			Critical:         dist[1],
+			ExplosiveInjury:  dist[2],
+			IncreasedDamage:  dist[3],
+			Penetrate:        dist[4],
+		}
+		var damage float64
+		var lastSim *Initialization
+		// 对每个 CalculationModel（计算模型）求总伤害
+		for _, model := range i.CalculationModels {
+			sim := model.Clone()
+			sim.ResetCondition()
+			sim.CharacterPanelWithDistribution(distribution)
+			damage += sim.CalculatingTotalDamage()
+			lastSim = sim
+		}
+		if damage > bestDamage {
+			bestDamage = damage
+			bestDistribution = make(map[string]int)
+			for k, v := range distribution {
+				bestDistribution[k] = v
 			}
+			bestPanel = lastSim.ClonePanel()
+			bestOutput = lastSim.CloneOutput()
+			bestCritConverted = lastSim.CritConverted
 		}
 	}
 	return bestDamage, bestDistribution, bestPanel, bestOutput, bestCritConverted
@@ -215,7 +228,7 @@ func (i *Initialization) CloneOutput() *Output {
 	return &op
 }
 
-// ========== 以下各函数处理词条加成效果 ==========
+// ===== 以下各函数处理各词条对局内面板的加成 =====
 
 func (i *Initialization) HandleBasicAttack(key string, count int) {
 	attackPowerPercentage := i.Gain.AttackPowerPercentage
@@ -294,7 +307,7 @@ func (i *Initialization) HandlePenetrateDamage(key string, count int) {
 	}
 }
 
-// ========== 以下各函数计算各分区伤害加成 ==========
+// ===== 以下各函数计算各分区加成 =====
 
 func (i *Initialization) CalculatingTotalDamage() float64 {
 	var totalDamage float64

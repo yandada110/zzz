@@ -14,66 +14,67 @@ const (
 )
 
 func main() {
-	// 初始化角色数据
+	// 多套队伍组合
 	initializations := []*Initialization{
-		NewInitialization(), NewInitialization1(),
+		扳机嘉音(), // 队伍组合一
+		扳机妮可(), // 队伍组合二
+		扳机丽娜(), // 队伍组合三
 	}
-	for _, initialization := range initializations {
-		//// 初始化角色数据
-		//initialization := NewInitialization()
-
+	// 针对每套队伍组合进行计算
+	for idx, initialization := range initializations {
+		fmt.Printf("====== 队伍组合 %d: %s ======\n", idx+1, initialization.Name)
 		// 穷举所有词条分配方案，得到最佳方案
 		bestDamage, bestDistribution, bestPanel, _, bestCritConverted := initialization.FindOptimalDistribution()
 
-		// 输出最佳分配方案和伤害
+		// 输出最佳词条分配方案和伤害
 		fmt.Println("最佳词条分配方案:")
-		fmt.Println(fmt.Sprintf(" 攻击力: %d, 暴击: %d, 爆伤: %d, 增伤: %d, 穿透: %d, 暴击转换爆伤: %d",
+		fmt.Printf("  攻击力: %d, 暴击: %d, 爆伤: %d, 增伤: %d, 穿透: %d, 暴击转换爆伤: %d\n",
 			bestDistribution[AttackPercentage],
 			bestDistribution[Critical],
 			bestDistribution[ExplosiveInjury],
 			bestDistribution[IncreasedDamage],
 			bestDistribution[Penetrate],
 			bestCritConverted,
-		))
-		fmt.Println(fmt.Sprintf("最高总伤害: %.6f", bestDamage))
-		fmt.Println("最佳局内面板（来自综合最优方案）:")
-		fmt.Println(fmt.Sprintf(" 攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%, 增伤: %.2f%%, 穿透: %.2f%%",
+		)
+		fmt.Printf("最高总伤害: %.6f\n", bestDamage)
+		fmt.Println("最佳局内面板（综合最优方案）:")
+		fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%, 增伤: %.2f%%, 穿透: %.2f%%\n",
 			bestPanel.Attack,
 			bestPanel.Critical,
 			bestPanel.ExplosiveInjury,
 			bestPanel.IncreasedDamage,
 			bestPanel.Penetration,
-		))
+		)
 		fmt.Println("--------------------------------------------------")
-		// 遍历 CalculationModels，输出每个模型对应的局内和局外面板信息
+		// 遍历该队伍下所有计算模型，输出各模型对应的局内和局外面板
 		for _, model := range initialization.CalculationModels {
-			// 使用最佳分配方案构建面板
+			// 根据最佳分配方案构造面板
 			model.CharacterPanelWithDistribution(bestDistribution)
 			internalPanel := model.CurrentPanel
 			externalPanel := model.CalculateExternalPanel(bestDistribution, model.CritConverted)
 			fmt.Println("模型: " + model.Name)
 			fmt.Println("局内面板:")
-			fmt.Println(fmt.Sprintf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%, 增伤: %.2f%%, 穿透: %.2f%%",
+			fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%, 增伤: %.2f%%, 穿透: %.2f%%\n",
 				internalPanel.Attack,
 				internalPanel.Critical,
 				internalPanel.ExplosiveInjury,
 				internalPanel.IncreasedDamage,
 				internalPanel.Penetration,
-			))
+			)
 			fmt.Println("局外面板:")
-			fmt.Println(fmt.Sprintf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%",
+			fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%\n",
 				externalPanel.Attack,
 				externalPanel.Critical,
 				externalPanel.ExplosiveInjury,
-			))
+			)
 			fmt.Println("--------------------------------------------------")
 		}
-
+		fmt.Println()
 	}
 }
 
 // CalculateExternalPanel 根据当前模型和词条分配计算局外面板
-// 局外面板公式：
+// 公式：
 //
 //	攻击力 = Basic.BasicAttack * (1 + (Gain.AttackPowerPercentage + 攻击力词条数*3)/100) + Gain.AttackValue
 //	暴击率 = Basic.BasicCritical + 暴击词条数*2.4
@@ -89,48 +90,65 @@ func (i *Initialization) CalculateExternalPanel(distribution map[string]int, cri
 	}
 }
 
-// FindOptimalDistribution 穷举所有词条分配方案，返回最佳方案对应的伤害、分配方案、局内面板及暴击转换数
+// generateDistributions 递归生成将 total 个词条分配到 slots 个属性上的所有方案
+func generateDistributions(total, slots int) [][]int {
+	var results [][]int
+	var helper func(remaining, slots int, current []int)
+	helper = func(remaining, slots int, current []int) {
+		if slots == 1 {
+			// 最后一个槽直接获得剩余数量
+			newDist := append([]int{}, current...)
+			newDist = append(newDist, remaining)
+			results = append(results, newDist)
+			return
+		}
+		// 当前槽可以分配 0 ~ remaining 个词条
+		for i := 0; i <= remaining; i++ {
+			newCurrent := append([]int{}, current...)
+			newCurrent = append(newCurrent, i)
+			helper(remaining-i, slots-1, newCurrent)
+		}
+	}
+	helper(total, slots, []int{})
+	return results
+}
+
+// FindOptimalDistribution 穷举所有词条分配方案（使用递归生成方案），返回最佳方案对应的伤害、分配方案、局内面板及暴击转换词条数
 func (i *Initialization) FindOptimalDistribution() (bestDamage float64, bestDistribution map[string]int, bestPanel *CurrentPanel, bestOutput *Output, bestCritConverted int) {
-	totalTokens := i.MainArticle
+	// 使用递归生成所有分配方案：共有 5 个属性
+	distributions := generateDistributions(i.MainArticle, 5)
 	bestDamage = -1.0
 	bestDistribution = make(map[string]int)
 	bestCritConverted = 0
 
-	// 穷举所有组合：a+b+c+d+e = totalTokens（5个词条类型）
-	for a := 0; a <= totalTokens; a++ {
-		for b := 0; a+b <= totalTokens; b++ {
-			for c := 0; a+b+c <= totalTokens; c++ {
-				for d := 0; a+b+c+d <= totalTokens; d++ {
-					e := totalTokens - (a + b + c + d)
-					distribution := map[string]int{
-						AttackPercentage: a,
-						Critical:         b,
-						ExplosiveInjury:  c,
-						IncreasedDamage:  d,
-						Penetrate:        e,
-					}
-					var damage float64
-					var lastSim *Initialization
-					// 对所有模型分别计算伤害总和
-					for _, model := range i.CalculationModels {
-						sim := model.Clone()
-						sim.ResetCondition()
-						sim.CharacterPanelWithDistribution(distribution)
-						damage += sim.CalculatingTotalDamage()
-						lastSim = sim
-					}
-					if damage > bestDamage {
-						bestDamage = damage
-						bestDistribution = make(map[string]int)
-						for k, v := range distribution {
-							bestDistribution[k] = v
-						}
-						bestPanel = lastSim.ClonePanel()
-						bestOutput = lastSim.CloneOutput()
-						bestCritConverted = lastSim.CritConverted
-					}
-				}
+	for _, dist := range distributions {
+		// 分配顺序：[AttackPercentage, Critical, ExplosiveInjury, IncreasedDamage, Penetrate]
+		distribution := map[string]int{
+			AttackPercentage: dist[0],
+			Critical:         dist[1],
+			ExplosiveInjury:  dist[2],
+			IncreasedDamage:  dist[3],
+			Penetrate:        dist[4],
+		}
+		var damage float64
+		var lastSim *Initialization
+		// 对每个 CalculationModel（计算模型）求总伤害
+		for _, model := range i.CalculationModels {
+			sim := model.Clone()
+			sim.ResetCondition()
+			sim.CharacterPanelWithDistribution(distribution)
+			damage += sim.CalculatingTotalDamage()
+			lastSim = sim
+		}
+		if damage > bestDamage {
+			bestDamage = damage
+			bestDistribution = make(map[string]int)
+			for k, v := range distribution {
+				bestDistribution[k] = v
 			}
+			bestPanel = lastSim.ClonePanel()
+			bestOutput = lastSim.CloneOutput()
+			bestCritConverted = lastSim.CritConverted
 		}
 	}
 	return bestDamage, bestDistribution, bestPanel, bestOutput, bestCritConverted
@@ -156,7 +174,7 @@ func (i *Initialization) ResetCondition() {
 	i.CritConverted = 0
 }
 
-// Clone 克隆 Initialization 对象（共享 CalculationModels）
+// Clone 克隆 Initialization 对象（CalculationModels 共享）
 func (i *Initialization) Clone() *Initialization {
 	return &Initialization{
 		MainArticle:    i.MainArticle,
@@ -210,7 +228,7 @@ func (i *Initialization) CloneOutput() *Output {
 	return &op
 }
 
-// 以下各函数处理词条加成效果
+// ===== 以下各函数处理各词条对局内面板的加成 =====
 
 func (i *Initialization) HandleBasicAttack(key string, count int) {
 	attackPowerPercentage := i.Gain.AttackPowerPercentage
@@ -289,7 +307,8 @@ func (i *Initialization) HandlePenetrateDamage(key string, count int) {
 	}
 }
 
-// CalculatingTotalDamage 遍历所有倍率区，计算总伤害
+// ===== 以下各函数计算各分区加成 =====
+
 func (i *Initialization) CalculatingTotalDamage() float64 {
 	var totalDamage float64
 	for _, mag := range i.Magnifications {
@@ -348,15 +367,15 @@ func (i *Initialization) SpecialDamageArea() {
 	i.Output.SpecialDamageArea = 1 + (i.CurrentPanel.SpecialDamage)/100
 }
 
-// --------------------- 数据结构定义 ---------------------
+// ==================== 数据结构定义 ====================
 
 type Initialization struct {
-	// 存放多套模型
+	// 存放多套模型（不同计算方式、面板等）
 	Magnifications    []*Magnification  // 倍率列表
-	CalculationModels []*Initialization // 计算模型集合（每套面板）
-	MainArticle       int               // 有效主词条总数
+	CalculationModels []*Initialization // 计算模型集合
+	MainArticle       int               // 有效词条总数
 	CritConverted     int               // 记录暴击转换为爆伤的词条数量
-	Name              string            // 模型名称
+	Name              string            // 队伍（或模型）名称
 
 	Basic        *Basic
 	Gain         *Gain
@@ -425,7 +444,7 @@ type Defense struct {
 	PenetrationValue float64 // 穿透固定值
 }
 
-// Condition 只保留真正使用的字段
+// Condition 只保留需要使用的字段
 type Condition struct {
 	Critical float64 // 暴击率上限
 }
