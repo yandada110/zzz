@@ -205,7 +205,7 @@ func (i *Initialization) CloneOutput() *Output {
 func (i *Initialization) HandleBasicAttack(key string, count int) {
 	attackPowerPercentage := i.Gain.AttackPowerPercentage
 	if key == AttackPercentage {
-		fmt.Println(fmt.Sprintf("词条使用数量：攻击力：%d", count))
+		//fmt.Println(fmt.Sprintf("词条使用数量：攻击力：%d", count))
 		attackPowerPercentage += 3 * float64(count)
 	}
 	i.CurrentPanel.Attack = (i.Basic.BasicAttack*(1+attackPowerPercentage/100) + i.Gain.AttackValue + i.Gain.AttackValue2) * (1 + i.Gain.AttackInternalPercentage/100)
@@ -213,7 +213,7 @@ func (i *Initialization) HandleBasicAttack(key string, count int) {
 
 func (i *Initialization) HandleBasicCritical(key string, count int) {
 	if key == Critical {
-		fmt.Println(fmt.Sprintf("词条使用数量：暴击率：%d", count))
+		//fmt.Println(fmt.Sprintf("词条使用数量：暴击率：%d", count))
 		baseCrit := i.Basic.BasicCritical + i.Gain.Critical
 		// 每个词条增加 2.4% 暴击率
 		maxCritTokens := int((i.Condition.Critical - baseCrit) / 2.4)
@@ -229,8 +229,8 @@ func (i *Initialization) HandleBasicCritical(key string, count int) {
 			i.CurrentPanel.Critical = i.Condition.Critical
 			overflowTokens := count - maxCritTokens
 			i.CritConverted = overflowTokens
-			fmt.Println(fmt.Sprintf("暴击溢出处理: 基础暴击=%.2f%%, 阈值=%.2f%%, 可用词条数=%d, 溢出词条数=%d, 最终暴击率=%.2f%%",
-				baseCrit, i.Condition.Critical, maxCritTokens, overflowTokens, i.CurrentPanel.Critical))
+			//fmt.Println(fmt.Sprintf("暴击溢出处理: 基础暴击=%.2f%%, 阈值=%.2f%%, 可用词条数=%d, 溢出词条数=%d, 最终暴击率=%.2f%%",
+			//	baseCrit, i.Condition.Critical, maxCritTokens, overflowTokens, i.CurrentPanel.Critical))
 		}
 	} else {
 		// 非暴击词条，保持基础暴击率
@@ -241,7 +241,7 @@ func (i *Initialization) HandleBasicCritical(key string, count int) {
 func (i *Initialization) HandleBasicExplosiveInjury(key string, count int) {
 	explosiveInjury := i.Gain.ExplosiveInjury
 	if key == ExplosiveInjury {
-		fmt.Println(fmt.Sprintf("词条使用数量：爆伤：%d", count))
+		//fmt.Println(fmt.Sprintf("词条使用数量：爆伤：%d", count))
 		explosiveInjury += 4.8 * float64(count)
 	}
 	// 计算因暴击溢出转换得到的额外爆伤加成
@@ -251,7 +251,7 @@ func (i *Initialization) HandleBasicExplosiveInjury(key string, count int) {
 
 func (i *Initialization) HandleBasicIncreasedDamage(key string, count int) {
 	if key == IncreasedDamage {
-		fmt.Println(fmt.Sprintf("词条使用数量：增伤：%d", count))
+		//fmt.Println(fmt.Sprintf("词条使用数量：增伤：%d", count))
 		var effectiveTokens, extraTokens int
 		if count < 3 {
 			effectiveTokens = 0
@@ -276,13 +276,13 @@ func (i *Initialization) HandleBasicIncreasedDamage(key string, count int) {
 		// 每个有效增伤词条提供 3% 的增伤加成
 		increasedDamageValue := i.Gain.IncreasedDamage + 3*float64(effectiveTokens)
 		i.CurrentPanel.IncreasedDamage = i.Basic.BasicIncreasedDamage + increasedDamageValue
-		fmt.Println("流转增伤词条数:", extraTokens)
+		//fmt.Println("流转增伤词条数:", extraTokens)
 	}
 }
 
 func (i *Initialization) HandlePenetrateDamage(key string, count int) {
 	if key == Penetrate {
-		fmt.Println(fmt.Sprintf("词条使用数量：穿透：%d", count))
+		//fmt.Println(fmt.Sprintf("词条使用数量：穿透：%d", count))
 		var effectiveTokens, extraTokens int
 		if count < 3 {
 			effectiveTokens = 0
@@ -310,7 +310,7 @@ func (i *Initialization) HandlePenetrateDamage(key string, count int) {
 			penetrationValue = 100
 		}
 		i.CurrentPanel.Penetration = penetrationValue
-		fmt.Println("流转穿透词条数:", extraTokens)
+		//fmt.Println("流转穿透词条数:", extraTokens)
 	}
 }
 
@@ -327,23 +327,23 @@ func (i *Initialization) CalculatingTotalDamage() float64 {
 			i.Output.SpecialDamageArea *
 			(1 + mag.SpecialDamage/100)
 		totalDamage += damage
-		fmt.Println(fmt.Sprintf("[伤害详情] 技能: %s", mag.Name))
-		fmt.Println(fmt.Sprintf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%, 增伤: %.2f%%",
-			i.CurrentPanel.Attack,
-			i.CurrentPanel.Critical,
-			i.CurrentPanel.ExplosiveInjury,
-			(i.Output.IncreasedDamageArea-1)*100,
-		))
-		fmt.Println(fmt.Sprintf("  抗性区: %.2f%%, 易伤区: %.2f%%, 特殊乘区: %.2f%%",
-			(i.Output.ReductionResistanceArea-1)*100,
-			(i.Output.VulnerableArea-1)*100,
-			(i.Output.SpecialDamageArea-1)*100,
-		))
-		fmt.Println(fmt.Sprintf("  当前伤害: %.2f万, 累计总伤害: %.2f万",
-			damage/10000,
-			totalDamage/10000,
-		))
-		fmt.Println("----------------------------------------")
+		//fmt.Println(fmt.Sprintf("[伤害详情] 技能: %s", mag.Name))
+		//fmt.Println(fmt.Sprintf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%, 增伤: %.2f%%",
+		//	i.CurrentPanel.Attack,
+		//	i.CurrentPanel.Critical,
+		//	i.CurrentPanel.ExplosiveInjury,
+		//	(i.Output.IncreasedDamageArea-1)*100,
+		//))
+		//fmt.Println(fmt.Sprintf("  抗性区: %.2f%%, 易伤区: %.2f%%, 特殊乘区: %.2f%%",
+		//	(i.Output.ReductionResistanceArea-1)*100,
+		//	(i.Output.VulnerableArea-1)*100,
+		//	(i.Output.SpecialDamageArea-1)*100,
+		//))
+		//fmt.Println(fmt.Sprintf("  当前伤害: %.2f万, 累计总伤害: %.2f万",
+		//	damage/10000,
+		//	totalDamage/10000,
+		//))
+		//fmt.Println("----------------------------------------")
 	}
 	return totalDamage
 }

@@ -68,8 +68,7 @@ func NewInitialization() *Initialization {
 			MainArticle: 45, // 有效词条
 			Critical:    95, // 最高暴击率
 		},
-		Output:       &Output{},
-		CurrentPanel: &CurrentPanel{},
+		Output: &Output{},
 	}
 }
 
