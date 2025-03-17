@@ -11,6 +11,9 @@ const (
 	ExplosiveInjury  = "ExplosiveInjury"
 	IncreasedDamage  = "IncreasedDamage"
 	Penetrate        = "Penetrate"
+	// 全局参数：有效词条数与暴击上限
+	GlobalMainArticle = 1
+	GlobalCritical    = 95
 )
 
 func main() {
@@ -68,8 +71,8 @@ func main() {
 				externalPanel.ExplosiveInjury,
 			)
 			fmt.Println("--------------------------------------------------")
+			fmt.Println()
 		}
-		fmt.Println()
 	}
 }
 

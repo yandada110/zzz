@@ -3,10 +3,10 @@ package main
 func 扳机嘉音() *Initialization {
 	// 这里设置 MainArticle 为 45（有效词条数）
 	init := &Initialization{
-		MainArticle: 45,
+		MainArticle: GlobalMainArticle,
 		Name:        "计算扳机嘉音",
 		Condition: &Condition{
-			Critical: 95,
+			Critical: GlobalCritical,
 		},
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
@@ -50,7 +50,7 @@ func teamModelA() *Initialization {
 		},
 	}
 	return &Initialization{
-		MainArticle:    45,
+		MainArticle:    GlobalMainArticle,
 		Magnifications: mags,
 		Name:           "安比01扳机00嘉音00站场",
 		Basic: &Basic{
@@ -78,7 +78,7 @@ func teamModelA() *Initialization {
 			PenetrationValue: 0, // 穿透值（固定值）
 		},
 		Condition: &Condition{
-			Critical: 95, // 最高暴击率
+			Critical: GlobalCritical, // 最高暴击率
 		},
 		Output:       &Output{},
 		CurrentPanel: &CurrentPanel{},
@@ -119,7 +119,7 @@ func teamModelB() *Initialization {
 		},
 	}
 	return &Initialization{
-		MainArticle:    45,
+		MainArticle:    GlobalMainArticle,
 		Magnifications: mags,
 		Name:           "安比01扳机00嘉音00失衡",
 		Basic: &Basic{
@@ -147,7 +147,7 @@ func teamModelB() *Initialization {
 			PenetrationValue: 0, // 穿透值（固定值）
 		},
 		Condition: &Condition{
-			Critical: 95, // 最高暴击率
+			Critical: GlobalCritical, // 最高暴击率
 		},
 		Output:       &Output{},
 		CurrentPanel: &CurrentPanel{},

@@ -3,10 +3,10 @@ package main
 // NewInitialization1 构造队伍组合二（例如：安比01扳机00嘉音00失衡）
 func 扳机妮可() *Initialization {
 	init := &Initialization{
-		MainArticle: 45,
+		MainArticle: GlobalMainArticle,
 		Name:        "计算扳机妮可",
 		Condition: &Condition{
-			Critical: 95,
+			Critical: GlobalCritical,
 		},
 	}
 	init.CalculationModels = []*Initialization{
@@ -49,7 +49,7 @@ func teamModelC() *Initialization {
 		},
 	}
 	return &Initialization{
-		MainArticle:    45,
+		MainArticle:    GlobalMainArticle,
 		Magnifications: mags,
 		Name:           "安比01扳机00妮可65站场",
 		Basic: &Basic{
@@ -77,7 +77,7 @@ func teamModelC() *Initialization {
 			PenetrationValue: 0,  // 穿透值（固定值）
 		},
 		Condition: &Condition{
-			Critical: 95, // 最高暴击率
+			Critical: GlobalCritical, // 最高暴击率
 		},
 		Output:       &Output{},
 		CurrentPanel: &CurrentPanel{},
@@ -118,7 +118,7 @@ func teamModelD() *Initialization {
 		},
 	}
 	return &Initialization{
-		MainArticle:    45,
+		MainArticle:    GlobalMainArticle,
 		Magnifications: mags,
 		Name:           "安比01扳机00妮可65失衡",
 		Basic: &Basic{
@@ -146,7 +146,7 @@ func teamModelD() *Initialization {
 			PenetrationValue: 0,  // 穿透值（固定值）
 		},
 		Condition: &Condition{
-			Critical: 95, // 最高暴击率
+			Critical: GlobalCritical, // 最高暴击率
 		},
 		Output:       &Output{},
 		CurrentPanel: &CurrentPanel{},
