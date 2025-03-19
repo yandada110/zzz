@@ -8,9 +8,9 @@ func 安比21扳机21嘉音61() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
-		AttackCount:          20, // 基础攻击词条上限
-		CriticalCount:        25, // 基础暴击词条上限
-		ExplosiveInjuryCount: 25, // 基础爆伤词条上限
+		AttackCount: 20, // 基础攻击词条上限
+
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{
@@ -28,9 +28,9 @@ func 安比21扳机21凯撒21() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
-		AttackCount:          20, // 基础攻击词条上限
-		CriticalCount:        25, // 基础暴击词条上限
-		ExplosiveInjuryCount: 25, // 基础爆伤词条上限
+		AttackCount: 20, // 基础攻击词条上限
+
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{

@@ -13,37 +13,33 @@ const (
 	Penetrate        = "Penetrate"
 
 	// 每个队伍可分配的词条数（示例值）
-	GlobalMainArticle = 45
+	GlobalMainArticle = 55
 	// 暴击上限（示例值）
-	GlobalCritical = 95
-	// 组 B（增伤+穿透）总和上限
-	GroupBMax = 13
+	GlobalCritical = 97
 )
+
+// allowedGroupB 定义允许的增伤、穿透原始分配组合
+var allowedGroupB = [][2]int{
+	{0, 13},
+	{3, 10},
+	{10, 3},
+	{13, 0},
+	{0, 0},
+	{3, 0},
+	{0, 3},
+}
 
 // ------------------------ 主函数 ------------------------
 func main() {
-	// 初始化各套队伍（示例，此处函数需自行实现）
+	// 初始化各套队伍（示例，具体初始化函数需自行实现）
 	initializations := []*Initialization{
 		安比01扳机00嘉音00(),
-		心弦夜响安比扳机00嘉音00(),
-		防爆者安比扳机00嘉音00(),
-		残心青囊安比扳机00嘉音00(),
-		硫磺石安比扳机00嘉音00(),
-		强音安比扳机00嘉音00(),
 		安比01扳机01嘉音00(),
-		心弦夜响安比扳机01嘉音00(),
-		防爆者安比扳机01嘉音00(),
-		残心青囊安比扳机01嘉音00(),
-		硫磺石安比扳机01嘉音00(),
-		强音安比扳机01嘉音00(),
-		安比21扳机00嘉音00(),
-		安比21扳机01嘉音00(),
 	}
 
 	// 针对每套队伍进行计算
 	for idx, initialization := range initializations {
 		fmt.Printf("====== 队伍组合 %d: %s ======\n", idx+1, initialization.Name)
-		// 穷举所有词条分配方案（满足组 B 总和不超过 13），获得最佳方案
 		_, bestDistribution, _, _, bestCritConverted, _ := initialization.FindOptimalDistribution()
 
 		// 输出整体最佳方案
@@ -140,60 +136,78 @@ func copyMap(m map[string]int) map[string]int {
 	return res
 }
 
-// ------------------------ 修改后的 FindOptimalDistribution ------------------------
+// effectiveGroupB 根据原始分配计算有效值：
+// count < 3  -> 0, 3<=count<10 -> 3, 10<=count<13 -> 10, count>=13 -> 13
+func effectiveGroupB(count int) int {
+	if count < 3 {
+		return 0
+	} else if count < 10 {
+		return 3
+	} else if count < 13 {
+		return 10
+	} else {
+		return 13
+	}
+}
 
-// FindOptimalDistribution 穷举所有词条分配方案，返回最佳方案
-// 分为两部分：
-//
-//	组 A：AttackPercentage、Critical、ExplosiveInjury，共分配 (MainArticle - groupBTotal) 个词条
-//	组 B：IncreasedDamage、Penetrate，总和不超过 GroupBMax（13）
-//
-// 遍历 groupBTotal 从 0 到 min(MainArticle, GroupBMax)
+// ------------------------ 修改后的 FindOptimalDistribution ------------------------
+// 枚举所有 5 项分配方案（总和 = GlobalMainArticle），
+// 仅接受满足以下条件的方案：
+// 1. (IncreasedDamage, Penetrate) 必须属于 allowedGroupB 列表
+// 2. AttackPercentage + effectiveGroupB(IncreasedDamage) + effectiveGroupB(Penetrate) >= 13
 func (i *Initialization) FindOptimalDistribution() (bestDamage float64, bestDistribution map[string]int, bestPanel *CurrentPanel, bestOutput *Output, bestCritConverted int, skillDamages map[string]float64) {
-	totalTokens := i.MainArticle
+	distributions := generateDistributions(i.MainArticle, 5)
 	bestDamage = -1.0
 	bestDistribution = make(map[string]int)
 	bestCritConverted = 0
 	var bestSim *Initialization
 
-	// groupBTotal 范围 0 到 min(totalTokens, GroupBMax)
-	for groupBTotal := 0; groupBTotal <= min(totalTokens, GroupBMax); groupBTotal++ {
-		groupATotal := totalTokens - groupBTotal
-		// 组 A：3个属性分配
-		groupADists := generateDistributions(groupATotal, 3)
-		// 组 B：2个属性分配，总和必须等于 groupBTotal
-		groupBDists := generateDistributions(groupBTotal, 2)
-		for _, ga := range groupADists {
-			for _, gb := range groupBDists {
-				// 构造完整的分配方案
-				distribution := map[string]int{
-					AttackPercentage: ga[0],
-					Critical:         ga[1],
-					ExplosiveInjury:  ga[2],
-					IncreasedDamage:  gb[0],
-					Penetrate:        gb[1],
-				}
-				var damage float64 = 0.0
-				var lastSim *Initialization
-				// 遍历各计算模型
-				for _, model := range i.CalculationModels {
-					sim := model.Clone()
-					sim.ResetCondition()
-					sim.CharacterPanelWithDistribution(distribution)
-					damage += sim.CalculatingTotalDamage()
-					lastSim = sim
-				}
-				if damage > bestDamage {
-					bestDamage = damage
-					bestDistribution = copyMap(distribution)
-					bestPanel = lastSim.ClonePanel()
-					bestOutput = lastSim.CloneOutput()
-					bestCritConverted = lastSim.CritConverted
-					bestSim = lastSim
-				}
-			}
+	for _, dist := range distributions {
+		distribution := map[string]int{
+			AttackPercentage: dist[0],
+			Critical:         dist[1],
+			ExplosiveInjury:  dist[2],
+			IncreasedDamage:  dist[3],
+			Penetrate:        dist[4],
+		}
+		// 假设，暴击超过阈值，此时的暴击默认=100
+
+		// 假设，穿透=100，此时的穿透，=100
+
+		var damage float64 = 0.0
+		var lastSim *Initialization
+		for _, model := range i.CalculationModels {
+			sim := model.Clone()
+			sim.ResetCondition()
+			sim.CharacterPanelWithDistribution(distribution)
+			damage += sim.CalculatingTotalDamage()
+			lastSim = sim
+		}
+		if damage > bestDamage {
+			// 校验，穿透+增伤词条数量,如果数量不满足条件，，过滤
+			// 校验，穿透+增伤+攻击，是否满足条件，过滤
+			// 校验，攻击，暴击，爆伤，是否超出上限数值，如果超出，过滤
+			// 记录符合所有条件的记录中的记录
+			bestDamage = damage
+			bestDistribution = copyMap(distribution)
+			bestPanel = lastSim.ClonePanel()
+			bestOutput = lastSim.CloneOutput()
+			bestSim = lastSim
 		}
 	}
+
+	//拿到最符合条件的记录之后呢，如果没有穿透率，那就从攻击，暴击，爆伤里面获取词条，给穿透，给增伤
+	// 校验收益是否比目前最佳词条分配高！比如：攻击=10，暴击12，爆伤25，增伤3，穿透0
+	// 此时，需要chat写代码，我需要从攻击，暴击，爆伤，这三个里面，总共拿出13-增伤+穿透个词条，来给增伤，或者穿透，分配逻辑
+	//	{0, 13},
+	//	{3, 10},
+	//	{10, 3},
+	//	{13, 0},
+	//	{0, 0},
+	//	{3, 0},
+	//	{0, 3},
+	// 然后，在计算不同分配下最佳面板
+	// 最后，通过对比最佳面板，和当前计算的这些面板伤害比较，获得最有的词条分配方案
 
 	// 在最佳模拟器下，计算各技能伤害（整体最佳方案）
 	bestSimClone := bestSim.Clone()
@@ -215,8 +229,7 @@ func (i *Initialization) FindOptimalDistribution() (bestDamage float64, bestDist
 }
 
 // ------------------------ generateDistributions ------------------------
-
-// generateDistributions 递归生成将 total 个词条分配到 slots 个属性上的所有方案，要求和等于 total
+// generateDistributions 递归生成将 total 个词条分配到 slots 个属性上的所有方案（和等于 total）
 func generateDistributions(total, slots int) [][]int {
 	var results [][]int
 	var helper func(remaining, slots int, current []int)
@@ -331,8 +344,9 @@ func (i *Initialization) CloneOutput() *Output {
 	return &op
 }
 
-// 以下各函数处理词条加成（保持原有逻辑）
+// ===== 以下各函数处理词条加成 =====
 
+// HandleBasicAttack 根据攻击力词条增加攻击力
 func (i *Initialization) HandleBasicAttack(key string, count int) {
 	attackPowerPercentage := i.Gain.AttackPowerPercentage
 	if key == AttackPercentage {
@@ -341,6 +355,7 @@ func (i *Initialization) HandleBasicAttack(key string, count int) {
 	i.CurrentPanel.Attack = (i.Basic.BasicAttack*(1+attackPowerPercentage/100) + i.Gain.AttackValue + i.Gain.AttackValue2) * (1 + i.Gain.AttackInternalPercentage/100)
 }
 
+// HandleBasicCritical 根据暴击词条更新暴击率，并计算转换为爆伤的词条数
 func (i *Initialization) HandleBasicCritical(key string, count int) {
 	if key == Critical {
 		baseCrit := i.Basic.BasicCritical + i.Gain.Critical
@@ -361,6 +376,7 @@ func (i *Initialization) HandleBasicCritical(key string, count int) {
 	}
 }
 
+// HandleBasicExplosiveInjury 根据爆伤词条更新爆伤
 func (i *Initialization) HandleBasicExplosiveInjury(key string, count int) {
 	explosiveInjury := i.Gain.ExplosiveInjury
 	if key == ExplosiveInjury {
@@ -370,37 +386,37 @@ func (i *Initialization) HandleBasicExplosiveInjury(key string, count int) {
 	i.CurrentPanel.ExplosiveInjury = i.Basic.BasicExplosiveInjury + explosiveInjury + convertedBonus
 }
 
+// HandleBasicIncreasedDamage 根据增伤词条更新增伤
+// 有效值只允许取 0, 3, 10, 或 13
 func (i *Initialization) HandleBasicIncreasedDamage(key string, count int) {
 	if key == IncreasedDamage {
 		var effectiveTokens int
-		if count < 3 {
-			effectiveTokens = 0
-		} else if count < 10 {
-			effectiveTokens = 3
-		} else if count == 10 {
-			effectiveTokens = 10
-		} else if count < 13 {
-			effectiveTokens = 10
-		} else {
+		if count >= 13 {
 			effectiveTokens = 13
+		} else if count >= 10 {
+			effectiveTokens = 10
+		} else if count >= 3 {
+			effectiveTokens = 3
+		} else {
+			effectiveTokens = 0
 		}
 		i.CurrentPanel.IncreasedDamage = i.Basic.BasicIncreasedDamage + (i.Gain.IncreasedDamage + 3*float64(effectiveTokens))
 	}
 }
 
+// HandlePenetrateDamage 根据穿透词条更新穿透率
+// 有效值只允许取 0, 3, 10, 或 13
 func (i *Initialization) HandlePenetrateDamage(key string, count int) {
 	if key == Penetrate {
 		var effectiveTokens int
-		if count < 3 {
-			effectiveTokens = 0
-		} else if count < 10 {
-			effectiveTokens = 3
-		} else if count == 10 {
-			effectiveTokens = 10
-		} else if count < 13 {
-			effectiveTokens = 10
-		} else {
+		if count >= 13 {
 			effectiveTokens = 13
+		} else if count >= 10 {
+			effectiveTokens = 10
+		} else if count >= 3 {
+			effectiveTokens = 3
+		} else {
+			effectiveTokens = 0
 		}
 		penetrationValue := i.Defense.Penetration + 2.4*float64(effectiveTokens)
 		if penetrationValue >= 100 {
@@ -410,7 +426,7 @@ func (i *Initialization) HandlePenetrateDamage(key string, count int) {
 	}
 }
 
-// 以下各函数计算各分区加成（保持原有逻辑）
+// ===== 以下各函数计算各分区加成 =====
 
 func (i *Initialization) CalculatingTotalDamage() float64 {
 	totalDamage := 0.0
@@ -476,7 +492,6 @@ type Initialization struct {
 	Magnifications    []*Magnification  // 各技能倍率列表
 	CalculationModels []*Initialization // 计算模型集合（可以包含不同模型）
 	MainArticle       int               // 有效词条总数
-	CritConverted     int               // 记录暴击转换为爆伤的词条数量
 	Name              string            // 队伍或模型名称
 
 	Basic        *Basic
@@ -505,47 +520,45 @@ type Basic struct {
 }
 
 type CurrentPanel struct {
-	Attack              float64 // 攻击力
-	Critical            float64 // 暴击率（百分比）
-	ExplosiveInjury     float64 // 爆伤（百分比）
-	IncreasedDamage     float64 // 增伤（百分比）
-	ReductionResistance float64 // 减抗（百分比）
-	Vulnerable          float64 // 易伤（百分比）
-	SpecialDamage       float64 // 特殊增伤（百分比）
-	Penetration         float64 // 穿透率（百分比）
+	Attack              float64
+	Critical            float64
+	ExplosiveInjury     float64
+	IncreasedDamage     float64
+	ReductionResistance float64
+	Vulnerable          float64
+	SpecialDamage       float64
+	Penetration         float64
 }
 
 type Magnification struct {
-	MagnificationValue  float64 // 倍率值（百分比）
-	TriggerTimes        float64 // 触发次数
-	Name                string  // 伤害名称
-	IncreasedDamage     float64 // 指定增伤（百分比）
-	ReductionResistance float64 // 指定减抗（百分比）
-	DefenseBreak        float64 // 指定破防（百分比）
-	Penetration         float64 // 指定穿透（百分比）
-	SpecialDamage       float64 // 指定特殊增益（百分比）
-	ExplosiveInjury     float64 // 局内爆伤计算（百分比）
-	AbnormalDamage      float64 // 异常伤害百分比
-	ChaoticDamage       float64 // 紊乱伤害百分比
+	MagnificationValue  float64
+	TriggerTimes        float64
+	Name                string
+	IncreasedDamage     float64
+	ReductionResistance float64
+	DefenseBreak        float64
+	Penetration         float64
+	SpecialDamage       float64
+	ExplosiveInjury     float64
 }
 
 type Gain struct {
-	AttackValue              float64 // 攻击力增加值
-	AttackValue2             float64 // 攻击力增加值2
-	AttackPowerPercentage    float64 // 攻击力百分比加成
-	AttackInternalPercentage float64 // 局内攻击力加成
-	Critical                 float64 // 增加暴击
-	ExplosiveInjury          float64 // 增加爆伤
-	IncreasedDamage          float64 // 增伤（百分比）
-	ReductionResistance      float64 // 减抗（百分比）
-	Vulnerable               float64 // 易伤（百分比）
-	SpecialDamage            float64 // 特殊增伤（百分比）
+	AttackValue              float64
+	AttackValue2             float64
+	AttackPowerPercentage    float64
+	AttackInternalPercentage float64
+	Critical                 float64
+	ExplosiveInjury          float64
+	IncreasedDamage          float64
+	ReductionResistance      float64
+	Vulnerable               float64
+	SpecialDamage            float64
 }
 
 type Defense struct {
-	Penetration      float64 // 穿透率（百分比）
-	DefenseBreak     float64 // 破防（百分比）
-	PenetrationValue float64 // 穿透固定值
+	Penetration      float64
+	DefenseBreak     float64
+	PenetrationValue float64
 }
 
 type Condition struct {

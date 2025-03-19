@@ -13,9 +13,9 @@ const (
 	Penetrate        = "Penetrate"
 
 	// 每个队伍可分配的词条数（示例值）
-	GlobalMainArticle = 45
+	GlobalMainArticle = 55
 	// 暴击上限（示例值）
-	GlobalCritical = 95
+	GlobalCritical = 97
 )
 
 // allowedGroupB 定义允许的增伤、穿透原始分配组合
@@ -33,8 +33,8 @@ var allowedGroupB = [][2]int{
 func main() {
 	// 初始化各套队伍（示例，具体初始化函数需自行实现）
 	initializations := []*Initialization{
-		安比21扳机21嘉音61(),
-		安比21扳机21凯撒21(),
+		安比01扳机00嘉音00(),
+		安比01扳机01嘉音00(),
 	}
 
 	// 针对每套队伍进行计算

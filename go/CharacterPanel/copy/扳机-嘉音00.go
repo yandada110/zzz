@@ -8,6 +8,8 @@ func 安比01扳机00嘉音00() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
+		AttackCount:          20, // 基础攻击词条上限
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{
@@ -25,6 +27,8 @@ func 心弦夜响安比扳机00嘉音00() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
+		AttackCount:          20, // 基础攻击词条上限
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{
@@ -42,6 +46,8 @@ func 防爆者安比扳机00嘉音00() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
+		AttackCount:          20, // 基础攻击词条上限
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{
@@ -59,6 +65,9 @@ func 残心青囊安比扳机00嘉音00() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
+		AttackCount: 20, // 基础攻击词条上限
+
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{
@@ -76,6 +85,9 @@ func 硫磺石安比扳机00嘉音00() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
+		AttackCount: 20, // 基础攻击词条上限
+
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{
@@ -93,6 +105,9 @@ func 强音安比扳机00嘉音00() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
+		AttackCount: 20, // 基础攻击词条上限
+
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{
@@ -110,6 +125,9 @@ func 安比01扳机01嘉音00() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
+		AttackCount: 20, // 基础攻击词条上限
+
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{
@@ -127,6 +145,9 @@ func 心弦夜响安比扳机01嘉音00() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
+		AttackCount: 20, // 基础攻击词条上限
+
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{
@@ -144,6 +165,9 @@ func 防爆者安比扳机01嘉音00() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
+		AttackCount: 20, // 基础攻击词条上限
+
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{
@@ -161,6 +185,9 @@ func 残心青囊安比扳机01嘉音00() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
+		AttackCount: 20, // 基础攻击词条上限
+
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{
@@ -178,6 +205,9 @@ func 硫磺石安比扳机01嘉音00() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
+		AttackCount: 20, // 基础攻击词条上限
+
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{
@@ -195,6 +225,9 @@ func 强音安比扳机01嘉音00() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
+		AttackCount: 20, // 基础攻击词条上限
+
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{
@@ -212,6 +245,9 @@ func 安比21扳机00嘉音00() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
+		AttackCount: 20, // 基础攻击词条上限
+
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{
@@ -229,6 +265,9 @@ func 安比21扳机01嘉音00() *Initialization {
 		Condition: &Condition{
 			Critical: GlobalCritical,
 		},
+		AttackCount: 20, // 基础攻击词条上限
+
+		ExplosiveInjuryCount: 24, // 基础爆伤词条上限
 	}
 	// 初始化 CalculationModels（可包含多套计算方式，这里举例两个）
 	init.CalculationModels = []*Initialization{
@@ -847,7 +886,7 @@ func 硫磺石安比扳机00嘉音00站场() *Initialization {
 		},
 		Gain: &Gain{
 			AttackValue:              316,          // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
-			AttackValue2:             0,            // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
+			AttackValue2:             1200,         // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
 			AttackPowerPercentage:    30 + 30,      // 攻击力百分比加成(主词条，副词条，2件套,6号位)
 			AttackInternalPercentage: 12 + 12 + 25, // 局内攻击力百分比(武器，驱动盘绿字攻击力)
 			Critical:                 12 + 10,      // 增加暴击（角色+武器+2件套+4号位）
@@ -918,7 +957,7 @@ func 硫磺石安比扳机00嘉音00失衡() *Initialization {
 		},
 		Gain: &Gain{
 			AttackValue:              316,          // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
-			AttackValue2:             0,            // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
+			AttackValue2:             1200,         // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
 			AttackPowerPercentage:    30 + 30,      // 攻击力百分比加成(主词条，副词条，2件套,6号位)
 			AttackInternalPercentage: 12 + 12 + 25, // 局内攻击力百分比(武器，驱动盘绿字攻击力)
 			Critical:                 12 + 10,      // 增加暴击（角色+武器+2件套+4号位）
@@ -988,7 +1027,7 @@ func 强音安比扳机00嘉音00站场() *Initialization {
 		},
 		Gain: &Gain{
 			AttackValue:              316,           // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
-			AttackValue2:             0,             // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
+			AttackValue2:             1200,          // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
 			AttackPowerPercentage:    30,            // 攻击力百分比加成(主词条，副词条，2件套,6号位)
 			AttackInternalPercentage: 12 + 12 + 9.6, // 局内攻击力百分比(武器，驱动盘绿字攻击力)
 			Critical:                 12 + 10,       // 增加暴击（角色+武器+2件套+4号位）
@@ -1059,7 +1098,7 @@ func 强音安比扳机00嘉音00失衡() *Initialization {
 		},
 		Gain: &Gain{
 			AttackValue:              316,                 // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
-			AttackValue2:             0,                   // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
+			AttackValue2:             1200,                // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
 			AttackPowerPercentage:    30,                  // 攻击力百分比加成(主词条，副词条，2件套,6号位)
 			AttackInternalPercentage: 12 + 12 + 9.6 + 9.6, // 局内攻击力百分比(武器，驱动盘绿字攻击力)
 			Critical:                 12 + 10,             // 增加暴击（角色+武器+2件套+4号位）
@@ -1697,7 +1736,7 @@ func 硫磺石安比扳机01嘉音00站场() *Initialization {
 		},
 		Gain: &Gain{
 			AttackValue:              316,          // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
-			AttackValue2:             0,            // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
+			AttackValue2:             1200,         // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
 			AttackPowerPercentage:    30 + 30,      // 攻击力百分比加成(主词条，副词条，2件套,6号位)
 			AttackInternalPercentage: 12 + 12 + 25, // 局内攻击力百分比(武器，驱动盘绿字攻击力)
 			Critical:                 12 + 10,      // 增加暴击（角色+武器+2件套+4号位）
@@ -1768,7 +1807,7 @@ func 硫磺石安比扳机01嘉音00失衡() *Initialization {
 		},
 		Gain: &Gain{
 			AttackValue:              316,          // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
-			AttackValue2:             0,            // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
+			AttackValue2:             1200,         // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
 			AttackPowerPercentage:    30 + 30,      // 攻击力百分比加成(主词条，副词条，2件套,6号位)
 			AttackInternalPercentage: 12 + 12 + 25, // 局内攻击力百分比(武器，驱动盘绿字攻击力)
 			Critical:                 12 + 10,      // 增加暴击（角色+武器+2件套+4号位）
@@ -1838,7 +1877,7 @@ func 强音安比扳机01嘉音00站场() *Initialization {
 		},
 		Gain: &Gain{
 			AttackValue:              316,           // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
-			AttackValue2:             0,             // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
+			AttackValue2:             1200,          // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
 			AttackPowerPercentage:    30,            // 攻击力百分比加成(主词条，副词条，2件套,6号位)
 			AttackInternalPercentage: 12 + 12 + 9.6, // 局内攻击力百分比(武器，驱动盘绿字攻击力)
 			Critical:                 12 + 10,       // 增加暴击（角色+武器+2件套+4号位）
@@ -1909,7 +1948,7 @@ func 强音安比扳机01嘉音00失衡() *Initialization {
 		},
 		Gain: &Gain{
 			AttackValue:              316,                 // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
-			AttackValue2:             0,                   // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
+			AttackValue2:             1200,                // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
 			AttackPowerPercentage:    30,                  // 攻击力百分比加成(主词条，副词条，2件套,6号位)
 			AttackInternalPercentage: 12 + 12 + 9.6 + 9.6, // 局内攻击力百分比(武器，驱动盘绿字攻击力)
 			Critical:                 12 + 10,             // 增加暴击（角色+武器+2件套+4号位）
