@@ -138,6 +138,8 @@ type CurrentPanel struct {
 	Vulnerable          float64
 	SpecialDamage       float64
 	Penetration         float64
+	DefenseBreak        float64
+	PenetrationValue    float64
 }
 
 type Magnification struct {
@@ -165,6 +167,8 @@ type Gain struct {
 	Vulnerable               float64
 	SpecialDamage            float64
 	Penetration              float64
+	DefenseBreak             float64
+	PenetrationValue         float64
 }
 
 // 失衡状态下，额外提供的增益效果

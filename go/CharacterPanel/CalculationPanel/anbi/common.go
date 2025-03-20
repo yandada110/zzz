@@ -15,13 +15,13 @@ const (
 )
 
 var AttackPercentageEntriesLimit = map[string]int{
-	common.Critical:        16,
-	common.ExplosiveInjury: 16,
+	common.Critical:        15,
+	common.ExplosiveInjury: 15,
 }
 
 var ExplosiveInjuryEntriesLimit = map[string]int{
-	common.Critical:        24,
-	common.ExplosiveInjury: 20,
+	common.Critical:        30,
+	common.ExplosiveInjury: 25,
 }
 
 func MagnificationBase1() []*Magnification {

@@ -6,8 +6,8 @@ import (
 	"zzz/CharacterPanel/common"
 )
 
-func 安比01扳机00嘉音00() *Initializations {
-	name := "安比01扳机00嘉音00"
+func 安比01扳机00丽娜10() *Initializations {
+	name := "安比01扳机00丽娜10"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.Critical,
@@ -38,8 +38,8 @@ func 安比01扳机00嘉音00() *Initializations {
 	return init
 }
 
-func 心弦夜响安比扳机00嘉音00() *Initializations {
-	name := "心弦夜响安比扳机00嘉音00"
+func 心弦夜响安比扳机00丽娜10() *Initializations {
+	name := "心弦夜响安比扳机00丽娜10"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.ExplosiveInjury,
@@ -70,8 +70,8 @@ func 心弦夜响安比扳机00嘉音00() *Initializations {
 	return init
 }
 
-func 防爆者安比扳机00嘉音00() *Initializations {
-	name := "防爆者安比扳机00嘉音00"
+func 防爆者安比扳机00丽娜10() *Initializations {
+	name := "防爆者安比扳机00丽娜10"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.ExplosiveInjury,
@@ -102,8 +102,8 @@ func 防爆者安比扳机00嘉音00() *Initializations {
 	return init
 }
 
-func 残心青囊安比扳机00嘉音00() *Initializations {
-	name := "残心青囊安比扳机00嘉音00"
+func 残心青囊安比扳机00丽娜10() *Initializations {
+	name := "残心青囊安比扳机00丽娜10"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.ExplosiveInjury,
@@ -134,8 +134,8 @@ func 残心青囊安比扳机00嘉音00() *Initializations {
 	return init
 }
 
-func 硫磺石安比扳机00嘉音00() *Initializations {
-	name := "硫磺石安比扳机00嘉音00"
+func 硫磺石安比扳机00丽娜10() *Initializations {
+	name := "硫磺石安比扳机00丽娜10"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.Critical,
@@ -166,8 +166,8 @@ func 硫磺石安比扳机00嘉音00() *Initializations {
 	return init
 }
 
-func 强音热望安比扳机00嘉音00() *Initializations {
-	name := "强音热望安比扳机00嘉音00"
+func 强音热望安比扳机00丽娜10() *Initializations {
+	name := "强音热望安比扳机00丽娜10"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.Critical,

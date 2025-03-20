@@ -1,6 +1,8 @@
 package main
 
-import "zzz/CharacterPanel/common"
+import (
+	"zzz/CharacterPanel/common"
+)
 
 // CalculateExternalPanel 根据当前模型和词条分配计算局外面板
 //
@@ -40,7 +42,7 @@ func (i *Initializations) HandleBasicAttack(initialization *Initialization, key 
 	if key == common.AttackPowerPercentage {
 		attackPowerPercentage += 3 * float64(count)
 	}
-	initialization.CurrentPanel.Attack = (i.Basic.BasicAttack*(1+attackPowerPercentage/100) + i.Gain.AttackValue + i.Gain.AttackValue2) * (1 + i.Gain.AttackInternalPercentage/100)
+	initialization.CurrentPanel.Attack = (i.Basic.BasicAttack*(1+attackPowerPercentage/100)+i.Gain.AttackValue)*(1+i.Gain.AttackInternalPercentage/100) + i.Gain.AttackValue2
 }
 
 // HandleBasicCritical 根据暴击词条更新暴击率，并计算转换为爆伤的词条数
@@ -65,18 +67,36 @@ func (i *Initializations) HandleBasicExplosiveInjury(initialization *Initializat
 func (i *Initializations) HandleBasicIncreasedDamage(initialization *Initialization, key string, count int) {
 	increasedDamage := i.Gain.IncreasedDamage + initialization.Gain.IncreasedDamage
 	if key == common.IncreasedDamage {
-		increasedDamage += 3 * float64(count)
+		if count == 3 {
+			increasedDamage += 10
+		}
+		if count == 10 {
+			increasedDamage += 30
+		}
+		if count == 13 {
+			increasedDamage += 40
+		}
 	}
 	initialization.CurrentPanel.IncreasedDamage = i.Basic.BasicIncreasedDamage + increasedDamage
 }
 
 // HandlePenetrateDamage 根据穿透词条更新穿透率
 func (i *Initializations) HandlePenetrateDamage(initialization *Initialization, key string, count int) {
-	increasedDamage := i.Gain.Penetration + initialization.Gain.Penetration
-	if key == common.IncreasedDamage {
-		increasedDamage += 2.4 * float64(count)
+	increasedDamage := i.Defense.Penetration
+	if key == common.Penetrate {
+		if count == 3 {
+			increasedDamage += 8
+		}
+		if count == 10 {
+			increasedDamage += 24
+		}
+		if count == 13 {
+			increasedDamage += 32
+		}
 	}
 	initialization.CurrentPanel.Penetration = i.Basic.Penetration + increasedDamage
+	initialization.CurrentPanel.DefenseBreak = i.Defense.DefenseBreak
+	initialization.CurrentPanel.PenetrationValue = i.Defense.PenetrationValue
 }
 
 // ===== 以下各函数计算各分区加成 =====
@@ -123,8 +143,8 @@ func (i *Initialization) ExplosiveInjuryArea(magnification *Magnification) {
 func (i *Initializations) DefenseArea(initialization *Initialization, magnification *Magnification) {
 	characterBase, TotalDefense := 793.783, 873.1613
 	penetration := (initialization.CurrentPanel.Penetration + magnification.Penetration) / 100
-	defenseBreak := (i.Defense.DefenseBreak + magnification.DefenseBreak) / 100
-	initialization.Output.DefenseArea = characterBase / (TotalDefense*(1-penetration)*(1-defenseBreak) - i.Defense.PenetrationValue + characterBase)
+	defenseBreak := (initialization.CurrentPanel.DefenseBreak + magnification.DefenseBreak) / 100
+	initialization.Output.DefenseArea = characterBase / (TotalDefense*(1-penetration)*(1-defenseBreak) - initialization.CurrentPanel.PenetrationValue + characterBase)
 }
 
 func (i *Initialization) ReductionResistanceArea(magnification *Magnification) {
@@ -214,10 +234,35 @@ func (i *Initializations) checkCondition(slots map[string]int) bool {
 		}
 	}
 
-	// 增伤+穿透 =0，需要考虑暴击，爆伤，最高数值不能超过阈值+3，或者+13的限制
-	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 0 {
-		if i.AttackCount+13 >= slots[common.AttackPowerPercentage] && i.CriticalCount >= slots[common.Critical] && i.ExplosiveInjuryCount+3 >= slots[common.ExplosiveInjury] {
-			fiveStatus = true
+	// 攻击力最少都有4个词条
+	if slots[common.IncreasedDamage]+slots[common.Penetrate] >= 10 {
+		if slots[common.AttackPowerPercentage] < 4 {
+			return false
+		}
+	} else {
+		if slots[common.AttackPowerPercentage] < 13 {
+			return false
+		}
+	}
+
+	if i.NumberFour == common.Critical {
+		if slots[common.Critical] < 5 {
+			return false
+		}
+	}
+	if i.NumberFour == common.ExplosiveInjury {
+		if slots[common.Critical] < 6 {
+			return false
+		}
+	}
+	if i.NumberFour == common.ExplosiveInjury {
+		if slots[common.ExplosiveInjury] < 5 {
+			return false
+		}
+	}
+	if i.NumberFour == common.Critical {
+		if slots[common.ExplosiveInjury] < 6 {
+			return false
 		}
 	}
 

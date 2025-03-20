@@ -1,15 +1,15 @@
 package common
 
 const (
-	Critical                 = "Critical"              // 暴击
-	ExplosiveInjury          = "ExplosiveInjury"       // 爆伤
-	AttackPowerPercentage    = "AttackPowerPercentage" // 局外百分比攻击力
-	AttackInternalPercentage = "AttackPowerPercentage" // 局内百分比攻击力
-	ReductionResistance      = "ReductionResistance"   // 减抗
-	IncreasedDamage          = "IncreasedDamage"       // 增伤
-	Penetrate                = "Penetrate"             // 穿透
-	AttackValue              = "AttackValue"           //攻击力
-	Proficient               = "Proficient"            //精通
+	Critical                 = "Critical"                 // 暴击
+	ExplosiveInjury          = "ExplosiveInjury"          // 爆伤
+	AttackPowerPercentage    = "AttackPowerPercentage"    // 局外百分比攻击力
+	AttackInternalPercentage = "AttackInternalPercentage" // 局内百分比攻击力
+	ReductionResistance      = "ReductionResistance"      // 减抗
+	IncreasedDamage          = "IncreasedDamage"          // 增伤
+	Penetrate                = "Penetrate"                // 穿透
+	AttackValue              = "AttackValue"              //攻击力
+	Proficient               = "Proficient"               //精通
 )
 
 const (

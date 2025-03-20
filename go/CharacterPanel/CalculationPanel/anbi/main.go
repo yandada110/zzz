@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"zzz/CharacterPanel/common"
 )
 
@@ -9,17 +10,16 @@ import (
 func main() {
 	// 初始化各套队伍（示例，具体初始化函数需自行实现）
 	initializations := []*Initializations{
-		安比01扳机00嘉音00(),
-		//心弦夜响安比扳机00嘉音00(),
+		硫磺石安比扳机00嘉音20(),
 	}
 	// 针对每套队伍进行计算
 	for idx, initialization := range initializations {
 		fmt.Printf("====== 队伍组合 %d: %s ======\n", idx+1, initialization.Name)
-		bestSim, bestDistribution := initialization.FindOptimalDistribution()
+		bestSim, bestDistribution, total, efficientTotal := initialization.FindOptimalDistribution()
 		// 输出整体最佳方案
-		fmt.Println("【整体最佳方案】")
+		fmt.Println("【整体最佳方案】计算次数：", strconv.Itoa(total), "有效计算次数：", strconv.Itoa(efficientTotal))
 		fmt.Println("最佳词条分配方案:")
-		fmt.Printf("  攻击力词条: %d, 暴击词条: %d, 爆伤词条: %d, 增伤词条: %d, 穿透词条: %d",
+		fmt.Printf("  攻击力词条: %d, 暴击词条: %d, 爆伤词条: %d, 增伤词条: %d, 穿透词条: %d\n",
 			bestDistribution[common.AttackPowerPercentage],
 			bestDistribution[common.Critical],
 			bestDistribution[common.ExplosiveInjury],
@@ -27,40 +27,63 @@ func main() {
 			bestDistribution[common.Penetrate],
 		)
 		fmt.Println("--------------------------------------------------")
-		var status bool
-		// 输出各模型（不同计算方法）的局内、局外面板及【单模型】的技能伤害明细
-		for _, model := range bestSim.Initializations { // 注意这里使用的是 Initialization 集合
-			if !status {
-				internalPanel := model.CurrentPanel
-				fmt.Println("模型: " + model.Name)
-				fmt.Println("局内面板:")
-				fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%, 增伤: %.2f%%, 穿透: %.2f%%\n",
-					internalPanel.Attack,
-					internalPanel.Critical,
-					internalPanel.ExplosiveInjury,
-					internalPanel.IncreasedDamage,
-					internalPanel.Penetration,
-				)
-				fmt.Println("--------------------------------------------------")
-				fmt.Println("局外面板:")
-				attack := float64(bestDistribution[common.AttackPowerPercentage])*3 + bestSim.Gain.AttackPowerPercentage
-				fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%\n,穿透: %.2f%%\n",
-					bestSim.Basic.BasicAttack*(1+attack/100)+bestSim.Gain.AttackValue,
-					bestSim.Basic.BasicCritical+float64(bestDistribution[common.Critical])*2.4,
-					bestSim.Basic.BasicExplosiveInjury+float64(bestDistribution[common.ExplosiveInjury])*4.8,
-					bestSim.Basic.Penetration+float64(bestDistribution[common.Penetrate])*4.8,
-				)
-				status = true
+		bestSim.OutputResult(bestDistribution)
+	}
+}
+
+func (i *Initializations) OutputResult(bestDistribution map[string]int) {
+	var status bool
+	// 输出各模型（不同计算方法）的局内、局外面板及【单模型】的技能伤害明细
+	for _, model := range i.Initializations { // 注意这里使用的是 Initialization 集合
+		if !status {
+			internalPanel := model.CurrentPanel
+			fmt.Println("局内面板:")
+			var penetration float64 = 0
+			if bestDistribution[common.Penetrate] == 3 {
+				penetration = 8
 			}
-			// ---------------- 新增部分 ----------------
-			// 根据当前模型的最终参数，计算并输出各技能的伤害明细
+			if bestDistribution[common.Penetrate] == 13 {
+				penetration = 32
+			}
+			if bestDistribution[common.Penetrate] == 10 {
+				penetration = 24
+			}
+			fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%, 增伤: %.2f%%, 穿透: %.2f%%，破防: %.2f%%\n",
+				internalPanel.Attack,
+				internalPanel.Critical,
+				internalPanel.ExplosiveInjury,
+				internalPanel.IncreasedDamage,
+				internalPanel.Penetration,
+				internalPanel.DefenseBreak,
+			)
 			fmt.Println("--------------------------------------------------")
-			fmt.Println(model.Name, "-最终伤害:")
-			// 对每个技能分别调用 InitializationArea 更新输出数据后计算伤害
-			totalModelSkillDamage := bestSim.CalculatingTotalDamage(model)
-			fmt.Printf("  技能总伤害: %.6f\n", totalModelSkillDamage)
-			fmt.Println("--------------------------------------------------")
+			fmt.Println("局外面板:")
+			if bestDistribution[common.Penetrate] == 3 {
+				penetration = 8
+			}
+			if bestDistribution[common.Penetrate] == 13 {
+				penetration = 32
+			}
+			if bestDistribution[common.Penetrate] == 10 {
+				penetration = 24
+			}
+			attack := float64(bestDistribution[common.AttackPowerPercentage])*3 + i.Gain.AttackPowerPercentage
+			fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%,穿透: %.2f%%\n",
+				i.Basic.BasicAttack*(1+attack/100)+i.Gain.AttackValue,
+				i.Basic.BasicCritical+float64(bestDistribution[common.Critical])*2.4,
+				i.Basic.BasicExplosiveInjury+float64(bestDistribution[common.ExplosiveInjury])*4.8,
+				i.Defense.Penetration+penetration,
+			)
+			status = true
 		}
+		// ---------------- 新增部分 ----------------
+		// 根据当前模型的最终参数，计算并输出各技能的伤害明细
+		fmt.Println("--------------------------------------------------")
+		fmt.Println(model.Name, "-最终伤害:")
+		// 对每个技能分别调用 InitializationArea 更新输出数据后计算伤害
+		totalModelSkillDamage := i.CalculatingTotalDamage(model)
+		fmt.Printf("  技能总伤害: %.6f\n", totalModelSkillDamage)
+		fmt.Println("--------------------------------------------------")
 	}
 }
 
@@ -73,7 +96,7 @@ func copyMap(m map[string]int) map[string]int {
 }
 
 // FindOptimalDistribution 核心分配逻辑
-func (i *Initializations) FindOptimalDistribution() (bestSim *Initializations, bestDistribution map[string]int) {
+func (i *Initializations) FindOptimalDistribution() (bestSim *Initializations, bestDistribution map[string]int, total int, efficientTotal int) {
 	distributions := generateDistributions(GlobalMainArticle, GlobalMainArticleTypeCount)
 	var bestDamage = -1.0
 	bestDistribution = make(map[string]int)
@@ -81,6 +104,7 @@ func (i *Initializations) FindOptimalDistribution() (bestSim *Initializations, b
 	i.initializationCount()
 	// 遍历所有分配方案
 	for _, dist := range distributions {
+		total++
 		distribution := map[string]int{
 			common.AttackPowerPercentage: dist[0],
 			common.Critical:              dist[1],
@@ -93,6 +117,7 @@ func (i *Initializations) FindOptimalDistribution() (bestSim *Initializations, b
 		if !i.checkCondition(distribution) {
 			continue
 		}
+		efficientTotal++
 		// 根据本分配方案，各模型计算伤害，并在计算前做必要的条件校验
 		for _, initialization := range i.Initializations {
 			i.CharacterPanelWithDistribution(initialization, distribution)
@@ -122,10 +147,10 @@ func (i *Initializations) FindOptimalDistribution() (bestSim *Initializations, b
 		fmt.Println("出现错误，并没有获得最佳的面板")
 		fmt.Println("--------------------------------------------------")
 		fmt.Println("--------------------------------------------------")
-		return bestSim, bestDistribution
+		return bestSim, bestDistribution, total, efficientTotal
 	}
 
-	return bestSim, bestDistribution
+	return bestSim, bestDistribution, total, efficientTotal
 }
 
 // ------------------------ generateDistributions ------------------------
