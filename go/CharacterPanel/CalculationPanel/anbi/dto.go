@@ -1,33 +1,94 @@
 package main
 
-// DeepCopy 深拷贝方法（结构体方法）
+// DeepCopy 对 Initialization 进行深拷贝
 func (i *Initialization) DeepCopy() *Initialization {
-	// 手动拷贝嵌套结构体，防止修改原始对象影响拷贝对象
-	copyData := Initialization{
-		Magnifications: i.Magnifications,
-		CurrentPanel:   i.CurrentPanel,
-		Output:         i.Output,
-		Gain:           i.Gain,
+	// 拷贝 Magnifications 切片
+	var copyMagnifications []*Magnification
+	if i.Magnifications != nil {
+		copyMagnifications = make([]*Magnification, len(i.Magnifications))
+		for idx, m := range i.Magnifications {
+			copyMagnifications[idx] = m.DeepCopy()
+		}
+	}
+	return &Initialization{
+		Magnifications: copyMagnifications,
+		CurrentPanel:   i.CurrentPanel.DeepCopy(),
+		Output:         i.Output.DeepCopy(),
+		Gain:           i.Gain.DeepCopy(),
 		Name:           i.Name,
 	}
-	return &copyData
 }
 
-// DeepCopy 深拷贝方法（结构体方法）
+// DeepCopyData 对 Initializations 进行深拷贝（包括其内部 Initialization 列表）
 func (i *Initializations) DeepCopyData(list []*Initialization) *Initializations {
-	// 手动拷贝嵌套结构体，防止修改原始对象影响拷贝对象
-	copyData := Initializations{
+	var copyList []*Initialization
+	if list != nil {
+		copyList = make([]*Initialization, len(list))
+		for idx, init := range list {
+			copyList[idx] = init.DeepCopy()
+		}
+	}
+	return &Initializations{
 		Name:                 i.Name,
 		NumberFour:           i.NumberFour,
 		AttackCount:          i.AttackCount,
 		CriticalCount:        i.CriticalCount,
 		ExplosiveInjuryCount: i.ExplosiveInjuryCount,
-		Basic:                i.Basic,
-		Gain:                 i.Gain,
-		Defense:              i.Defense,
-		Initializations:      list,
+		Basic:                i.Basic.DeepCopy(),
+		Gain:                 i.Gain.DeepCopy(),
+		Defense:              i.Defense.DeepCopy(),
+		Initializations:      copyList,
 	}
-	return &copyData
+}
+
+// 以下是各结构体的深拷贝辅助方法
+
+func (b *Basic) DeepCopy() *Basic {
+	if b == nil {
+		return nil
+	}
+	copyB := *b
+	return &copyB
+}
+
+func (c *CurrentPanel) DeepCopy() *CurrentPanel {
+	if c == nil {
+		return nil
+	}
+	copyC := *c
+	return &copyC
+}
+
+func (m *Magnification) DeepCopy() *Magnification {
+	if m == nil {
+		return nil
+	}
+	copyM := *m
+	return &copyM
+}
+
+func (g *Gain) DeepCopy() *Gain {
+	if g == nil {
+		return nil
+	}
+	copyG := *g
+	return &copyG
+}
+
+func (d *Defense) DeepCopy() *Defense {
+	if d == nil {
+		return nil
+	}
+	copyD := *d
+	return &copyD
+}
+
+func (o *Output) DeepCopy() *Output {
+	if o == nil {
+		return nil
+	}
+	copyO := *o
+	return &copyO
 }
 
 // ------------------------ 数据结构定义 ------------------------

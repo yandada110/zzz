@@ -90,11 +90,11 @@ func (i *Initializations) FindOptimalDistribution() (bestSim *Initializations, b
 		}
 		var damage = 0.0
 		var lastSim []*Initialization
+		if !i.checkCondition(distribution) {
+			continue
+		}
 		// 根据本分配方案，各模型计算伤害，并在计算前做必要的条件校验
 		for _, initialization := range i.Initializations {
-			if !i.checkCondition(distribution) {
-				continue
-			}
 			i.CharacterPanelWithDistribution(initialization, distribution)
 			// 模拟：如果暴击超过阈值（例如 GlobalCritical），则设为 100
 			if initialization.CurrentPanel.Critical > 100 {
