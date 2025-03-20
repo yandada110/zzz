@@ -126,6 +126,9 @@ func (i *Initializations) InitializationBase1(role *Role.BaseRole, article *arms
 		Vulnerable:               0,       // 易伤（百分比）
 		SpecialDamage:            0,       // 特殊增伤（百分比）
 	}
+	if article.Type == common.AttackPowerPercentage {
+		i.Gain.AttackPowerPercentage += article.MainArticle
+	}
 	for _, OtherBenefit := range article.OtherBenefits {
 		if OtherBenefit.Type == common.Critical {
 			i.Gain.Critical += OtherBenefit.Value

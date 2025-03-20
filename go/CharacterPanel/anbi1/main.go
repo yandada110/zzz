@@ -33,7 +33,7 @@ var allowedGroupB = [][2]int{
 func main() {
 	// 初始化各套队伍（示例，具体初始化函数需自行实现）
 	initializations := []*Initialization{
-		心弦夜响安比扳机00嘉音00(),
+		安比01扳机00嘉音00(),
 	}
 
 	// 针对每套队伍进行计算

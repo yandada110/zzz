@@ -34,3 +34,41 @@ func XiShengChunJie(type1, type2, type3 bool) *MainArticle {
 	}
 	return m
 }
+
+/*
+*
+防爆者
+*/
+func FangBaoZhe(type1 bool) *MainArticle {
+	m := &MainArticle{}
+	m.BaseAttackValue = 713
+	m.MainArticle = 48
+	m.Type = common.ExplosiveInjury
+	if type1 {
+		m.OtherBenefits = append(m.OtherBenefits, &OtherBenefits{
+			Value:    15,                         // 被动效果增益值
+			Type:     common.Critical,            // 被动效果增益值
+			GainForm: common.GainFormInsideFixed, // 被动效果增益值
+		})
+	}
+	return m
+}
+
+/*
+*
+残心青囊
+*/
+func CanXinQingNang(type1 bool) *MainArticle {
+	m := &MainArticle{}
+	m.BaseAttackValue = 713
+	m.MainArticle = 48
+	m.Type = common.ExplosiveInjury
+	if type1 {
+		m.OtherBenefits = append(m.OtherBenefits, &OtherBenefits{
+			Value:    10,                         // 被动效果增益值
+			Type:     common.Critical,            // 被动效果增益值
+			GainForm: common.GainFormInsideFixed, // 被动效果增益值
+		})
+	}
+	return m
+}

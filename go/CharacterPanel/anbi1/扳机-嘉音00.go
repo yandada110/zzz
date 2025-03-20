@@ -282,16 +282,16 @@ func 安比01扳机00嘉音00站场() *Initialization {
 			BasicReductionResistance: 0,         // 基础减抗（角色+武器+驱动盘）
 		},
 		Gain: &Gain{
-			AttackValue:              316,               // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
-			AttackValue2:             1200,              // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
-			AttackPowerPercentage:    30,                // 攻击力百分比加成(主词条，副词条，2件套,6号位)
-			AttackInternalPercentage: 12 + 12,           // 局内攻击力百分比(武器，驱动盘绿字攻击力)
-			Critical:                 12 + 10,           // 增加暴击（角色+武器+2件套+4号位）
-			ExplosiveInjury:          60 + 25,           // 增加爆伤（角色+武器+2件套+4号位）
-			IncreasedDamage:          25 + 20 + 20 + 24, // 增伤（队友百分比）
-			ReductionResistance:      0,                 // 减抗（百分比）
-			Vulnerable:               35,                // 易伤（百分比）
-			SpecialDamage:            0,                 // 特殊增伤（百分比）
+			AttackValue:              316,          // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
+			AttackValue2:             1200,         // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
+			AttackPowerPercentage:    30,           // 攻击力百分比加成(主词条，副词条，2件套,6号位)
+			AttackInternalPercentage: 12 + 12,      // 局内攻击力百分比(武器，驱动盘绿字攻击力)
+			Critical:                 12 + 10,      // 增加暴击（角色+武器+2件套+4号位）
+			ExplosiveInjury:          60 + 25,      // 增加爆伤（角色+武器+2件套+4号位）
+			IncreasedDamage:          20 + 20 + 24, // 增伤（队友百分比）
+			ReductionResistance:      0,            // 减抗（百分比）
+			Vulnerable:               35,           // 易伤（百分比）
+			SpecialDamage:            0,            // 特殊增伤（百分比）
 		},
 		Defense: &Defense{
 			Penetration:      0, // 穿透率（百分比）
@@ -353,16 +353,16 @@ func 安比01扳机00嘉音00失衡() *Initialization {
 			BasicReductionResistance: 0,         // 基础减抗（角色+武器+驱动盘）
 		},
 		Gain: &Gain{
-			AttackValue:              316,               // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
-			AttackValue2:             1200,              // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
-			AttackPowerPercentage:    30,                // 攻击力百分比加成(主词条，副词条，2件套,6号位)
-			AttackInternalPercentage: 12 + 12,           // 局内攻击力百分比(武器，驱动盘绿字攻击力)
-			Critical:                 12 + 10,           // 增加暴击（角色+武器+2件套+4号位）
-			ExplosiveInjury:          60 + 25,           // 增加爆伤（角色+武器+2件套+4号位）
-			IncreasedDamage:          25 + 20 + 20 + 24, // 增伤（队友百分比）
-			ReductionResistance:      0,                 // 减抗（百分比）
-			Vulnerable:               35 + 25,           // 易伤（百分比）
-			SpecialDamage:            0,                 // 特殊增伤（百分比）
+			AttackValue:              316,          // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
+			AttackValue2:             1200,         // 攻击力值增加(2号位，副词条，嘉音，露西，凯撒增益)
+			AttackPowerPercentage:    30,           // 攻击力百分比加成(主词条，副词条，2件套,6号位)
+			AttackInternalPercentage: 12 + 12,      // 局内攻击力百分比(武器，驱动盘绿字攻击力)
+			Critical:                 12 + 10,      // 增加暴击（角色+武器+2件套+4号位）
+			ExplosiveInjury:          60 + 25,      // 增加爆伤（角色+武器+2件套+4号位）
+			IncreasedDamage:          20 + 20 + 24, // 增伤（队友百分比）
+			ReductionResistance:      0,            // 减抗（百分比）
+			Vulnerable:               35 + 25,      // 易伤（百分比）
+			SpecialDamage:            0,            // 特殊增伤（百分比）
 		},
 		Defense: &Defense{
 			Penetration:      0, // 穿透率（百分比）

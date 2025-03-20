@@ -8,7 +8,7 @@ func AnBi() *BaseRole {
 		ExplosiveInjury:     50,
 		Proficient:          93,
 		IncreasedDamage:     25,
-		ReductionResistance: -20,
+		ReductionResistance: 0,
 		BasicVulnerable:     0,
 		BasicSpecialDamage:  0,
 		Penetration:         0,
