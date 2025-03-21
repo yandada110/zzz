@@ -27,3 +27,27 @@ var AllowedGroupB = [][2]int{
 	{3, 0},
 	{0, 3},
 }
+
+const (
+	DirectInjury = "DirectInjury" // 直伤
+	Abnormal     = "Abnormal"     // 异常
+	Disorder     = "Disorder"     // 紊乱
+)
+
+// 异常伤害倍率固定
+const (
+	Fire                = "Fire"        // 火
+	Electricity         = "Electricity" // 电
+	Physical            = "Physical"    // 物理
+	Ice                 = "Ice"         // 冰
+	Ether               = "Ether"       // 以太
+	TimeTotal   float64 = 10            // 固定异常时间
+)
+
+var AbnormalMagnification = map[string]float64{
+	Fire:        50,
+	Electricity: 125,
+	Physical:    712,
+	Ice:         500,
+	Ether:       62.5,
+}

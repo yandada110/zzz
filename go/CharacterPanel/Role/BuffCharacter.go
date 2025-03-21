@@ -227,3 +227,19 @@ func KaiSa21() *BuffCharacter {
 		DefenseBreak:             0,
 	}
 }
+
+func BoKeNa65() *BuffCharacter {
+	return &BuffCharacter{
+		AttackValue:              0,
+		AttackInternalPercentage: 0,
+		Critical:                 0,
+		ExplosiveInjury:          0,
+		Proficient:               0,
+		ReductionResistance:      0,
+		IncreasedDamage:          30,
+		Vulnerable:               0,
+		SpecialDamage:            0,
+		Penetration:              0,
+		DefenseBreak:             0,
+	}
+}

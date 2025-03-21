@@ -105,16 +105,36 @@ func (i *Initializations) CalculatingTotalDamage(initialization *Initialization)
 	totalDamage := 0.0
 	for _, mag := range initialization.Magnifications {
 		i.InitializationArea(initialization, mag)
-		damage := initialization.Output.BasicDamageArea *
-			initialization.Output.IncreasedDamageArea *
-			initialization.Output.ExplosiveInjuryArea *
-			initialization.Output.DefenseArea *
-			initialization.Output.ReductionResistanceArea *
-			initialization.Output.VulnerableArea *
-			initialization.Output.SpecialDamageArea
-		totalDamage += damage
+		switch mag.DamageType {
+		case common.Disorder:
+
+		case common.Abnormal:
+			totalDamage += i.AbnormalDamage(initialization)
+		default:
+			totalDamage += i.DirectInjuryDamage(initialization)
+		}
 	}
 	return totalDamage
+}
+
+func (i *Initializations) DirectInjuryDamage(initialization *Initialization) float64 {
+	return initialization.Output.BasicDamageArea *
+		initialization.Output.IncreasedDamageArea *
+		initialization.Output.ExplosiveInjuryArea *
+		initialization.Output.DefenseArea *
+		initialization.Output.ReductionResistanceArea *
+		initialization.Output.VulnerableArea *
+		initialization.Output.SpecialDamageArea
+}
+
+func (i *Initializations) AbnormalDamage(initialization *Initialization) float64 {
+	return initialization.Output.BasicDamageArea *
+		initialization.Output.IncreasedDamageArea *
+		initialization.Output.ExplosiveInjuryArea *
+		initialization.Output.DefenseArea *
+		initialization.Output.ReductionResistanceArea *
+		initialization.Output.VulnerableArea *
+		initialization.Output.SpecialDamageArea
 }
 
 func (i *Initializations) InitializationArea(initialization *Initialization, magnification *Magnification) {
@@ -155,6 +175,14 @@ func (i *Initialization) VulnerableArea() {
 }
 
 func (i *Initialization) SpecialDamageArea() {
+	i.Output.SpecialDamageArea = 1 + (i.CurrentPanel.SpecialDamage)/100
+}
+
+func (i *Initialization) ProficientArea() {
+	i.Output.ProficientArea = i.CurrentPanel.Proficient / 100
+}
+
+func (i *Initialization) GradeArea() {
 	i.Output.SpecialDamageArea = 1 + (i.CurrentPanel.SpecialDamage)/100
 }
 
