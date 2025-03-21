@@ -179,3 +179,51 @@ func LiNa11() *BuffCharacter {
 		DefenseBreak:             0,
 	}
 }
+
+func KaiSa00() *BuffCharacter {
+	return &BuffCharacter{
+		AttackValue:              1000,
+		AttackInternalPercentage: 0,
+		Critical:                 0,
+		ExplosiveInjury:          0,
+		Proficient:               0,
+		ReductionResistance:      0,
+		IncreasedDamage:          25 + 15,
+		Vulnerable:               0,
+		SpecialDamage:            0,
+		Penetration:              0,
+		DefenseBreak:             0,
+	}
+}
+
+func KaiSa01() *BuffCharacter {
+	return &BuffCharacter{
+		AttackValue:              1000,
+		AttackInternalPercentage: 0,
+		Critical:                 0,
+		ExplosiveInjury:          0,
+		Proficient:               0,
+		ReductionResistance:      0,
+		IncreasedDamage:          25 + 15 + 18,
+		Vulnerable:               0,
+		SpecialDamage:            0,
+		Penetration:              0,
+		DefenseBreak:             0,
+	}
+}
+
+func KaiSa21() *BuffCharacter {
+	return &BuffCharacter{
+		AttackValue:              1500,
+		AttackInternalPercentage: 0,
+		Critical:                 0,
+		ExplosiveInjury:          0,
+		Proficient:               0,
+		ReductionResistance:      15,
+		IncreasedDamage:          25 + 15 + 18,
+		Vulnerable:               0,
+		SpecialDamage:            0,
+		Penetration:              0,
+		DefenseBreak:             0,
+	}
+}

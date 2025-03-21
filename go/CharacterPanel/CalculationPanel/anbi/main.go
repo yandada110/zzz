@@ -10,7 +10,9 @@ import (
 func main() {
 	// 初始化各套队伍（示例，具体初始化函数需自行实现）
 	initializations := []*Initializations{
-		硫磺石安比扳机00嘉音20(),
+		安比01扳机01凯撒00(),
+		安比01扳机01凯撒01(),
+		安比01扳机01凯撒21(),
 	}
 	// 针对每套队伍进行计算
 	for idx, initialization := range initializations {
@@ -53,7 +55,7 @@ func (i *Initializations) OutputResult(bestDistribution map[string]int) {
 				internalPanel.Critical,
 				internalPanel.ExplosiveInjury,
 				internalPanel.IncreasedDamage,
-				internalPanel.Penetration,
+				i.Defense.Penetration+penetration,
 				internalPanel.DefenseBreak,
 			)
 			fmt.Println("--------------------------------------------------")
@@ -72,7 +74,7 @@ func (i *Initializations) OutputResult(bestDistribution map[string]int) {
 				i.Basic.BasicAttack*(1+attack/100)+i.Gain.AttackValue,
 				i.Basic.BasicCritical+float64(bestDistribution[common.Critical])*2.4,
 				i.Basic.BasicExplosiveInjury+float64(bestDistribution[common.ExplosiveInjury])*4.8,
-				i.Defense.Penetration+penetration,
+				penetration,
 			)
 			status = true
 		}
