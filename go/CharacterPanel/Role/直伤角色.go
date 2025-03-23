@@ -15,3 +15,19 @@ func AnBi() *BaseRole {
 		DefenseBreak:        0,
 	}
 }
+
+// 扳机 /*
+func BanJi() *BaseRole {
+	return &BaseRole{
+		AttackValue:         750,
+		Critical:            5,
+		ExplosiveInjury:     50,
+		Proficient:          95,
+		IncreasedDamage:     0,
+		ReductionResistance: 0,
+		BasicVulnerable:     35,
+		BasicSpecialDamage:  0,
+		Penetration:         0,
+		DefenseBreak:        0,
+	}
+}

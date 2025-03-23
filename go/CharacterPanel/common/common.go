@@ -10,6 +10,7 @@ const (
 	Penetrate                = "Penetrate"                // 穿透
 	AttackValue              = "AttackValue"              //攻击力
 	Proficient               = "Proficient"               //精通
+	DefenseBreak             = "DefenseBreak"             //破防
 )
 
 const (
