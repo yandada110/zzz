@@ -6,16 +6,16 @@ import (
 	"zzz/CharacterPanel/common"
 )
 
-func 安比01扳机00嘉音00() *Initializations {
-	name := "安比01扳机00嘉音00"
+func 简01赛斯65嘉音00() *Initializations {
+	name := "简01赛斯65嘉音00"
 	init := &Initializations{
 		Name:       name,
-		NumberFour: common.Critical,
+		NumberFour: common.Proficient,
 	}
 	// 初始化基础数值
-	init.InitializationBase1(Role.AnBi(), arms.XiShengChunJie(true, true, true))
+	init.InitializationBase1(Role.JianDu(), arms.CuiFengQianCi(true))
 	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.BanJi00(), Role.JiaYin00()})
+	init.InitializationRole([]*Role.BuffCharacter{Role.SaiSi(), Role.JiaYin00()})
 
 	init.Initializations = []*Initialization{
 		&Initialization{

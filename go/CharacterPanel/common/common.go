@@ -8,9 +8,10 @@ const (
 	ReductionResistance      = "ReductionResistance"      // 减抗
 	IncreasedDamage          = "IncreasedDamage"          // 增伤
 	Penetrate                = "Penetrate"                // 穿透
-	AttackValue              = "AttackValue"              //攻击力
-	Proficient               = "Proficient"               //精通
-	DefenseBreak             = "DefenseBreak"             //破防
+	AttackValue              = "AttackValue"              // 攻击力值
+	Proficient               = "Proficient"               // 精通
+	DefenseBreak             = "DefenseBreak"             // 破防
+	PenetrateValue           = "PenetrateValue"           // 穿透值
 )
 
 const (
@@ -48,7 +49,7 @@ const (
 var AbnormalMagnification = map[string]float64{
 	Fire:        50,
 	Electricity: 125,
-	Physical:    712,
+	Physical:    713,
 	Ice:         500,
 	Ether:       62.5,
 }

@@ -11,7 +11,7 @@ const (
 	// 每个队伍可分配的词条数（示例值）
 	GlobalMainArticle = 55
 	// 词条类型数量
-	GlobalMainArticleTypeCount = 5
+	GlobalMainArticleTypeCount = 7
 )
 
 var AttackPercentageEntriesLimit = map[string]int{

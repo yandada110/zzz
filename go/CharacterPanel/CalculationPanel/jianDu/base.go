@@ -28,30 +28,29 @@ func (i *Initializations) CharacterPanelWithDistribution(initialization *Initial
 		Vulnerable:          i.Basic.BasicVulnerable + i.Gain.Vulnerable + initialization.Gain.Vulnerable,
 		SpecialDamage:       i.Basic.BasicSpecialDamage + i.Gain.SpecialDamage + initialization.Gain.SpecialDamage,
 	}
-
-	i.HandleBasicAttack(initialization, common.AttackPowerPercentage, distribution[common.AttackPowerPercentage])
-	i.HandleBasicCritical(initialization, common.Critical, distribution[common.Critical])
+	i.HandleBasicAttackValue(initialization, distribution[common.AttackValue])
+	i.HandleBasicAttackPercentage(initialization, distribution[common.AttackPowerPercentage])
+	i.HandleBasicCritical(initialization, distribution[common.Critical])
 	i.HandleBasicExplosiveInjury(initialization, common.ExplosiveInjury, distribution[common.ExplosiveInjury])
 	i.HandleBasicIncreasedDamage(initialization, common.IncreasedDamage, distribution[common.IncreasedDamage])
 	i.HandlePenetrateDamage(initialization, common.Penetrate, distribution[common.Penetrate])
 }
 
-// ===== 以下各函数处理词条加成 =====
-// HandleBasicAttack 根据攻击力词条增加攻击力
-func (i *Initializations) HandleBasicAttack(initialization *Initialization, key string, count int) {
+// 根据攻击力词条增加攻击力
+func (i *Initializations) HandleBasicAttackPercentage(initialization *Initialization, count int) {
 	attackPowerPercentage := i.Gain.AttackPowerPercentage + initialization.Gain.AttackPowerPercentage
-	if key == common.AttackPowerPercentage {
-		attackPowerPercentage += 3 * float64(count)
-	}
+	attackPowerPercentage += 3 * float64(count)
 	initialization.CurrentPanel.Attack = (i.Basic.BasicAttack*(1+attackPowerPercentage/100)+i.Gain.AttackValue)*(1+i.Gain.AttackInternalPercentage/100) + i.Gain.AttackValue2
 }
 
+func (i *Initializations) HandleBasicAttackValue(initialization *Initialization, count int) {
+	i.Gain.AttackValue = i.Gain.AttackValue + initialization.Gain.AttackValue + 19*float64(count)
+}
+
 // HandleBasicCritical 根据暴击词条更新暴击率，并计算转换为爆伤的词条数
-func (i *Initializations) HandleBasicCritical(initialization *Initialization, key string, count int) {
+func (i *Initializations) HandleBasicCritical(initialization *Initialization, count int) {
 	critical := i.Gain.Critical + initialization.Gain.Critical
-	if key == common.Critical {
-		critical += 2.4 * float64(count)
-	}
+	critical += 2.4 * float64(count)
 	initialization.CurrentPanel.Critical = i.Basic.BasicCritical + critical
 }
 
@@ -196,7 +195,7 @@ func (i *Initialization) GradeArea() {
 func (i *Initializations) initializationCount() {
 	// 暴击词条上限
 	critical := i.Basic.BasicCritical + i.Gain.Critical
-	remaining := 100 - critical
+	remaining := CriticalCount - critical
 	// 计算最大可用词条数，向下取整
 	i.CriticalCount = int(remaining / 2.4)
 
@@ -209,7 +208,10 @@ func (i *Initializations) initializationCount() {
 	}
 	// 爆伤词条上限
 	i.ExplosiveInjuryCount = ExplosiveInjuryEntriesLimit[i.NumberFour]
-	i.AttackCount = AttackPercentageEntriesLimit[i.NumberFour]
+	i.AttackPercentageCount = AttackPercentageEntriesLimit[i.NumberFour]
+	i.ProficientCount = ProficientEntriesLimit[i.NumberFour]
+	i.AttackValueCount = AttackValueEntriesLimit[i.NumberFour]
+	i.PenetrationValueCount = PenetrationValueEntriesLimit[i.NumberFour]
 }
 
 func (i *Initializations) checkCondition(slots map[string]int) bool {
@@ -229,18 +231,18 @@ func (i *Initializations) checkCondition(slots map[string]int) bool {
 	// 处理阈值问题，每个磁盘单个属性，最多5个有效词条，其中其中3号位可以+3词条，5号位+10词条，需要校验穿透和增伤词条数量，才可以确定阈值的上限是否有提升，判断穿透率的数值，提升不同属性的阈值上限
 	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 0 {
 		// 三个词条总数必须大于13
-		if slots[common.Critical]+slots[common.ExplosiveInjury]+slots[common.AttackPowerPercentage] >= 13 {
-			if slots[common.Critical] >= 3 || slots[common.ExplosiveInjury] >= 3 {
-				// 2件套选择暴击或者爆伤的情况,5号位必须是攻击力
+		if slots[common.Critical]+slots[common.ExplosiveInjury]+slots[common.AttackPowerPercentage]+slots[common.Proficient] >= 13 {
+			if slots[common.Critical] >= 3 || slots[common.ExplosiveInjury] >= 3 || slots[common.Proficient] >= 3 {
+				// 2件套选择暴击或者爆伤或者精通的情况,5号位必须是攻击力
 				if slots[common.AttackPowerPercentage] >= 10 {
-					if (i.AttackCount+10 >= slots[common.AttackPowerPercentage]) && (i.CriticalCount+i.ExplosiveInjuryCount+3 >= slots[common.Critical]+slots[common.ExplosiveInjury]) {
+					if (i.AttackPercentageCount+10 >= slots[common.AttackPowerPercentage]) && (i.ProficientCount+i.CriticalCount+i.ExplosiveInjuryCount+3 >= slots[common.Critical]+slots[common.ExplosiveInjury]+slots[common.Proficient]) {
 						fiveStatus = true
 					}
 				}
 			} else {
 				// 2件套，5号位都是攻击力
 				if slots[common.AttackPowerPercentage] >= 13 {
-					if i.AttackCount+13 >= slots[common.AttackPowerPercentage] {
+					if i.AttackPercentageCount+13 >= slots[common.AttackPowerPercentage] {
 						fiveStatus = true
 					}
 				}
@@ -249,21 +251,21 @@ func (i *Initializations) checkCondition(slots map[string]int) bool {
 	}
 	// 增伤+穿透 =3，说明2件套无法分配，攻击力必须>=10
 	if (slots[common.IncreasedDamage]+slots[common.Penetrate] == 3) && slots[common.AttackPowerPercentage] >= 10 {
-		if i.AttackCount+10 >= slots[common.AttackPowerPercentage] {
+		if i.AttackPercentageCount+10 >= slots[common.AttackPowerPercentage] {
 			fiveStatus = true
 		}
 	}
 	// 增伤+穿透 =10，说明5号位无法分配，2件套可以是攻击，暴击，爆伤任意一个
 	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 10 {
-		if slots[common.Critical] >= 3 || slots[common.ExplosiveInjury] >= 3 || slots[common.AttackPowerPercentage] >= 3 {
-			if i.AttackCount+i.CriticalCount+i.ExplosiveInjuryCount+3 >= slots[common.AttackPowerPercentage]+slots[common.Critical]+slots[common.ExplosiveInjury] {
+		if slots[common.Critical] >= 3 || slots[common.ExplosiveInjury] >= 3 || slots[common.AttackPowerPercentage] >= 3 || slots[common.Proficient] >= 3 {
+			if i.ProficientCount+i.AttackPercentageCount+i.CriticalCount+i.ExplosiveInjuryCount+3 >= slots[common.AttackPowerPercentage]+slots[common.Critical]+slots[common.ExplosiveInjury]+slots[common.Proficient] {
 				fiveStatus = true
 			}
 		}
 	}
 	// 增伤+穿透 =13，说明承包了2件套和5号位选择，其他词条随意
 	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 13 {
-		if i.AttackCount >= slots[common.AttackPowerPercentage] && i.CriticalCount >= slots[common.Critical] && i.ExplosiveInjuryCount >= slots[common.ExplosiveInjury] {
+		if i.AttackPercentageCount >= slots[common.AttackPowerPercentage] && i.CriticalCount >= slots[common.Critical] && i.ExplosiveInjuryCount >= slots[common.ExplosiveInjury] && i.ProficientCount >= slots[common.Proficient] {
 			fiveStatus = true
 		}
 	}
@@ -278,27 +280,39 @@ func (i *Initializations) checkCondition(slots map[string]int) bool {
 			return false
 		}
 	}
-
-	if i.NumberFour == common.Critical {
-		if slots[common.Critical] < 5 {
+	if slots[common.AttackValue] < 6 {
+		return false
+	}
+	if slots[common.PenetrateValue] < 6 {
+		return false
+	}
+	////暴击爆伤可以不要
+	//if i.NumberFour == common.Critical {
+	//	if slots[common.Critical] < 5 {
+	//		return false
+	//	}
+	//	if slots[common.ExplosiveInjury] < 6 {
+	//		return false
+	//	}
+	//}
+	//if i.NumberFour == common.ExplosiveInjury {
+	//	if slots[common.Critical] < 6 {
+	//		return false
+	//	}
+	//}
+	//if i.NumberFour == common.ExplosiveInjury {
+	//	if slots[common.ExplosiveInjury] < 5 {
+	//		return false
+	//	}
+	//}
+	if i.NumberFour == common.Proficient {
+		if slots[common.Proficient] < 5 {
+			return false
+		}
+	} else {
+		if slots[common.Proficient] < 6 {
 			return false
 		}
 	}
-	if i.NumberFour == common.ExplosiveInjury {
-		if slots[common.Critical] < 6 {
-			return false
-		}
-	}
-	if i.NumberFour == common.ExplosiveInjury {
-		if slots[common.ExplosiveInjury] < 5 {
-			return false
-		}
-	}
-	if i.NumberFour == common.Critical {
-		if slots[common.ExplosiveInjury] < 6 {
-			return false
-		}
-	}
-
 	return fiveStatus
 }
