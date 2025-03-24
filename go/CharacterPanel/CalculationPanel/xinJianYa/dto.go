@@ -29,15 +29,15 @@ func (i *Initializations) DeepCopyData(list []*Initialization) *Initializations 
 		}
 	}
 	return &Initializations{
-		Name:                 i.Name,
-		NumberFour:           i.NumberFour,
-		AttackCount:          i.AttackCount,
-		CriticalCount:        i.CriticalCount,
-		ExplosiveInjuryCount: i.ExplosiveInjuryCount,
-		Basic:                i.Basic.DeepCopy(),
-		Gain:                 i.Gain.DeepCopy(),
-		Defense:              i.Defense.DeepCopy(),
-		Initializations:      copyList,
+		Name:                  i.Name,
+		NumberFour:            i.NumberFour,
+		AttackPercentageCount: i.AttackPercentageCount,
+		CriticalCount:         i.CriticalCount,
+		ExplosiveInjuryCount:  i.ExplosiveInjuryCount,
+		Basic:                 i.Basic.DeepCopy(),
+		Gain:                  i.Gain.DeepCopy(),
+		Defense:               i.Defense.DeepCopy(),
+		Initializations:       copyList,
 	}
 }
 
@@ -93,15 +93,18 @@ func (o *Output) DeepCopy() *Output {
 
 // ------------------------ 数据结构定义 ------------------------
 type Initializations struct {
-	Name                 string            // 队伍名称
-	NumberFour           string            // 4号位固定属性 暴击或者爆伤
-	AttackCount          int               // 攻击力词条基础上限
-	CriticalCount        int               // 暴击词条基础上限
-	ExplosiveInjuryCount int               // 爆伤词条基础上限
-	Basic                *Basic            // 角色基础面板，不变
-	Gain                 *Gain             // 队友增益，不变
-	Defense              *Defense          // 破防收益，不变
-	Initializations      []*Initialization // 计算不同模型集合（可以包含不同模型）
+	Name                  string            // 队伍名称
+	NumberFour            string            // 4号位固定属性 暴击或者爆伤
+	AttackPercentageCount int               // 攻击力词条基础上限
+	CriticalCount         int               // 暴击词条基础上限
+	ExplosiveInjuryCount  int               // 爆伤词条基础上限
+	ProficientCount       int               // 精通词条基础上限
+	AttackValueCount      int               // 攻击值词条基础上限
+	PenetrationValueCount int               // 穿透值词条基础上限
+	Basic                 *Basic            // 角色基础面板，不变
+	Gain                  *Gain             // 队友增益，不变
+	Defense               *Defense          // 破防收益，不变
+	Initializations       []*Initialization // 计算不同模型集合（可以包含不同模型）
 }
 
 type Initialization struct {
@@ -147,7 +150,7 @@ type CurrentPanel struct {
 	ReductionResistance float64 // 减抗
 	Vulnerable          float64 // 易伤
 	SpecialDamage       float64 // 特殊乘区增伤
-	Penetration         float64 // 春头
+	Penetration         float64 // 穿透
 	DefenseBreak        float64 // 破防
 	PenetrationValue    float64 // 穿透值
 	Proficient          float64 // 精通
