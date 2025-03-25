@@ -11,15 +11,17 @@ func main() {
 	// 初始化各套队伍（示例，具体初始化函数需自行实现）
 	initializations := []*Initializations{
 		安比01扳机0拘缚者嘉音00(),
-		安比01扳机0德玛拉嘉音00(),
-		安比01扳机0裁纸刀嘉音00(),
+		安比01扳机1拘缚者嘉音00(),
+		安比01扳机01嘉音00(),
+		安比01扳机11嘉音00(),
+		安比01扳机21嘉音00(),
 	}
 	// 针对每套队伍进行计算
 	for idx, initialization := range initializations {
 		fmt.Printf("====== 队伍组合 %d: %s ======\n", idx+1, initialization.Name)
 		bestSim, bestDistribution, total, efficientTotal := initialization.FindOptimalDistribution()
 		// 输出整体最佳方案
-		fmt.Println("【整体最佳方案】计算次数：", strconv.Itoa(total), "有效计算次数：", strconv.Itoa(efficientTotal))
+		fmt.Println("【整体最佳方案】计算次数：", strconv.Itoa(total), "it有效计算次数：", strconv.Itoa(efficientTotal))
 		fmt.Println("最佳词条分配方案:")
 		fmt.Printf("  攻击力词条: %d, 暴击词条: %d, 爆伤词条: %d, 增伤词条: %d, 穿透词条: %d\n",
 			bestDistribution[common.AttackPowerPercentage],

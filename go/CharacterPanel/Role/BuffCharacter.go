@@ -259,3 +259,19 @@ func SaiSi() *BuffCharacter {
 		DefenseBreak:             0,
 	}
 }
+
+func LaiTe01() *BuffCharacter {
+	return &BuffCharacter{
+		AttackValue:              0,
+		AttackInternalPercentage: 0,
+		Critical:                 0,
+		ExplosiveInjury:          30,
+		Proficient:               0,
+		ReductionResistance:      15,
+		IncreasedDamage:          75,
+		Vulnerable:               0,
+		SpecialDamage:            0,
+		Penetration:              0,
+		DefenseBreak:             0,
+	}
+}

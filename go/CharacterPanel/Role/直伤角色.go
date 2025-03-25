@@ -25,7 +25,39 @@ func BanJi() *BaseRole {
 		Proficient:          95,
 		IncreasedDamage:     0,
 		ReductionResistance: 0,
-		BasicVulnerable:     35,
+		BasicVulnerable:     0,
+		BasicSpecialDamage:  0,
+		Penetration:         0,
+		DefenseBreak:        0,
+	}
+}
+
+// 伊芙琳 /*
+func YiFuLin() *BaseRole {
+	return &BaseRole{
+		AttackValue:         929,
+		Critical:            19.4,
+		ExplosiveInjury:     50,
+		Proficient:          90,
+		IncreasedDamage:     0,
+		ReductionResistance: 0,
+		BasicVulnerable:     0,
+		BasicSpecialDamage:  0,
+		Penetration:         0,
+		DefenseBreak:        0,
+	}
+}
+
+// 莱特 /*
+func LaiTe() *BaseRole {
+	return &BaseRole{
+		AttackValue:         797,
+		Critical:            5,
+		ExplosiveInjury:     50,
+		Proficient:          90,
+		IncreasedDamage:     76,
+		ReductionResistance: 15,
+		BasicVulnerable:     0,
 		BasicSpecialDamage:  0,
 		Penetration:         0,
 		DefenseBreak:        0,

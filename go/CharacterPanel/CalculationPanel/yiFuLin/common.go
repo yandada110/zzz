@@ -27,32 +27,27 @@ var ExplosiveInjuryEntriesLimit = map[string]int{
 func MagnificationBase1() []*Magnification {
 	return []*Magnification{
 		&Magnification{
-			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       20,
-			Name:               "普通追击",
-			IncreasedDamage:    25 + 15,
+			MagnificationValue: 373.7 + 447.8,
+			TriggerTimes:       12,
+			Name:               "普攻",
 		},
 		&Magnification{
-			MagnificationValue: 45.7*3 + 91.4,
-			TriggerTimes:       18,
-			Name:               "fire模式",
-			IncreasedDamage:    25 + 15,
+			MagnificationValue: 453 + 490.5,
+			TriggerTimes:       12,
+			Name:               "绞勒式",
 		},
 		&Magnification{
-			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       8,
-			Name:               "协战模式",
-			IncreasedDamage:    25 + 15,
-		},
-		&Magnification{
-			MagnificationValue: 1269.1,
+			MagnificationValue: 1082.4,
 			TriggerTimes:       2,
-			Name:               "强化特殊技+特殊技",
+			Name:               "强化特殊技",
 		},
 		&Magnification{
-			MagnificationValue: 1150 + 2961.1,
-			TriggerTimes:       1,
-			Name:               "终结技+连携技",
+			MagnificationValue:  1658.7,
+			TriggerTimes:        5,
+			Name:                "连携技",
+			IncreasedDamage:     30,
+			ReductionResistance: 25,
+			SpecialDamage:       25,
 		},
 	}
 
@@ -61,100 +56,30 @@ func MagnificationBase1() []*Magnification {
 func MagnificationBase2() []*Magnification {
 	return []*Magnification{
 		&Magnification{
-			MagnificationValue: 96.3 * 2,
+			MagnificationValue: 453 + 490.5,
 			TriggerTimes:       3,
-			Name:               "普通追击",
-			IncreasedDamage:    25 + 15,
-		},
-	}
-}
-
-func MagnificationBase3() []*Magnification {
-	return []*Magnification{
-		&Magnification{
-			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       20 + 10,
-			Name:               "普通追击",
-			IncreasedDamage:    25 + 15 + 30,
+			Name:               "绞勒式",
 		},
 		&Magnification{
-			MagnificationValue: 45.7*3 + 91.4,
-			TriggerTimes:       18,
-			Name:               "fire模式",
-			IncreasedDamage:    25 + 15 + 30,
-		},
-		&Magnification{
-			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       8,
-			Name:               "协战模式",
-			IncreasedDamage:    25 + 15 + 30,
-		},
-		&Magnification{
-			MagnificationValue: 1269.1,
-			TriggerTimes:       2,
-			Name:               "强化特殊技+特殊技",
-		},
-		&Magnification{
-			MagnificationValue: 1150 + 2961.1,
+			MagnificationValue: 1082.4,
 			TriggerTimes:       1,
-			Name:               "终结技+连携技",
-		},
-	}
-
-}
-
-func MagnificationBase4() []*Magnification {
-	return []*Magnification{
-		&Magnification{
-			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       3 + 2,
-			Name:               "普通追击",
-			IncreasedDamage:    25 + 15 + 30,
-		},
-	}
-}
-
-func MagnificationBase5() []*Magnification {
-	return []*Magnification{
-		&Magnification{
-			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       20 + 10,
-			Name:               "普通追击",
-			IncreasedDamage:    25 + 15,
+			Name:               "强化特殊技",
 		},
 		&Magnification{
-			MagnificationValue: 45.7*3 + 91.4,
-			TriggerTimes:       18,
-			Name:               "fire模式",
-			IncreasedDamage:    25 + 15,
+			MagnificationValue:  1658.7,
+			TriggerTimes:        4,
+			Name:                "连携技",
+			IncreasedDamage:     30,
+			ReductionResistance: 25,
+			SpecialDamage:       25,
 		},
 		&Magnification{
-			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       8,
-			Name:               "协战模式",
-			IncreasedDamage:    25 + 15,
-		},
-		&Magnification{
-			MagnificationValue: 1269.1,
-			TriggerTimes:       2,
-			Name:               "强化特殊技+特殊技",
-		},
-		&Magnification{
-			MagnificationValue: 1150 + 2961.1,
-			TriggerTimes:       1,
-			Name:               "终结技+连携技",
-		},
-	}
-
-}
-
-func MagnificationBase6() []*Magnification {
-	return []*Magnification{
-		&Magnification{
-			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       3 + 2,
-			Name:               "普通追击",
-			IncreasedDamage:    25 + 15,
+			MagnificationValue:  3977.3,
+			TriggerTimes:        1,
+			Name:                "终结技",
+			IncreasedDamage:     30,
+			ReductionResistance: 25,
+			SpecialDamage:       25,
 		},
 	}
 }
@@ -166,7 +91,6 @@ func (i *Initializations) InitializationBase1(role *Role.BaseRole, article *arms
 		BasicExplosiveInjury:     role.ExplosiveInjury,                       // 基础爆伤（角色+武器+2件套+4号位）
 		BasicIncreasedDamage:     role.IncreasedDamage,                       // 基础增伤（角色+武器+驱动盘）
 		BasicReductionResistance: role.ReductionResistance,                   // 基础减抗（角色+武器+驱动盘）
-		BasicVulnerable:          role.BasicVulnerable,                       // 基础减抗（角色+武器+驱动盘）
 	}
 	if i.NumberFour == common.Critical {
 		i.Basic.BasicCritical += 24
@@ -184,19 +108,14 @@ func (i *Initializations) InitializationBase1(role *Role.BaseRole, article *arms
 	i.Gain = &Gain{
 		AttackValue:              316, // 攻击力值增加(固定2号位数值)
 		AttackValue2:             0,   // 攻击力值增加(局内加的固定攻击力)
-		AttackPowerPercentage:    0,   // 局外攻击力百分比(6号位+武器主词条+5号位+4号位+副词条)
-		AttackInternalPercentage: 12,  // 局内攻击力百分比(武器，4件套)
-		Critical:                 12,  // 增加暴击（角色+武器+4件套）
+		AttackPowerPercentage:    30,  // 局外攻击力百分比(6号位+武器主词条+5号位+4号位+副词条)
+		AttackInternalPercentage: 18,  // 局内攻击力百分比(武器，4件套)
+		Critical:                 25,  // 增加暴击（角色+武器+4件套）
 		ExplosiveInjury:          0,   // 增加爆伤（角色+武器+2件套+4号位）
 		IncreasedDamage:          0,   // 增伤（队友百分比）
 		ReductionResistance:      0,   // 减抗（百分比）
 		Vulnerable:               0,   // 易伤（百分比）
 		SpecialDamage:            0,   // 特殊增伤（百分比）
-	}
-	i.Defense = &Defense{
-		Penetration:      role.Penetration,  // 穿透率（百分比）
-		DefenseBreak:     role.DefenseBreak, // 破防百分比（百分比）
-		PenetrationValue: 0,                 // 穿透值（固定值）
 	}
 	if article.Type == common.AttackPowerPercentage {
 		i.Gain.AttackPowerPercentage += article.MainArticle
@@ -220,9 +139,11 @@ func (i *Initializations) InitializationBase1(role *Role.BaseRole, article *arms
 		if OtherBenefit.Type == common.ReductionResistance {
 			i.Gain.ReductionResistance += OtherBenefit.Value
 		}
-		if OtherBenefit.Type == common.DefenseBreak {
-			i.Defense.DefenseBreak += OtherBenefit.Value
-		}
+	}
+	i.Defense = &Defense{
+		Penetration:      role.Penetration,  // 穿透率（百分比）
+		DefenseBreak:     role.DefenseBreak, // 破防百分比（百分比）
+		PenetrationValue: 0,                 // 穿透值（固定值）
 	}
 }
 
@@ -263,21 +184,16 @@ func (i *Initializations) InitializationBase2(role *Role.BaseRole, article *arms
 		i.Basic.BasicExplosiveInjury += article.MainArticle
 	}
 	i.Gain = &Gain{
-		AttackValue:              316, // 攻击力值增加(固定2号位数值)
-		AttackValue2:             0,   // 攻击力值增加(局内加的固定攻击力)
-		AttackPowerPercentage:    0,   // 局外攻击力百分比(6号位+武器主词条+5号位+4号位+副词条)
-		AttackInternalPercentage: 0,   // 局内攻击力百分比(武器，4件套)
-		Critical:                 0,   // 增加暴击（角色+武器+4件套）
-		ExplosiveInjury:          0,   // 增加爆伤（角色+武器+2件套+4号位）
-		IncreasedDamage:          0,   // 增伤（队友百分比）
-		ReductionResistance:      0,   // 减抗（百分比）
-		Vulnerable:               0,   // 易伤（百分比）
-		SpecialDamage:            0,   // 特殊增伤（百分比）
-	}
-	i.Defense = &Defense{
-		Penetration:      role.Penetration,  // 穿透率（百分比）
-		DefenseBreak:     role.DefenseBreak, // 破防百分比（百分比）
-		PenetrationValue: 0,                 // 穿透值（固定值）
+		AttackValue:              316,          // 攻击力值增加(固定2号位数值)
+		AttackValue2:             0,            // 攻击力值增加(局内加的固定攻击力)
+		AttackPowerPercentage:    30,           // 局外攻击力百分比(6号位+武器主词条+5号位+4号位+副词条)
+		AttackInternalPercentage: 12,           // 局内攻击力百分比(武器，4件套)
+		Critical:                 12 + 10 + 12, // 增加暴击（角色+武器+4件套）
+		ExplosiveInjury:          0,            // 增加爆伤（角色+武器+2件套+4号位）
+		IncreasedDamage:          0,            // 增伤（队友百分比）
+		ReductionResistance:      0,            // 减抗（百分比）
+		Vulnerable:               0,            // 易伤（百分比）
+		SpecialDamage:            0,            // 特殊增伤（百分比）
 	}
 	if article.Type == common.AttackPowerPercentage {
 		i.Gain.AttackPowerPercentage += article.MainArticle
@@ -301,8 +217,10 @@ func (i *Initializations) InitializationBase2(role *Role.BaseRole, article *arms
 		if OtherBenefit.Type == common.ReductionResistance {
 			i.Gain.ReductionResistance += OtherBenefit.Value
 		}
-		if OtherBenefit.Type == common.DefenseBreak {
-			i.Defense.DefenseBreak += OtherBenefit.Value
-		}
+	}
+	i.Defense = &Defense{
+		Penetration:      role.Penetration,  // 穿透率（百分比）
+		DefenseBreak:     role.DefenseBreak, // 破防百分比（百分比）
+		PenetrationValue: 0,                 // 穿透值（固定值）
 	}
 }

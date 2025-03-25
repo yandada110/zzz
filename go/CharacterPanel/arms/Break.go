@@ -105,3 +105,29 @@ func CaiZhiDao(type1 bool) *MainArticle {
 	//}
 	return m
 }
+
+/*
+*
+焰心桂冠
+*/
+func YanXinGuiGuan(type1 bool) *MainArticle {
+	m := &MainArticle{}
+	m.BaseAttackValue = 713
+	m.MainArticle = 0
+	m.Type = common.ExplosiveInjury
+	if type1 {
+		m.OtherBenefits = append(m.OtherBenefits, &OtherBenefits{
+			Value:    30,                         // 被动效果增益值
+			Type:     common.ExplosiveInjury,     // 被动效果增益值
+			GainForm: common.GainFormInsideFixed, // 被动效果增益值
+		})
+	}
+	//if type2 {
+	//	m.OtherBenefits = append(m.OtherBenefits, &OtherBenefits{
+	//		Value:    25,                         // 被动效果增益值
+	//		Type:     common.ReductionResistance, // 被动效果增益值
+	//		GainForm: common.GainFormInsideFixed, // 被动效果增益值
+	//	})
+	//}
+	return m
+}
