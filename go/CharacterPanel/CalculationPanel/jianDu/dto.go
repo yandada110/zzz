@@ -134,7 +134,7 @@ type Basic struct {
 	BasicVulnerable          float64 // 易伤
 	BasicSpecialDamage       float64 // 特殊乘区增伤
 	Penetration              float64 // 穿透
-	Proficient               float64 // 精通
+	BasicProficient          float64 // 精通
 	AddTime                  float64 // 角色自身延长异常时间
 }
 

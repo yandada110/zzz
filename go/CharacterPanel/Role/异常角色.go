@@ -7,7 +7,7 @@ func JianDu() *BaseRole {
 		Critical:            5,
 		ExplosiveInjury:     50,
 		Proficient:          114,
-		IncreasedDamage:     25,
+		IncreasedDamage:     0,
 		ReductionResistance: 0,
 		BasicVulnerable:     0,
 		BasicSpecialDamage:  0,

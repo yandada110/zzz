@@ -11,7 +11,7 @@ const (
 	// 每个队伍可分配的词条数（示例值）
 	GlobalMainArticle = 55
 	// 词条类型数量
-	GlobalMainArticleTypeCount = 8
+	GlobalMainArticleTypeCount = 6
 	// 暴击值上限
 	CriticalCount = 100
 )
@@ -19,11 +19,13 @@ const (
 var AttackPercentageEntriesLimit = map[string]int{
 	common.Critical:        15,
 	common.ExplosiveInjury: 15,
+	common.Proficient:      15,
 }
 
 var ExplosiveInjuryEntriesLimit = map[string]int{
 	common.Critical:        30,
 	common.ExplosiveInjury: 25,
+	common.Proficient:      30,
 }
 
 var ProficientEntriesLimit = map[string]int{
@@ -72,10 +74,10 @@ func MagnificationBase1() []*Magnification {
 		},
 		&Magnification{
 			MagnificationValue: common.AbnormalMagnification[common.Physical],
-			TriggerTimes:       5,
+			TriggerTimes:       3.5,
 			Name:               "强击",
 			DamageType:         common.Abnormal,
-			ExplosiveInjury:    50,
+			SpecialDamage:      50,
 		},
 	}
 }
@@ -102,10 +104,10 @@ func MagnificationBase2() []*Magnification {
 		},
 		&Magnification{
 			MagnificationValue: common.AbnormalMagnification[common.Physical],
-			TriggerTimes:       3,
+			TriggerTimes:       2.5,
 			Name:               "强击",
 			DamageType:         common.Abnormal,
-			ExplosiveInjury:    50,
+			SpecialDamage:      50,
 		},
 	}
 }
@@ -117,6 +119,7 @@ func (i *Initializations) InitializationBase1(role *Role.BaseRole, article *arms
 		BasicExplosiveInjury:     role.ExplosiveInjury,                       // 基础爆伤（角色+武器+2件套+4号位）
 		BasicIncreasedDamage:     role.IncreasedDamage,                       // 基础增伤（角色+武器+驱动盘）
 		BasicReductionResistance: role.ReductionResistance,                   // 基础减抗（角色+武器+驱动盘）
+		BasicProficient:          role.Proficient,                            // 基础精通（角色）
 	}
 	i.Gain = &Gain{
 		AttackValue:              316, // 攻击力值增加(固定2号位数值)
@@ -163,7 +166,7 @@ func (i *Initializations) HandleNumberFour() {
 		i.Basic.BasicExplosiveInjury += 48
 	}
 	if i.NumberFour == common.Proficient {
-		i.Basic.BasicExplosiveInjury += 92
+		i.Basic.BasicProficient += 92
 	}
 }
 
@@ -175,7 +178,7 @@ func (i *Initializations) HandleArticleType(article *arms.MainArticle) {
 		i.Basic.BasicExplosiveInjury += article.MainArticle
 	}
 	if article.Type == common.Proficient {
-		i.Basic.Proficient += article.MainArticle
+		i.Basic.BasicProficient += article.MainArticle
 	}
 	if article.Type == common.AttackPowerPercentage {
 		i.Gain.AttackPowerPercentage += article.MainArticle

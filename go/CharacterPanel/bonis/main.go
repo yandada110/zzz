@@ -12,7 +12,7 @@ const (
 	ExplosiveInjury  = "ExplosiveInjury"
 	IncreasedDamage  = "IncreasedDamage"
 	Penetrate        = "Penetrate"
-	Proficient       = "Proficient" // 精通
+	Proficient       = "BasicProficient" // 精通
 
 	// 每个队伍可分配的词条数（示例值）
 	GlobalMainArticle = 45
