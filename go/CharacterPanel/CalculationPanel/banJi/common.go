@@ -28,19 +28,19 @@ func MagnificationBase1() []*Magnification {
 	return []*Magnification{
 		&Magnification{
 			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       20,
+			TriggerTimes:       9,
 			Name:               "普通追击",
 			IncreasedDamage:    25 + 15,
 		},
 		&Magnification{
 			MagnificationValue: 45.7*3 + 91.4,
-			TriggerTimes:       18,
+			TriggerTimes:       12,
 			Name:               "fire模式",
 			IncreasedDamage:    25 + 15,
 		},
 		&Magnification{
 			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       8,
+			TriggerTimes:       14,
 			Name:               "协战模式",
 			IncreasedDamage:    25 + 15,
 		},
@@ -55,15 +55,20 @@ func MagnificationBase1() []*Magnification {
 			Name:               "终结技+连携技",
 		},
 	}
-
 }
 
 func MagnificationBase2() []*Magnification {
 	return []*Magnification{
 		&Magnification{
 			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       3,
+			TriggerTimes:       5,
 			Name:               "普通追击",
+			IncreasedDamage:    25 + 15,
+		},
+		&Magnification{
+			MagnificationValue: 45.7*3 + 91.4,
+			TriggerTimes:       2,
+			Name:               "fire模式",
 			IncreasedDamage:    25 + 15,
 		},
 	}
@@ -73,21 +78,21 @@ func MagnificationBase3() []*Magnification {
 	return []*Magnification{
 		&Magnification{
 			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       20 + 10,
+			TriggerTimes:       13,
 			Name:               "普通追击",
-			IncreasedDamage:    25 + 15 + 30,
+			IncreasedDamage:    25 + 15,
 		},
 		&Magnification{
 			MagnificationValue: 45.7*3 + 91.4,
-			TriggerTimes:       18,
+			TriggerTimes:       12,
 			Name:               "fire模式",
-			IncreasedDamage:    25 + 15 + 30,
+			IncreasedDamage:    25 + 15,
 		},
 		&Magnification{
 			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       8,
+			TriggerTimes:       14,
 			Name:               "协战模式",
-			IncreasedDamage:    25 + 15 + 30,
+			IncreasedDamage:    25 + 15,
 		},
 		&Magnification{
 			MagnificationValue: 1269.1,
@@ -100,16 +105,21 @@ func MagnificationBase3() []*Magnification {
 			Name:               "终结技+连携技",
 		},
 	}
-
 }
 
 func MagnificationBase4() []*Magnification {
 	return []*Magnification{
 		&Magnification{
 			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       3 + 2,
+			TriggerTimes:       7,
 			Name:               "普通追击",
-			IncreasedDamage:    25 + 15 + 30,
+			IncreasedDamage:    25 + 15,
+		},
+		&Magnification{
+			MagnificationValue: 45.7*3 + 91.4,
+			TriggerTimes:       2,
+			Name:               "fire模式",
+			IncreasedDamage:    25 + 15,
 		},
 	}
 }
@@ -118,21 +128,21 @@ func MagnificationBase5() []*Magnification {
 	return []*Magnification{
 		&Magnification{
 			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       20 + 10,
+			TriggerTimes:       9,
 			Name:               "普通追击",
-			IncreasedDamage:    25 + 15,
+			IncreasedDamage:    25 + 15 + 30,
 		},
 		&Magnification{
 			MagnificationValue: 45.7*3 + 91.4,
-			TriggerTimes:       18,
+			TriggerTimes:       12,
 			Name:               "fire模式",
-			IncreasedDamage:    25 + 15,
+			IncreasedDamage:    25 + 15 + 30,
 		},
 		&Magnification{
 			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       8,
+			TriggerTimes:       14,
 			Name:               "协战模式",
-			IncreasedDamage:    25 + 15,
+			IncreasedDamage:    25 + 15 + 30,
 		},
 		&Magnification{
 			MagnificationValue: 1269.1,
@@ -145,16 +155,71 @@ func MagnificationBase5() []*Magnification {
 			Name:               "终结技+连携技",
 		},
 	}
-
 }
 
 func MagnificationBase6() []*Magnification {
 	return []*Magnification{
 		&Magnification{
 			MagnificationValue: 96.3 * 2,
-			TriggerTimes:       3 + 2,
+			TriggerTimes:       5,
 			Name:               "普通追击",
-			IncreasedDamage:    25 + 15,
+			IncreasedDamage:    25 + 15 + 30,
+		},
+		&Magnification{
+			MagnificationValue: 45.7*3 + 91.4,
+			TriggerTimes:       2,
+			Name:               "fire模式",
+			IncreasedDamage:    25 + 15 + 30,
+		},
+	}
+}
+
+func MagnificationBase7() []*Magnification {
+	return []*Magnification{
+		&Magnification{
+			MagnificationValue: 96.3 * 2,
+			TriggerTimes:       13,
+			Name:               "普通追击",
+			IncreasedDamage:    25 + 15 + 30,
+		},
+		&Magnification{
+			MagnificationValue: 45.7*3 + 91.4,
+			TriggerTimes:       12,
+			Name:               "fire模式",
+			IncreasedDamage:    25 + 15 + 30,
+		},
+		&Magnification{
+			MagnificationValue: 96.3 * 2,
+			TriggerTimes:       14,
+			Name:               "协战模式",
+			IncreasedDamage:    25 + 15 + 30,
+		},
+		&Magnification{
+			MagnificationValue: 1269.1,
+			TriggerTimes:       2,
+			Name:               "强化特殊技+特殊技",
+		},
+		&Magnification{
+			MagnificationValue: 1150 + 2961.1,
+			TriggerTimes:       1,
+			Name:               "终结技+连携技",
+		},
+	}
+}
+
+func MagnificationBase8() []*Magnification {
+	return []*Magnification{
+		&Magnification{
+			MagnificationValue: 96.3 * 2,
+			TriggerTimes:       7,
+			Name:               "普通追击",
+			IncreasedDamage:    25 + 15 + 30,
+		},
+		&Magnification{
+			MagnificationValue: 45.7*3 + 91.4,
+			TriggerTimes:       2,
+			Name:               "fire模式",
+			IncreasedDamage:    25 + 15 + 30,
 		},
 	}
 }

@@ -19,14 +19,14 @@ func 安比01扳机0拘缚者嘉音00() *Initializations {
 
 	init.Initializations = []*Initialization{
 		&Initialization{
-			Magnifications: MagnificationBase3(),
+			Magnifications: MagnificationBase5(),
 			Name:           name + "-站场",
 			Gain:           &Gain{},
 			Output:         &Output{},
 			CurrentPanel:   &CurrentPanel{},
 		},
 		&Initialization{
-			Magnifications: MagnificationBase4(),
+			Magnifications: MagnificationBase6(),
 			Gain: &Gain{
 				Vulnerable: 50,
 			},
@@ -83,14 +83,14 @@ func 安比01扳机1拘缚者嘉音00() *Initializations {
 
 	init.Initializations = []*Initialization{
 		&Initialization{
-			Magnifications: MagnificationBase3(),
+			Magnifications: MagnificationBase7(),
 			Name:           name + "-站场",
 			Gain:           &Gain{},
 			Output:         &Output{},
 			CurrentPanel:   &CurrentPanel{},
 		},
 		&Initialization{
-			Magnifications: MagnificationBase4(),
+			Magnifications: MagnificationBase8(),
 			Gain: &Gain{
 				Vulnerable: 50,
 			},
@@ -115,14 +115,14 @@ func 安比01扳机11嘉音00() *Initializations {
 
 	init.Initializations = []*Initialization{
 		&Initialization{
-			Magnifications: MagnificationBase5(),
+			Magnifications: MagnificationBase3(),
 			Name:           name + "-站场",
 			Gain:           &Gain{},
 			Output:         &Output{},
 			CurrentPanel:   &CurrentPanel{},
 		},
 		&Initialization{
-			Magnifications: MagnificationBase6(),
+			Magnifications: MagnificationBase4(),
 			Gain: &Gain{
 				Vulnerable: 50,
 			},
@@ -147,14 +147,14 @@ func 安比01扳机21嘉音00() *Initializations {
 
 	init.Initializations = []*Initialization{
 		&Initialization{
-			Magnifications: MagnificationBase5(),
+			Magnifications: MagnificationBase3(),
 			Name:           name + "-站场",
 			Gain:           &Gain{},
 			Output:         &Output{},
 			CurrentPanel:   &CurrentPanel{},
 		},
 		&Initialization{
-			Magnifications: MagnificationBase6(),
+			Magnifications: MagnificationBase4(),
 			Gain: &Gain{
 				Vulnerable: 50,
 			},
