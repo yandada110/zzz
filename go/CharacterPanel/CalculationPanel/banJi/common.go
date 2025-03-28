@@ -9,7 +9,7 @@ import (
 // ------------------------ 常量定义 ------------------------
 const (
 	// 每个队伍可分配的词条数（示例值）
-	GlobalMainArticle = 55
+	GlobalMainArticle = 45
 	// 词条类型数量
 	GlobalMainArticleTypeCount = 5
 )
@@ -313,6 +313,7 @@ func (i *Initializations) InitializationBase2(role *Role.BaseRole, article *arms
 		BasicExplosiveInjury:     role.ExplosiveInjury,                       // 基础爆伤（角色+武器+2件套+4号位）
 		BasicIncreasedDamage:     role.IncreasedDamage,                       // 基础增伤（角色+武器+驱动盘）
 		BasicReductionResistance: role.ReductionResistance,                   // 基础减抗（角色+武器+驱动盘）
+		BasicVulnerable:          role.BasicVulnerable,                       // 基础减抗（角色+武器+驱动盘）
 	}
 	if i.NumberFour == common.Critical {
 		i.Basic.BasicCritical += 24

@@ -178,9 +178,6 @@ func (i *Initializations) initializationCount() {
 }
 
 func (i *Initializations) checkCondition(slots map[string]int) bool {
-	if slots[common.AttackPowerPercentage] < 10 {
-		return false
-	}
 	pairStatus := false
 	// 例如：校验（穿透+增伤）词条数量是否满足要求
 	for _, pair := range common.AllowedGroupB {
@@ -238,11 +235,15 @@ func (i *Initializations) checkCondition(slots map[string]int) bool {
 
 	// 攻击力最少都有4个词条
 	if slots[common.IncreasedDamage]+slots[common.Penetrate] >= 10 {
-		if slots[common.AttackPowerPercentage] < 4 {
+		if slots[common.AttackPowerPercentage] < 5 {
+			return false
+		}
+	} else if slots[common.IncreasedDamage]+slots[common.Penetrate] == 3 {
+		if slots[common.AttackPowerPercentage] < 15 {
 			return false
 		}
 	} else {
-		if slots[common.AttackPowerPercentage] < 13 {
+		if slots[common.AttackPowerPercentage] < 18 {
 			return false
 		}
 	}

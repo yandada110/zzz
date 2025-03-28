@@ -275,3 +275,19 @@ func LaiTe01() *BuffCharacter {
 		DefenseBreak:             0,
 	}
 }
+
+func NiKe65() *BuffCharacter {
+	return &BuffCharacter{
+		AttackValue:              0,
+		AttackInternalPercentage: 0,
+		Critical:                 8,
+		ExplosiveInjury:          0,
+		Proficient:               0,
+		ReductionResistance:      0,
+		IncreasedDamage:          20,
+		Vulnerable:               0,
+		SpecialDamage:            0,
+		Penetration:              0,
+		DefenseBreak:             40,
+	}
+}

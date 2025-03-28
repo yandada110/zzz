@@ -6,8 +6,8 @@ import (
 	"zzz/CharacterPanel/common"
 )
 
-func 安比01扳机0拘缚者嘉音00() *Initializations {
-	name := "安比01扳机0拘缚者嘉音00"
+func 安比01扳机0拘缚者丽娜10() *Initializations {
+	name := "安比01扳机0拘缚者丽娜10"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.Critical,
@@ -15,7 +15,7 @@ func 安比01扳机0拘缚者嘉音00() *Initializations {
 	// 初始化基础数值
 	init.InitializationBase2(Role.BanJi(), arms.JuFuZhe(true))
 	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.BanJi00(), Role.JiaYin00()})
+	init.InitializationRole([]*Role.BuffCharacter{Role.BanJi00(), Role.LiNa10()})
 
 	init.Initializations = []*Initialization{
 		&Initialization{
@@ -38,8 +38,8 @@ func 安比01扳机0拘缚者嘉音00() *Initializations {
 	return init
 }
 
-func 安比01扳机01嘉音00() *Initializations {
-	name := "安比01扳机01嘉音00"
+func 安比01扳机01丽娜10() *Initializations {
+	name := "安比01扳机01丽娜10"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.ExplosiveInjury,
@@ -47,7 +47,7 @@ func 安比01扳机01嘉音00() *Initializations {
 	// 初始化基础数值
 	init.InitializationBase1(Role.BanJi(), arms.SuoHunYingMou(false))
 	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.BanJi01(), Role.JiaYin00()})
+	init.InitializationRole([]*Role.BuffCharacter{Role.BanJi01(), Role.LiNa10()})
 
 	init.Initializations = []*Initialization{
 		&Initialization{
@@ -70,8 +70,8 @@ func 安比01扳机01嘉音00() *Initializations {
 	return init
 }
 
-func 安比01扳机1拘缚者嘉音00() *Initializations {
-	name := "安比01扳机1拘缚者嘉音00"
+func 安比01扳机1拘缚者丽娜10() *Initializations {
+	name := "安比01扳机1拘缚者丽娜10"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.Critical,
@@ -79,7 +79,7 @@ func 安比01扳机1拘缚者嘉音00() *Initializations {
 	// 初始化基础数值
 	init.InitializationBase2(Role.BanJi(), arms.JuFuZhe(true))
 	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.BanJi10(), Role.JiaYin00()})
+	init.InitializationRole([]*Role.BuffCharacter{Role.BanJi10(), Role.LiNa10()})
 
 	init.Initializations = []*Initialization{
 		&Initialization{
@@ -102,8 +102,8 @@ func 安比01扳机1拘缚者嘉音00() *Initializations {
 	return init
 }
 
-func 安比01扳机11嘉音00() *Initializations {
-	name := "安比01扳机11嘉音00"
+func 安比01扳机11丽娜10() *Initializations {
+	name := "安比01扳机11丽娜10"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.ExplosiveInjury,
@@ -111,7 +111,7 @@ func 安比01扳机11嘉音00() *Initializations {
 	// 初始化基础数值
 	init.InitializationBase1(Role.BanJi(), arms.SuoHunYingMou(false))
 	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.BanJi11(), Role.JiaYin00()})
+	init.InitializationRole([]*Role.BuffCharacter{Role.BanJi11(), Role.LiNa10()})
 
 	init.Initializations = []*Initialization{
 		&Initialization{
@@ -134,8 +134,8 @@ func 安比01扳机11嘉音00() *Initializations {
 	return init
 }
 
-func 安比01扳机21嘉音00() *Initializations {
-	name := "安比01扳机21嘉音00"
+func 安比01扳机21丽娜10() *Initializations {
+	name := "安比01扳机21丽娜10"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.ExplosiveInjury,
@@ -143,7 +143,7 @@ func 安比01扳机21嘉音00() *Initializations {
 	// 初始化基础数值
 	init.InitializationBase1(Role.BanJi(), arms.SuoHunYingMou(false))
 	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.BanJi21(), Role.JiaYin00()})
+	init.InitializationRole([]*Role.BuffCharacter{Role.BanJi21(), Role.LiNa10()})
 
 	init.Initializations = []*Initialization{
 		&Initialization{
@@ -166,8 +166,8 @@ func 安比01扳机21嘉音00() *Initializations {
 	return init
 }
 
-func 安比01扳机0德玛拉嘉音00() *Initializations {
-	name := "安比01扳机0德玛拉嘉音00"
+func 安比01扳机0德玛拉丽娜10() *Initializations {
+	name := "安比01扳机0德玛拉丽娜10"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.ExplosiveInjury,
@@ -175,7 +175,7 @@ func 安比01扳机0德玛拉嘉音00() *Initializations {
 	// 初始化基础数值
 	init.InitializationBase1(Role.BanJi(), arms.DeMaLaDianChi(true))
 	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.JiaYin00()})
+	init.InitializationRole([]*Role.BuffCharacter{Role.LiNa10()})
 
 	init.Initializations = []*Initialization{
 		&Initialization{
@@ -198,8 +198,8 @@ func 安比01扳机0德玛拉嘉音00() *Initializations {
 	return init
 }
 
-func 安比01扳机0裁纸刀嘉音00() *Initializations {
-	name := "安比01扳机0裁纸刀嘉音00"
+func 安比01扳机0裁纸刀丽娜10() *Initializations {
+	name := "安比01扳机0裁纸刀丽娜10"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.ExplosiveInjury,
@@ -207,7 +207,7 @@ func 安比01扳机0裁纸刀嘉音00() *Initializations {
 	// 初始化基础数值
 	init.InitializationBase1(Role.BanJi(), arms.CaiZhiDao(true))
 	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.JiaYin00()})
+	init.InitializationRole([]*Role.BuffCharacter{Role.LiNa10()})
 
 	init.Initializations = []*Initialization{
 		&Initialization{
