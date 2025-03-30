@@ -19,11 +19,11 @@ func main() {
 		// 输出整体最佳方案
 		fmt.Println("【整体最佳方案】计算次数：", strconv.Itoa(total), "有效计算次数：", strconv.Itoa(efficientTotal))
 		fmt.Println("最佳词条分配方案:")
-		fmt.Printf("  攻击力词条: %d, 精通词条词条: %d, 暴击词条: %d, 爆伤词条: %d, 增伤词条: %d, 穿透词条: %d,攻击值词条: %d,穿透值词条: %d\n",
+		fmt.Printf("  攻击力词条: %d, 精通词条词条: %d,  增伤词条: %d, 穿透词条: %d,攻击值词条: %d,穿透值词条: %d\n",
 			bestDistribution[common.AttackPowerPercentage],
 			bestDistribution[common.Proficient],
-			bestDistribution[common.Critical],
-			bestDistribution[common.ExplosiveInjury],
+			//bestDistribution[common.Critical],
+			//bestDistribution[common.ExplosiveInjury],
 			bestDistribution[common.IncreasedDamage],
 			bestDistribution[common.Penetrate],
 			bestDistribution[common.AttackValue],
@@ -51,11 +51,11 @@ func (i *Initializations) OutputResult(bestDistribution map[string]int) {
 			if bestDistribution[common.Penetrate] == 10 {
 				penetration = 24
 			}
-			fmt.Printf("  攻击力: %.2f, 精通值: %.0f, 暴击: %.2f%%, 爆伤: %.2f%%,  穿透值: %.0f, 增伤: %.2f%%, 穿透: %.2f%%，破防: %.2f%%\n",
+			fmt.Printf("  攻击力: %.2f, 精通值: %.0f, 穿透值: %.0f, 增伤: %.2f%%, 穿透: %.2f%%，破防: %.2f%%\n",
 				internalPanel.Attack,
 				internalPanel.Proficient,
-				internalPanel.Critical,
-				internalPanel.ExplosiveInjury,
+				//internalPanel.Critical,
+				//internalPanel.ExplosiveInjury,
 				internalPanel.PenetrationValue,
 				internalPanel.IncreasedDamage,
 				i.Defense.Penetration+penetration,

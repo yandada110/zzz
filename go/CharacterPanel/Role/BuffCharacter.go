@@ -280,14 +280,30 @@ func NiKe65() *BuffCharacter {
 	return &BuffCharacter{
 		AttackValue:              0,
 		AttackInternalPercentage: 0,
-		Critical:                 8,
+		Critical:                 0,
 		ExplosiveInjury:          0,
 		Proficient:               0,
 		ReductionResistance:      0,
-		IncreasedDamage:          20,
+		IncreasedDamage:          10,
 		Vulnerable:               0,
 		SpecialDamage:            0,
 		Penetration:              0,
-		DefenseBreak:             40,
+		DefenseBreak:             20,
+	}
+}
+
+func LuXi65() *BuffCharacter {
+	return &BuffCharacter{
+		AttackValue:              600,
+		AttackInternalPercentage: 12,
+		Critical:                 0,
+		ExplosiveInjury:          10,
+		Proficient:               0,
+		ReductionResistance:      0,
+		IncreasedDamage:          8,
+		Vulnerable:               0,
+		SpecialDamage:            0,
+		Penetration:              0,
+		DefenseBreak:             0,
 	}
 }
