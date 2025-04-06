@@ -280,7 +280,7 @@ func NiKe65() *BuffCharacter {
 	return &BuffCharacter{
 		AttackValue:              0,
 		AttackInternalPercentage: 0,
-		Critical:                 0,
+		Critical:                 5,
 		ExplosiveInjury:          0,
 		Proficient:               0,
 		ReductionResistance:      0,
@@ -292,7 +292,7 @@ func NiKe65() *BuffCharacter {
 	}
 }
 
-func LuXi65() *BuffCharacter {
+func LuXi65YaoBai() *BuffCharacter {
 	return &BuffCharacter{
 		AttackValue:              600,
 		AttackInternalPercentage: 12,
@@ -300,10 +300,74 @@ func LuXi65() *BuffCharacter {
 		ExplosiveInjury:          10,
 		Proficient:               0,
 		ReductionResistance:      0,
-		IncreasedDamage:          8,
+		IncreasedDamage:          15,
 		Vulnerable:               0,
 		SpecialDamage:            0,
 		Penetration:              0,
 		DefenseBreak:             0,
+	}
+}
+
+func LuXi65JiaYin() *BuffCharacter {
+	return &BuffCharacter{
+		AttackValue:              600,
+		AttackInternalPercentage: 12,
+		Critical:                 0,
+		ExplosiveInjury:          10,
+		Proficient:               0,
+		ReductionResistance:      0,
+		IncreasedDamage:          15,
+		Vulnerable:               0,
+		SpecialDamage:            0,
+		Penetration:              0,
+		DefenseBreak:             0,
+	}
+}
+
+func QingYi01() *BuffCharacter {
+	return &BuffCharacter{
+		AttackValue:              0,
+		AttackInternalPercentage: 0,
+		Critical:                 0,
+		ExplosiveInjury:          0,
+		Proficient:               0,
+		ReductionResistance:      0,
+		IncreasedDamage:          20,
+		Vulnerable:               80,
+		SpecialDamage:            0,
+		Penetration:              0,
+		DefenseBreak:             0,
+	}
+}
+
+func QingYi00() *BuffCharacter {
+	return &BuffCharacter{
+		AttackValue:              0,
+		AttackInternalPercentage: 0,
+		Critical:                 0,
+		ExplosiveInjury:          0,
+		Proficient:               0,
+		ReductionResistance:      0,
+		IncreasedDamage:          00,
+		Vulnerable:               80,
+		SpecialDamage:            0,
+		Penetration:              0,
+		DefenseBreak:             0,
+	}
+}
+
+func ShiHengNiKe65() *BuffCharacter {
+	return &BuffCharacter{
+		AttackValue:              0,
+		AttackInternalPercentage: 0,
+		Critical:                 15,
+		ExplosiveInjury:          0,
+		Proficient:               0,
+		ReductionResistance:      0,
+		IncreasedDamage:          20 + 15,
+		Vulnerable:               0,
+		SpecialDamage:            0,
+		Penetration:              0,
+		DefenseBreak:             40,
 	}
 }

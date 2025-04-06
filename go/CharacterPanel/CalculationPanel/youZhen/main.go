@@ -10,12 +10,9 @@ import (
 func main() {
 	// 初始化各套队伍（示例，具体初始化函数需自行实现）
 	initializations := []*Initializations{
-		安比01凯撒00嘉音00(),
-		安比01扳机00嘉音00(),
-		安比01扳机01嘉音00(),
-		安比01扳机10嘉音00(),
-		安比01扳机11嘉音00(),
-		安比01扳机21嘉音00(),
+		悠真61朋克青衣01嘉音00(),
+		悠真61如影青衣01嘉音00(),
+		悠真61如雷暴衣01嘉音00(),
 	}
 	// 针对每套队伍进行计算
 	for idx, initialization := range initializations {
@@ -86,7 +83,8 @@ func (i *Initializations) OutputResult(bestDistribution map[string]int) {
 		fmt.Println("--------------------------------------------------")
 		fmt.Println(model.Name, "-最终伤害:")
 		// 对每个技能分别调用 InitializationArea 更新输出数据后计算伤害
-		totalModelSkillDamage := i.CalculatingTotalDamage(model)
+		i.CharacterPanelWithDistribution(model, bestDistribution)
+		totalModelSkillDamage := i.CalculatingTotalDamage(model, bestDistribution)
 		fmt.Printf("  技能总伤害: %.6f\n", totalModelSkillDamage)
 		fmt.Println("--------------------------------------------------")
 	}
@@ -134,7 +132,7 @@ func (i *Initializations) FindOptimalDistribution() (bestSim *Initializations, b
 			if initialization.CurrentPanel.Penetration > 100 {
 				initialization.CurrentPanel.Penetration = 100
 			}
-			damage += i.CalculatingTotalDamage(initialization)
+			damage += i.CalculatingTotalDamage(initialization, distribution)
 			lastSim = append(lastSim, initialization.DeepCopy())
 		}
 		if lastSim == nil {

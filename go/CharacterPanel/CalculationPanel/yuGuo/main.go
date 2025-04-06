@@ -10,8 +10,8 @@ import (
 func main() {
 	// 初始化各套队伍（示例，具体初始化函数需自行实现）
 	initializations := []*Initializations{
-		安比01扳机01露西65(),
-		安比01扳机10露西65(),
+		伊芙琳01莱特01嘉音00(),
+		伊芙琳01扳机01嘉音00(),
 	}
 	// 针对每套队伍进行计算
 	for idx, initialization := range initializations {

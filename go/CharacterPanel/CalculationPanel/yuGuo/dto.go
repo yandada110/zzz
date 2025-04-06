@@ -143,17 +143,15 @@ type CurrentPanel struct {
 }
 
 type Magnification struct {
-	MagnificationValue       float64
-	TriggerTimes             float64
-	Name                     string
-	IncreasedDamage          float64
-	ReductionResistance      float64
-	DefenseBreak             float64
-	Penetration              float64
-	SpecialDamage            float64
-	ExplosiveInjury          float64
-	AttackInternalPercentage float64
-	Critical                 float64
+	MagnificationValue  float64
+	TriggerTimes        float64
+	Name                string
+	IncreasedDamage     float64
+	ReductionResistance float64
+	DefenseBreak        float64
+	Penetration         float64
+	SpecialDamage       float64
+	ExplosiveInjury     float64
 }
 
 // 队友提供的局内增益效果

@@ -28,7 +28,7 @@ func (i *Initializations) CharacterPanelWithDistribution(initialization *Initial
 		SpecialDamage:       i.Basic.BasicSpecialDamage + i.Gain.SpecialDamage + initialization.Gain.SpecialDamage,
 	}
 
-	i.HandleBasicAttack(initialization, common.AttackPowerPercentage, distribution[common.AttackPowerPercentage], 0)
+	i.HandleBasicAttack(initialization, common.AttackPowerPercentage, distribution[common.AttackPowerPercentage])
 	i.HandleBasicCritical(initialization, common.Critical, distribution[common.Critical])
 	i.HandleBasicExplosiveInjury(initialization, common.ExplosiveInjury, distribution[common.ExplosiveInjury])
 	i.HandleBasicIncreasedDamage(initialization, common.IncreasedDamage, distribution[common.IncreasedDamage])
@@ -37,12 +37,12 @@ func (i *Initializations) CharacterPanelWithDistribution(initialization *Initial
 
 // ===== 以下各函数处理词条加成 =====
 // HandleBasicAttack 根据攻击力词条增加攻击力
-func (i *Initializations) HandleBasicAttack(initialization *Initialization, key string, count int, attackInternalPercentage float64) {
+func (i *Initializations) HandleBasicAttack(initialization *Initialization, key string, count int) {
 	attackPowerPercentage := i.Gain.AttackPowerPercentage + initialization.Gain.AttackPowerPercentage
 	if key == common.AttackPowerPercentage {
 		attackPowerPercentage += 3 * float64(count)
 	}
-	initialization.CurrentPanel.Attack = (i.Basic.BasicAttack*(1+attackPowerPercentage/100)+i.Gain.AttackValue)*(1+(i.Gain.AttackInternalPercentage+attackInternalPercentage)/100) + i.Gain.AttackValue2
+	initialization.CurrentPanel.Attack = (i.Basic.BasicAttack*(1+attackPowerPercentage/100)+i.Gain.AttackValue)*(1+i.Gain.AttackInternalPercentage/100) + i.Gain.AttackValue2
 }
 
 // HandleBasicCritical 根据暴击词条更新暴击率，并计算转换为爆伤的词条数
@@ -101,10 +101,10 @@ func (i *Initializations) HandlePenetrateDamage(initialization *Initialization, 
 
 // ===== 以下各函数计算各分区加成 =====
 
-func (i *Initializations) CalculatingTotalDamage(initialization *Initialization, distribution map[string]int) float64 {
+func (i *Initializations) CalculatingTotalDamage(initialization *Initialization) float64 {
 	totalDamage := 0.0
 	for _, mag := range initialization.Magnifications {
-		i.InitializationArea(initialization, mag, distribution)
+		i.InitializationArea(initialization, mag)
 		damage := initialization.Output.BasicDamageArea *
 			initialization.Output.IncreasedDamageArea *
 			initialization.Output.ExplosiveInjuryArea *
@@ -117,20 +117,17 @@ func (i *Initializations) CalculatingTotalDamage(initialization *Initialization,
 	return totalDamage
 }
 
-func (i *Initializations) InitializationArea(initialization *Initialization, magnification *Magnification, distribution map[string]int) {
-	initialization.BasicDamageArea(i, magnification, distribution)
+func (i *Initializations) InitializationArea(initialization *Initialization, magnification *Magnification) {
+	initialization.BasicDamageArea(magnification)
 	initialization.IncreasedDamageArea(magnification)
 	initialization.ExplosiveInjuryArea(magnification)
 	i.DefenseArea(initialization, magnification)
 	initialization.ReductionResistanceArea(magnification)
 	initialization.VulnerableArea()
-	initialization.SpecialDamageArea()
+	initialization.SpecialDamageArea(magnification)
 }
 
-func (i *Initialization) BasicDamageArea(initializations *Initializations, magnification *Magnification, distribution map[string]int) {
-	if magnification.AttackInternalPercentage > 0 {
-		initializations.HandleBasicAttack(i, common.AttackPowerPercentage, distribution[common.AttackPowerPercentage], magnification.AttackInternalPercentage)
-	}
+func (i *Initialization) BasicDamageArea(magnification *Magnification) {
 	i.Output.BasicDamageArea = i.CurrentPanel.Attack * magnification.MagnificationValue / 100 * magnification.TriggerTimes
 }
 
@@ -157,8 +154,8 @@ func (i *Initialization) VulnerableArea() {
 	i.Output.VulnerableArea = 1 + (i.CurrentPanel.Vulnerable)/100
 }
 
-func (i *Initialization) SpecialDamageArea() {
-	i.Output.SpecialDamageArea = 1 + (i.CurrentPanel.SpecialDamage)/100
+func (i *Initialization) SpecialDamageArea(magnification *Magnification) {
+	i.Output.SpecialDamageArea = 1 + (i.CurrentPanel.SpecialDamage+magnification.SpecialDamage)/100
 }
 
 func (i *Initializations) initializationCount() {
@@ -216,10 +213,7 @@ func (i *Initializations) checkCondition(slots map[string]int) bool {
 		}
 	}
 	// 增伤+穿透 =3，说明2件套无法分配，攻击力必须>=10
-	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 3 {
-		if slots[common.AttackPowerPercentage] >= 14 && i.CriticalCount >= slots[common.Critical] && i.ExplosiveInjuryCount >= slots[common.ExplosiveInjury] {
-			return true
-		}
+	if (slots[common.IncreasedDamage]+slots[common.Penetrate] == 3) && slots[common.AttackPowerPercentage] >= 10 {
 		if i.AttackCount+10 >= slots[common.AttackPowerPercentage] {
 			fiveStatus = true
 		}
@@ -232,24 +226,20 @@ func (i *Initializations) checkCondition(slots map[string]int) bool {
 			}
 		}
 	}
-	//if slots[common.IncreasedDamage]+slots[common.Penetrate] == 13 {
-	if i.AttackCount <= slots[common.AttackPowerPercentage] {
-		fiveStatus = false
+	// 增伤+穿透 =13，说明承包了2件套和5号位选择，其他词条随意
+	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 13 {
+		if i.AttackCount >= slots[common.AttackPowerPercentage] && i.CriticalCount >= slots[common.Critical] && i.ExplosiveInjuryCount >= slots[common.ExplosiveInjury] {
+			fiveStatus = true
+		}
 	}
-	if i.CriticalCount <= slots[common.Critical] {
-		fiveStatus = false
-	}
-	if i.ExplosiveInjuryCount <= slots[common.ExplosiveInjury] {
-		fiveStatus = false
-	}
-	//}
+
 	// 攻击力最少都有4个词条
 	if slots[common.IncreasedDamage]+slots[common.Penetrate] >= 10 {
 		if slots[common.AttackPowerPercentage] < 4 {
 			return false
 		}
 	} else {
-		if slots[common.AttackPowerPercentage] < 14 {
+		if slots[common.AttackPowerPercentage] < 13 {
 			return false
 		}
 	}
