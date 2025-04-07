@@ -10,9 +10,9 @@ import (
 func main() {
 	// 初始化各套队伍（示例，具体初始化函数需自行实现）
 	initializations := []*Initializations{
-		悠真61朋克青衣01嘉音00(),
-		悠真61如影青衣01嘉音00(),
-		悠真61如雷暴衣01嘉音00(),
+		悠真01朋克青衣01丽娜11(),
+		悠真01如影青衣01丽娜11(),
+		悠真01雷暴青衣01丽娜11(),
 	}
 	// 针对每套队伍进行计算
 	for idx, initialization := range initializations {

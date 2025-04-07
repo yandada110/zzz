@@ -29,15 +29,15 @@ func (i *Initializations) DeepCopyData(list []*Initialization) *Initializations 
 		}
 	}
 	return &Initializations{
-		Name:                  i.Name,
-		NumberFour:            i.NumberFour,
-		AttackPercentageCount: i.AttackPercentageCount,
-		CriticalCount:         i.CriticalCount,
-		ExplosiveInjuryCount:  i.ExplosiveInjuryCount,
-		Basic:                 i.Basic.DeepCopy(),
-		Gain:                  i.Gain.DeepCopy(),
-		Defense:               i.Defense.DeepCopy(),
-		Initializations:       copyList,
+		Name:                 i.Name,
+		NumberFour:           i.NumberFour,
+		AttackCount:          i.AttackCount,
+		CriticalCount:        i.CriticalCount,
+		ExplosiveInjuryCount: i.ExplosiveInjuryCount,
+		Basic:                i.Basic.DeepCopy(),
+		Gain:                 i.Gain.DeepCopy(),
+		Defense:              i.Defense.DeepCopy(),
+		Initializations:      copyList,
 	}
 }
 
@@ -93,18 +93,15 @@ func (o *Output) DeepCopy() *Output {
 
 // ------------------------ 数据结构定义 ------------------------
 type Initializations struct {
-	Name                  string            // 队伍名称
-	NumberFour            string            // 4号位固定属性 暴击或者爆伤
-	AttackPercentageCount int               // 攻击力词条基础上限
-	CriticalCount         int               // 暴击词条基础上限
-	ExplosiveInjuryCount  int               // 爆伤词条基础上限
-	ProficientCount       int               // 精通词条基础上限
-	AttackValueCount      int               // 攻击值词条基础上限
-	PenetrationValueCount int               // 穿透值词条基础上限
-	Basic                 *Basic            // 角色基础面板，不变
-	Gain                  *Gain             // 队友增益，不变
-	Defense               *Defense          // 破防收益，不变
-	Initializations       []*Initialization // 计算不同模型集合（可以包含不同模型）
+	Name                 string            // 队伍名称
+	NumberFour           string            // 4号位固定属性 暴击或者爆伤
+	AttackCount          int               // 攻击力词条基础上限
+	CriticalCount        int               // 暴击词条基础上限
+	ExplosiveInjuryCount int               // 爆伤词条基础上限
+	Basic                *Basic            // 角色基础面板，不变
+	Gain                 *Gain             // 队友增益，不变
+	Defense              *Defense          // 破防收益，不变
+	Initializations      []*Initialization // 计算不同模型集合（可以包含不同模型）
 }
 
 type Initialization struct {
@@ -121,79 +118,59 @@ type ExternalPanel struct {
 	ExplosiveInjury float64
 }
 
-/*
-*
-基础面板数据
-*/
 type Basic struct {
-	BasicAttack              float64 // 攻击
-	BasicCritical            float64 // 暴击
-	BasicExplosiveInjury     float64 // 爆伤
-	BasicIncreasedDamage     float64 // 增伤
-	BasicReductionResistance float64 // 减抗
-	BasicVulnerable          float64 // 易伤
-	BasicSpecialDamage       float64 // 特殊乘区增伤
-	Penetration              float64 // 穿透
-	Proficient               float64 // 精通
-	AddTime                  float64 // 角色自身延长异常时间
+	BasicAttack              float64
+	BasicCritical            float64
+	BasicExplosiveInjury     float64
+	BasicIncreasedDamage     float64
+	BasicReductionResistance float64
+	BasicVulnerable          float64
+	BasicSpecialDamage       float64
+	Penetration              float64
 }
 
-/*
-*
-当前角色变化面板
-*/
 type CurrentPanel struct {
-	Attack              float64 // 攻击
-	Critical            float64 // 暴击
-	ExplosiveInjury     float64 // 爆伤
-	IncreasedDamage     float64 // 增伤
-	ReductionResistance float64 // 减抗
-	Vulnerable          float64 // 易伤
-	SpecialDamage       float64 // 特殊乘区增伤
-	Penetration         float64 // 穿透
-	DefenseBreak        float64 // 破防
-	PenetrationValue    float64 // 穿透值
-	Proficient          float64 // 精通
+	Attack              float64
+	Critical            float64
+	ExplosiveInjury     float64
+	IncreasedDamage     float64
+	ReductionResistance float64
+	Vulnerable          float64
+	SpecialDamage       float64
+	Penetration         float64
+	DefenseBreak        float64
+	PenetrationValue    float64
 }
 
-/*
-*
-技能倍率
-*/
 type Magnification struct {
-	MagnificationValue  float64 // 基础倍率 如技能倍率，异常倍率，紊乱倍率
-	TriggerTimes        float64 // 计算次数
-	Name                string  // 技能名称
-	IncreasedDamage     float64 // 增伤
-	ReductionResistance float64 // 减抗
-	DefenseBreak        float64 // 破防
-	Penetration         float64 // 穿透
-	SpecialDamage       float64 // 特殊增伤
-	ExplosiveInjury     float64 // 爆伤
-	DamageType          string  // 伤害类型，默认直伤类型
-	TimeConsumption     string  // 异常消耗时间量
+	MagnificationValue       float64
+	TriggerTimes             float64
+	Name                     string
+	IncreasedDamage          float64
+	ReductionResistance      float64
+	DefenseBreak             float64
+	Penetration              float64
+	SpecialDamage            float64
+	ExplosiveInjury          float64
+	AttackInternalPercentage float64
+	Critical                 float64
 }
 
-/*
-*
-队友增益，主要局内增益效果
-*/
+// 队友提供的局内增益效果
 type Gain struct {
-	AttackValue              float64 // 攻击-局外攻击力2号位，副词条
-	AttackValue2             float64 // 攻击-局内攻击力值-嘉音，凯撒
-	AttackPowerPercentage    float64 // 攻击百分比-局外-5号位，音擎主词条-2件套，副词条
-	AttackInternalPercentage float64 // 攻击百分比-局内-驱动盘四件套-阿炮
-	Critical                 float64 // 暴击 包括角色局内暴击率-队友暴击率
-	ExplosiveInjury          float64 // 爆伤 队友爆伤，角色局内爆伤
-	IncreasedDamage          float64 // 增伤
-	ReductionResistance      float64 // 减抗
-	Vulnerable               float64 // 易伤
-	SpecialDamage            float64 // 特殊城区
-	Penetration              float64 // 穿透
-	DefenseBreak             float64 // 破防
-	PenetrationValue         float64 // 穿透值
-	Proficient               float64 // 精通
-	AddTime                  float64 // 异常时间延长
+	AttackValue              float64
+	AttackValue2             float64
+	AttackPowerPercentage    float64
+	AttackInternalPercentage float64
+	Critical                 float64
+	ExplosiveInjury          float64
+	IncreasedDamage          float64
+	ReductionResistance      float64
+	Vulnerable               float64
+	SpecialDamage            float64
+	Penetration              float64
+	DefenseBreak             float64
+	PenetrationValue         float64
 }
 
 // 失衡状态下，额外提供的增益效果
@@ -210,28 +187,18 @@ type ImbalanceGain struct {
 	SpecialDamage            float64
 }
 
-/*
-*
-防御乘区数据
-*/
 type Defense struct {
-	Penetration      float64 // 穿透
-	DefenseBreak     float64 // 破防
-	PenetrationValue float64 // 穿透值
+	Penetration      float64
+	DefenseBreak     float64
+	PenetrationValue float64
 }
 
-/*
-*
-乘区数据
-*/
 type Output struct {
-	BasicDamageArea         float64 // 基础区
-	IncreasedDamageArea     float64 // 增伤区
-	ExplosiveInjuryArea     float64 // 爆伤区
-	DefenseArea             float64 // 防御区
-	ReductionResistanceArea float64 // 减抗区
-	VulnerableArea          float64 // 易伤区
-	SpecialDamageArea       float64 // 特殊区
-	GradeArea               float64 // 等级区
-	ProficientArea          float64 // 精通区
+	BasicDamageArea         float64
+	IncreasedDamageArea     float64
+	ExplosiveInjuryArea     float64
+	DefenseArea             float64
+	ReductionResistanceArea float64
+	VulnerableArea          float64
+	SpecialDamageArea       float64
 }

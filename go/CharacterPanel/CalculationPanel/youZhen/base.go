@@ -27,8 +27,7 @@ func (i *Initializations) CharacterPanelWithDistribution(initialization *Initial
 		Vulnerable:          i.Basic.BasicVulnerable + i.Gain.Vulnerable + initialization.Gain.Vulnerable,
 		SpecialDamage:       i.Basic.BasicSpecialDamage + i.Gain.SpecialDamage + initialization.Gain.SpecialDamage,
 	}
-
-	i.HandleBasicAttack(initialization, common.AttackPowerPercentage, distribution[common.AttackPowerPercentage], 0)
+	//i.HandleBasicAttack(initialization, common.AttackPowerPercentage, distribution[common.AttackPowerPercentage], 0)
 	i.HandleBasicCritical(initialization, common.Critical, distribution[common.Critical])
 	i.HandleBasicExplosiveInjury(initialization, common.ExplosiveInjury, distribution[common.ExplosiveInjury])
 	i.HandleBasicIncreasedDamage(initialization, common.IncreasedDamage, distribution[common.IncreasedDamage])
@@ -128,9 +127,7 @@ func (i *Initializations) InitializationArea(initialization *Initialization, mag
 }
 
 func (i *Initialization) BasicDamageArea(initializations *Initializations, magnification *Magnification, distribution map[string]int) {
-	if magnification.AttackInternalPercentage > 0 {
-		initializations.HandleBasicAttack(i, common.AttackPowerPercentage, distribution[common.AttackPowerPercentage], magnification.AttackInternalPercentage)
-	}
+	initializations.HandleBasicAttack(i, common.AttackPowerPercentage, distribution[common.AttackPowerPercentage], magnification.AttackInternalPercentage)
 	i.Output.BasicDamageArea = i.CurrentPanel.Attack * magnification.MagnificationValue / 100 * magnification.TriggerTimes
 }
 
