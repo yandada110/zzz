@@ -15,3 +15,18 @@ func JianDu() *BaseRole {
 		DefenseBreak:        0,
 	}
 }
+
+func WeiWeiAn() *BaseRole {
+	return &BaseRole{
+		AttackValue:         880,
+		Critical:            5,
+		ExplosiveInjury:     50,
+		Proficient:          144,
+		IncreasedDamage:     0,
+		ReductionResistance: 0,
+		BasicVulnerable:     0,
+		BasicSpecialDamage:  0,
+		Penetration:         0,
+		DefenseBreak:        0,
+	}
+}
