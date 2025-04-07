@@ -384,24 +384,31 @@ func MagnificationBase如雷专武() []*Magnification {
 			MagnificationValue:       325.1,
 			TriggerTimes:             1,
 			ExplosiveInjury:          12 * 3,
-			AttackInternalPercentage: aa,
 			Name:                     "飞弦斩",
 			IncreasedDamage:          40,
+			AttackInternalPercentage: aa,
 		},
 		&Magnification{
 			MagnificationValue:       333.8,
 			TriggerTimes:             1,
 			ExplosiveInjury:          12 * 3,
-			AttackInternalPercentage: aa,
 			Name:                     "飞弦斩",
 			IncreasedDamage:          40,
+			AttackInternalPercentage: aa,
 		},
 		&Magnification{
 			MagnificationValue:       379.9,
 			TriggerTimes:             1,
 			ExplosiveInjury:          12 * 3,
 			Name:                     "飞弦斩",
+			IncreasedDamage:          40,
 			AttackInternalPercentage: aa,
+		},
+		&Magnification{
+			MagnificationValue:       899.2,
+			TriggerTimes:             1,
+			AttackInternalPercentage: aa,
+			Name:                     "强化特殊技",
 			IncreasedDamage:          40,
 		},
 		&Magnification{
@@ -409,13 +416,6 @@ func MagnificationBase如雷专武() []*Magnification {
 			TriggerTimes:             1,
 			AttackInternalPercentage: aa,
 			Name:                     "终结技",
-		},
-		&Magnification{
-			MagnificationValue:       899.2,
-			TriggerTimes:             1,
-			Name:                     "强化特殊技",
-			AttackInternalPercentage: aa,
-			IncreasedDamage:          40,
 		},
 		&Magnification{
 			MagnificationValue:       325.1 + 333.8 + 379.9,
@@ -500,7 +500,7 @@ func MagnificationBase朋克专武6命() []*Magnification {
 }
 
 func MagnificationBase朋克专武() []*Magnification {
-	var aa float64 = 0
+	var aa float64 = 25
 	return []*Magnification{
 		&Magnification{
 			MagnificationValue:       1035.7,
@@ -540,34 +540,42 @@ func MagnificationBase朋克专武() []*Magnification {
 			AttackInternalPercentage: aa,
 		},
 		&Magnification{
+			MagnificationValue:       3908.6,
+			TriggerTimes:             1,
+			AttackInternalPercentage: aa,
+			Name:                     "终结技",
+		},
+		&Magnification{
 			MagnificationValue:       325.1,
 			TriggerTimes:             1,
 			ExplosiveInjury:          12 * 3,
-			AttackInternalPercentage: aa,
 			Name:                     "飞弦斩",
 			IncreasedDamage:          40,
+			AttackInternalPercentage: aa,
 		},
 		&Magnification{
 			MagnificationValue:       333.8,
 			TriggerTimes:             1,
 			ExplosiveInjury:          12 * 3,
-			AttackInternalPercentage: aa,
 			Name:                     "飞弦斩",
 			IncreasedDamage:          40,
+			AttackInternalPercentage: aa,
 		},
 		&Magnification{
 			MagnificationValue:       379.9,
 			TriggerTimes:             1,
 			ExplosiveInjury:          12 * 3,
 			Name:                     "飞弦斩",
-			AttackInternalPercentage: aa,
 			IncreasedDamage:          40,
+			AttackInternalPercentage: aa,
 		},
 		&Magnification{
-			MagnificationValue:       3908.6,
+			MagnificationValue:       325.1 + 333.8 + 379.9,
 			TriggerTimes:             1,
+			ExplosiveInjury:          12 * 3,
+			Name:                     "飞弦斩",
+			IncreasedDamage:          40,
 			AttackInternalPercentage: aa,
-			Name:                     "终结技",
 		},
 		&Magnification{
 			MagnificationValue: 899.2,
@@ -577,7 +585,7 @@ func MagnificationBase朋克专武() []*Magnification {
 		},
 		&Magnification{
 			MagnificationValue: 325.1 + 333.8 + 379.9,
-			TriggerTimes:       2,
+			TriggerTimes:       1,
 			ExplosiveInjury:    12 * 3,
 			Name:               "飞弦斩",
 			IncreasedDamage:    40,
@@ -817,7 +825,7 @@ func (i *Initializations) InitializationBase朋克(role *Role.BaseRole, article 
 		AttackValue:              316,     // 攻击力值增加(固定2号位数值)
 		AttackValue2:             0,       // 攻击力值增加(局内加的固定攻击力)
 		AttackPowerPercentage:    30 + 10, // 局外攻击力百分比(6号位+武器主词条+5号位+4号位+副词条)
-		AttackInternalPercentage: 25,      // 局内攻击力百分比(武器，4件套)
+		AttackInternalPercentage: 0,       // 局内攻击力百分比(武器，4件套)
 		Critical:                 25 + 10, // 增加暴击（角色+武器+4件套）
 		ExplosiveInjury:          0,       // 增加爆伤（角色+武器+2件套+4号位）
 		IncreasedDamage:          40,      // 增伤（队友百分比）

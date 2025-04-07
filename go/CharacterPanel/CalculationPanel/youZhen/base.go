@@ -31,7 +31,7 @@ func (i *Initializations) CharacterPanelWithDistribution(initialization *Initial
 	i.HandleBasicCritical(initialization, common.Critical, distribution[common.Critical])
 	i.HandleBasicExplosiveInjury(initialization, common.ExplosiveInjury, distribution[common.ExplosiveInjury])
 	i.HandleBasicIncreasedDamage(initialization, common.IncreasedDamage, distribution[common.IncreasedDamage])
-	i.HandlePenetrateDamage(initialization, common.Penetrate, distribution[common.Penetrate])
+	i.HandlePenetrateDamage(initialization, distribution[common.Penetrate])
 }
 
 // ===== 以下各函数处理词条加成 =====
@@ -80,18 +80,16 @@ func (i *Initializations) HandleBasicIncreasedDamage(initialization *Initializat
 }
 
 // HandlePenetrateDamage 根据穿透词条更新穿透率
-func (i *Initializations) HandlePenetrateDamage(initialization *Initialization, key string, count int) {
+func (i *Initializations) HandlePenetrateDamage(initialization *Initialization, count int) {
 	increasedDamage := i.Defense.Penetration
-	if key == common.Penetrate {
-		if count == 3 {
-			increasedDamage += 8
-		}
-		if count == 10 {
-			increasedDamage += 24
-		}
-		if count == 13 {
-			increasedDamage += 32
-		}
+	if count == 3 {
+		increasedDamage += 8
+	}
+	if count == 10 {
+		increasedDamage += 24
+	}
+	if count == 13 {
+		increasedDamage += 32
 	}
 	initialization.CurrentPanel.Penetration = i.Basic.Penetration + increasedDamage
 	initialization.CurrentPanel.DefenseBreak = i.Defense.DefenseBreak
@@ -229,15 +227,17 @@ func (i *Initializations) checkCondition(slots map[string]int) bool {
 			}
 		}
 	}
-	//if slots[common.IncreasedDamage]+slots[common.Penetrate] == 13 {
+	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 13 {
+		fiveStatus = true
+	}
 	if i.AttackCount <= slots[common.AttackPowerPercentage] {
-		fiveStatus = false
+		return false
 	}
 	if i.CriticalCount <= slots[common.Critical] {
-		fiveStatus = false
+		return false
 	}
 	if i.ExplosiveInjuryCount <= slots[common.ExplosiveInjury] {
-		fiveStatus = false
+		return false
 	}
 	//}
 	// 攻击力最少都有4个词条
@@ -271,6 +271,5 @@ func (i *Initializations) checkCondition(slots map[string]int) bool {
 			return false
 		}
 	}
-
 	return fiveStatus
 }
