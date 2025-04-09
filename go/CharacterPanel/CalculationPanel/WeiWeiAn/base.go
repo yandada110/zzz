@@ -145,6 +145,18 @@ func (i *Initializations) AbnormalDamage(initialization *Initialization) float64
 		initialization.Output.ExplosiveInjuryArea
 }
 
+func (i *Initializations) DisorderDamage(initialization *Initialization) float64 {
+	return initialization.Output.BasicDamageArea *
+		initialization.Output.IncreasedDamageArea *
+		initialization.Output.DefenseArea *
+		initialization.Output.ReductionResistanceArea *
+		initialization.Output.VulnerableArea *
+		initialization.Output.SpecialDamageArea *
+		initialization.Output.GradeArea *
+		initialization.Output.ProficientArea *
+		initialization.Output.ExplosiveInjuryArea
+}
+
 func (i *Initializations) InitializationArea(initialization *Initialization, magnification *Magnification) {
 	initialization.BasicDamageArea(magnification)
 	initialization.IncreasedDamageArea(magnification)

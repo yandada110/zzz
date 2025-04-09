@@ -1,5 +1,7 @@
 package common
 
+import "math"
+
 const (
 	Critical                 = "Critical"                 // 暴击
 	ExplosiveInjury          = "ExplosiveInjury"          // 爆伤
@@ -13,6 +15,36 @@ const (
 	DefenseBreak             = "DefenseBreak"             // 破防
 	PenetrationValue         = "PenetrationValue"         // 穿透值
 )
+
+var AttackPercentageEntriesLimit = map[string]int{
+	Critical:        15,
+	ExplosiveInjury: 15,
+	Proficient:      15,
+}
+
+var ExplosiveInjuryEntriesLimit = map[string]int{
+	Critical:        30,
+	ExplosiveInjury: 25,
+	Proficient:      30,
+}
+
+var ProficientEntriesLimit = map[string]int{
+	Critical:        30,
+	ExplosiveInjury: 30,
+	Proficient:      25,
+}
+
+var AttackValueEntriesLimit = map[string]int{
+	Critical:        30,
+	ExplosiveInjury: 30,
+	Proficient:      30,
+}
+
+var PenetrationValueEntriesLimit = map[string]int{
+	Critical:        30,
+	ExplosiveInjury: 30,
+	Proficient:      30,
+}
 
 const (
 	GainFormInsideTheBureau = 1 // 局内增益
@@ -52,4 +84,16 @@ var AbnormalMagnification = map[string]float64{
 	Physical:    713,
 	Ice:         500,
 	Ether:       62.5,
+}
+
+var DisorderMagnification = map[string]float64{
+	Fire:        4.5+FLOOR((10-C21)/0.5,2)*0.5),
+	Electricity: 125,
+	Physical:    713,
+	Ice:         500,
+	Ether:       62.5,
+}
+
+func Floor(number,timeTotal, significance float64) float64 {
+	return math.Floor(number/significance) * significance
 }

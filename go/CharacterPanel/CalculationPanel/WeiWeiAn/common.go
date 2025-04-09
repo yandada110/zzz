@@ -16,36 +16,6 @@ const (
 	CriticalCount = 100
 )
 
-var AttackPercentageEntriesLimit = map[string]int{
-	common.Critical:        15,
-	common.ExplosiveInjury: 15,
-	common.Proficient:      15,
-}
-
-var ExplosiveInjuryEntriesLimit = map[string]int{
-	common.Critical:        30,
-	common.ExplosiveInjury: 25,
-	common.Proficient:      30,
-}
-
-var ProficientEntriesLimit = map[string]int{
-	common.Critical:        30,
-	common.ExplosiveInjury: 30,
-	common.Proficient:      25,
-}
-
-var AttackValueEntriesLimit = map[string]int{
-	common.Critical:        30,
-	common.ExplosiveInjury: 30,
-	common.Proficient:      30,
-}
-
-var PenetrationValueEntriesLimit = map[string]int{
-	common.Critical:        30,
-	common.ExplosiveInjury: 30,
-	common.Proficient:      30,
-}
-
 func MagnificationBase1() []*Magnification {
 	return []*Magnification{
 		&Magnification{
@@ -123,12 +93,12 @@ func (i *Initializations) InitializationBase1(role *Role.BaseRole, article *arms
 	}
 	i.Gain = &Gain{
 		AttackValue:              316, // 攻击力值增加(固定2号位数值)
-		AttackValue2:             0,   // 攻击力值增加(局内加的固定攻击力)
+		AttackValue2:             600, // 攻击力值增加(局内加的固定攻击力)
 		AttackPowerPercentage:    0,   // 局外攻击力百分比(6号位+武器主词条+5号位+4号位+副词条)
 		AttackInternalPercentage: 0,   // 局内攻击力百分比(武器，4件套)
 		Critical:                 0,   // 增加暴击（角色+武器+4件套）
 		ExplosiveInjury:          0,   // 增加爆伤（角色+武器+2件套+4号位）
-		IncreasedDamage:          25,  // 增伤（角色自身）
+		IncreasedDamage:          0,   // 增伤（角色自身）
 		ReductionResistance:      0,   // 减抗（百分比）
 		Vulnerable:               0,   // 易伤（百分比）
 		SpecialDamage:            0,   // 特殊增伤（百分比）
