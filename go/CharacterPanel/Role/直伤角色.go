@@ -95,3 +95,19 @@ func YouZhen() *BaseRole {
 		DefenseBreak:        0,
 	}
 }
+
+// 朱鸢 /*
+func ZhuYuan() *BaseRole {
+	return &BaseRole{
+		AttackValue:         919,
+		Critical:            5,
+		ExplosiveInjury:     78.8,
+		Proficient:          92,
+		IncreasedDamage:     0,
+		ReductionResistance: 0,
+		BasicVulnerable:     0,
+		BasicSpecialDamage:  0,
+		Penetration:         0,
+		DefenseBreak:        0,
+	}
+}

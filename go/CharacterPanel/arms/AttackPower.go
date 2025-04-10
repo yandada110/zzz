@@ -20,3 +20,22 @@ func LiuHuangShi(type1 bool) *MainArticle {
 	}
 	return m
 }
+
+/*
+*
+星辉引擎
+*/
+func XinHuiYinQing(type1 bool) *MainArticle {
+	m := &MainArticle{}
+	m.BaseAttackValue = 594
+	m.MainArticle = 25
+	m.Type = common.AttackPowerPercentage
+	if type1 {
+		m.OtherBenefits = append(m.OtherBenefits, &OtherBenefits{
+			Value:    19.2,                            // 被动效果增益值
+			Type:     common.AttackInternalPercentage, // 被动效果增益值
+			GainForm: common.GainFormInsideFixed,      // 被动效果增益值
+		})
+	}
+	return m
+}
