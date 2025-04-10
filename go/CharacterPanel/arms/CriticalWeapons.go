@@ -79,3 +79,26 @@ func QianMianRiYun(type1 bool) *MainArticle {
 	//}
 	return m
 }
+
+/*
+*
+加农转子
+*/
+func JiaNongZhuanZi(type1 bool, number float64) *MainArticle {
+	m := &MainArticle{}
+	m.BaseAttackValue = 594
+	m.MainArticle = 20
+	m.Type = common.Critical
+	value := (number - 1) * 1.1
+	if number == 5 {
+		value = 4.5
+	}
+	if type1 {
+		m.OtherBenefits = append(m.OtherBenefits, &OtherBenefits{
+			Value:    7.5 + value,                     // 被动效果增益值
+			Type:     common.AttackInternalPercentage, // 被动效果增益值
+			GainForm: common.GainFormInsideFixed,      // 被动效果增益值
+		})
+	}
+	return m
+}

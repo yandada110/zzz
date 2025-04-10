@@ -58,12 +58,19 @@ func FangBaoZhe(type1 bool) *MainArticle {
 *
 残心青囊
 */
-func CanXinQingNang(type1 bool) *MainArticle {
+func CanXinQingNang(type1, type2 bool) *MainArticle {
 	m := &MainArticle{}
 	m.BaseAttackValue = 713
 	m.MainArticle = 48
 	m.Type = common.ExplosiveInjury
 	if type1 {
+		m.OtherBenefits = append(m.OtherBenefits, &OtherBenefits{
+			Value:    10,                         // 被动效果增益值
+			Type:     common.Critical,            // 被动效果增益值
+			GainForm: common.GainFormInsideFixed, // 被动效果增益值
+		})
+	}
+	if type2 {
 		m.OtherBenefits = append(m.OtherBenefits, &OtherBenefits{
 			Value:    10,                         // 被动效果增益值
 			Type:     common.Critical,            // 被动效果增益值

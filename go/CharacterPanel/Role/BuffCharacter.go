@@ -292,6 +292,26 @@ func NiKe65() *BuffCharacter {
 	}
 }
 
+/*
+*
+朱鸢+妮可配置 4摇摆
+*/
+func NiKe65_ZhuYuan() *BuffCharacter {
+	return &BuffCharacter{
+		AttackValue:              0,
+		AttackInternalPercentage: 0,
+		Critical:                 15,
+		ExplosiveInjury:          0,
+		Proficient:               0,
+		ReductionResistance:      0,
+		IncreasedDamage:          24 + 25 + 15,
+		Vulnerable:               0,
+		SpecialDamage:            0,
+		Penetration:              0,
+		DefenseBreak:             40,
+	}
+}
+
 func LuXi65YaoBai() *BuffCharacter {
 	return &BuffCharacter{
 		AttackValue:              600,

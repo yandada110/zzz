@@ -6,16 +6,16 @@ import (
 	"zzz/CharacterPanel/common"
 )
 
-func 悠真_强音_朋克青衣01丽娜11() *Initializations {
-	name := "悠真_强音_朋克青衣01丽娜11"
+func 朱鸢_强音_朋克青衣01丽娜11() *Initializations {
+	name := "朱鸢_强音_朋克青衣01丽娜11"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.ExplosiveInjury,
 	}
 	// 初始化基础数值
-	init.InitializationBase朋克(Role.YouZhen(), arms.QiangYinReWang(true, true))
+	init.InitializationBase朋克(Role.ZhuYuan(), arms.QiangYinReWang(true, true))
 	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.LiNa11()})
+	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.NiKe65_ZhuYuan()})
 
 	init.Initializations = []*Initialization{
 		{
@@ -31,8 +31,8 @@ func 悠真_强音_朋克青衣01丽娜11() *Initializations {
 	return init
 }
 
-func 悠真_强音_雷暴青衣01丽娜11() *Initializations {
-	name := "悠真_强音_雷暴青衣01丽娜11"
+func 朱鸢_强音_雷暴青衣01丽娜11() *Initializations {
+	name := "朱鸢_强音_雷暴青衣01丽娜11"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.ExplosiveInjury,
@@ -40,7 +40,7 @@ func 悠真_强音_雷暴青衣01丽娜11() *Initializations {
 	// 初始化基础数值
 	init.InitializationBase雷暴(Role.YouZhen(), arms.QiangYinReWang(true, true))
 	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.LiNa11()})
+	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.NiKe65_ZhuYuan()})
 
 	init.Initializations = []*Initialization{
 		{

@@ -13,7 +13,7 @@ func 悠真_强音_朋克青衣01丽娜11() *Initializations {
 		NumberFour: common.ExplosiveInjury,
 	}
 	// 初始化基础数值
-	init.InitializationBase朋克(Role.YouZhen(), arms.QiangYinReWang(true, true))
+	init.InitializationBase朋克(Role.YouZhen(), arms.QiangYinReWang(true, false))
 	// 初始化角色增益
 	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.LiNa11()})
 
@@ -38,7 +38,7 @@ func 悠真_强音_雷暴青衣01丽娜11() *Initializations {
 		NumberFour: common.ExplosiveInjury,
 	}
 	// 初始化基础数值
-	init.InitializationBase雷暴(Role.YouZhen(), arms.QiangYinReWang(true, true))
+	init.InitializationBase雷暴(Role.YouZhen(), arms.QiangYinReWang(true, false))
 	// 初始化角色增益
 	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.LiNa11()})
 
