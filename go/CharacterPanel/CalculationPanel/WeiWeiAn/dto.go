@@ -171,7 +171,8 @@ type Magnification struct {
 	SpecialDamage       float64 // 特殊增伤
 	ExplosiveInjury     float64 // 爆伤
 	DamageType          string  // 伤害类型，默认直伤类型
-	TimeConsumption     string  // 异常消耗时间量
+	DisorderType        string  // 紊乱伤害类型
+	TimeConsumption     float64 // 异常消耗时间量
 }
 
 /*

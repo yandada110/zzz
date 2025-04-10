@@ -17,11 +17,11 @@ func (i *Initializations) initializationCount() {
 		i.CriticalCount--
 	}
 	// 爆伤词条上限
-	i.ExplosiveInjuryCount = ExplosiveInjuryEntriesLimit[i.NumberFour]
-	i.AttackPercentageCount = AttackPercentageEntriesLimit[i.NumberFour]
-	i.ProficientCount = ProficientEntriesLimit[i.NumberFour]
-	i.AttackValueCount = AttackValueEntriesLimit[i.NumberFour]
-	i.PenetrationValueCount = PenetrationValueEntriesLimit[i.NumberFour]
+	i.ExplosiveInjuryCount = common.ExplosiveInjuryEntriesLimit[i.NumberFour]
+	i.AttackPercentageCount = common.AttackPercentageEntriesLimit[i.NumberFour]
+	i.ProficientCount = common.ProficientEntriesLimit[i.NumberFour]
+	i.AttackValueCount = common.AttackValueEntriesLimit[i.NumberFour]
+	i.PenetrationValueCount = common.PenetrationValueEntriesLimit[i.NumberFour]
 }
 
 func (i *Initializations) checkCondition(slots map[string]int) bool {

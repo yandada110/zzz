@@ -9,7 +9,7 @@ import (
 // ------------------------ 常量定义 ------------------------
 const (
 	// 每个队伍可分配的词条数（示例值）
-	GlobalMainArticle = 55
+	GlobalMainArticle = 50
 	// 词条类型数量
 	GlobalMainArticleTypeCount = 6
 	// 暴击值上限
@@ -18,36 +18,45 @@ const (
 
 func MagnificationBase1() []*Magnification {
 	return []*Magnification{
+		//&Magnification{
+		//	MagnificationValue: 72.4 + 125 + 167.1 + 327.3 + 197.8 + 582.8,
+		//	TriggerTimes:       6,
+		//	Name:               "普攻",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//&Magnification{
+		//	MagnificationValue: 602.2 + 323,
+		//	TriggerTimes:       3,
+		//	Name:               "萨霍夫跳",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//&Magnification{
+		//	MagnificationValue: 683.3,
+		//	TriggerTimes:       5,
+		//	Name:               "闪避反击",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//&Magnification{
+		//	MagnificationValue: 1150,
+		//	TriggerTimes:       2,
+		//	Name:               "强化特殊技",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//&Magnification{
+		//	MagnificationValue: common.AbnormalMagnification[common.Physical],
+		//	TriggerTimes:       3.5,
+		//	Name:               "强击",
+		//	DamageType:         common.Abnormal,
+		//	DisorderType:       common.Physical,
+		//	SpecialDamage:      50,
+		//},
 		&Magnification{
-			MagnificationValue: 72.4 + 125 + 167.1 + 327.3 + 197.8 + 582.8,
-			TriggerTimes:       6,
-			Name:               "普攻",
-			DamageType:         common.DirectInjury,
-		},
-		&Magnification{
-			MagnificationValue: 602.2 + 323,
-			TriggerTimes:       3,
-			Name:               "萨霍夫跳",
-			DamageType:         common.DirectInjury,
-		},
-		&Magnification{
-			MagnificationValue: 683.3,
-			TriggerTimes:       5,
-			Name:               "闪避反击",
-			DamageType:         common.DirectInjury,
-		},
-		&Magnification{
-			MagnificationValue: 1150,
-			TriggerTimes:       2,
-			Name:               "强化特殊技",
-			DamageType:         common.DirectInjury,
-		},
-		&Magnification{
-			MagnificationValue: common.AbnormalMagnification[common.Physical],
-			TriggerTimes:       3.5,
-			Name:               "强击",
-			DamageType:         common.Abnormal,
-			SpecialDamage:      50,
+			MagnificationValue: common.DisorderMagnification[common.Physical],
+			TriggerTimes:       1,
+			Name:               "畏缩结算",
+			DamageType:         common.Disorder,
+			DisorderType:       common.Physical,
+			TimeConsumption:    0,
 		},
 	}
 }

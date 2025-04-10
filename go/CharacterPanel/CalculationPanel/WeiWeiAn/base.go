@@ -170,7 +170,35 @@ func (i *Initializations) InitializationArea(initialization *Initialization, mag
 }
 
 func (i *Initialization) BasicDamageArea(magnification *Magnification) {
-	i.Output.BasicDamageArea = i.CurrentPanel.Attack * magnification.MagnificationValue / 100 * magnification.TriggerTimes
+	i.HandleDamageArea(magnification)
+}
+
+func (i *Initialization) HandleDamageArea(magnification *Magnification) {
+	switch magnification.DamageType {
+	case common.Disorder:
+		i.Output.BasicDamageArea = i.HandleDisorderArea(magnification)
+	case common.Abnormal:
+		i.Output.BasicDamageArea = i.CurrentPanel.Attack * magnification.MagnificationValue / 100 * magnification.TriggerTimes
+	default:
+		i.Output.BasicDamageArea = i.CurrentPanel.Attack * magnification.MagnificationValue / 100 * magnification.TriggerTimes
+	}
+}
+
+func (i *Initialization) HandleDisorderArea(magnification *Magnification) (basicDamageArea float64) {
+	switch magnification.DisorderType {
+	case common.Fire:
+		basicDamageArea = common.FireArea(common.TimeTotal, magnification.TimeConsumption, magnification.MagnificationValue)
+	case common.Electricity:
+		basicDamageArea = common.ElectricityArea(common.TimeTotal, magnification.TimeConsumption, magnification.MagnificationValue)
+	case common.Physical:
+		basicDamageArea = common.PhysicalArea(common.TimeTotal, magnification.TimeConsumption, magnification.MagnificationValue)
+	case common.Ice:
+		basicDamageArea = common.IceArea(common.TimeTotal, magnification.TimeConsumption, magnification.MagnificationValue)
+	case common.Ether:
+		basicDamageArea = common.EtherArea(common.TimeTotal, magnification.TimeConsumption, magnification.MagnificationValue)
+	}
+	//i.Output.BasicDamageArea = basicDamageArea
+	return basicDamageArea
 }
 
 func (i *Initialization) IncreasedDamageArea(magnification *Magnification) {

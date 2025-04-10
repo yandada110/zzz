@@ -8,9 +8,16 @@ import (
 
 // ------------------------ 主函数 ------------------------
 func main() {
+	//totalTime := 10.0   // 总时间
+	//usedTime := 0.0     // 消耗的时间，示例值
+	//multiplier := 0.075 // 倍率参数
+	//
+	//result := common.PhysicalArea(totalTime, usedTime, multiplier)
+	//fmt.Printf("计算结果: %.3f\n", result)
+	//return
 	// 初始化各套队伍（示例，具体初始化函数需自行实现）
 	initializations := []*Initializations{
-		简01赛斯65嘉音00(),
+		简01赛斯65薇薇安00(),
 	}
 	// 针对每套队伍进行计算
 	for idx, initialization := range initializations {
@@ -118,10 +125,10 @@ func (i *Initializations) FindOptimalDistribution() (bestSim *Initializations, b
 		distribution := map[string]int{
 			common.AttackPowerPercentage: dist[0],
 			common.AttackValue:           dist[1],
-			common.PenetrationValue:      dist[2],
-			common.IncreasedDamage:       dist[3],
-			common.Penetrate:             dist[4],
-			common.Proficient:            dist[5],
+			common.IncreasedDamage:       dist[2],
+			common.Penetrate:             dist[3],
+			common.Proficient:            dist[4],
+			common.PenetrationValue:      dist[5],
 		}
 		var damage = 0.0
 		var lastSim []*Initialization
