@@ -19,10 +19,13 @@ func main() {
 		// 输出整体最佳方案
 		fmt.Println("【整体最佳方案】计算次数：", strconv.Itoa(total), "有效计算次数：", strconv.Itoa(efficientTotal))
 		fmt.Println("最佳词条分配方案:")
-		fmt.Printf("  攻击力词条: %d, 暴击词条: %d, 爆伤词条: %d, 增伤词条: %d, 穿透词条: %d\n",
+		fmt.Printf("  攻击力词条: %d, 暴击词条: %d, 爆伤词条: %d,精通词条: %d, 攻击值词条: %d, 穿透值词条: %d, 增伤词条: %d, 穿透词条: %d\n",
 			bestDistribution[common.AttackPowerPercentage],
 			bestDistribution[common.Critical],
 			bestDistribution[common.ExplosiveInjury],
+			bestDistribution[common.Proficient],
+			initialization.Condition.AttackValueMin,
+			0,
 			bestDistribution[common.IncreasedDamage],
 			bestDistribution[common.Penetrate],
 		)
@@ -36,8 +39,8 @@ func (i *Initializations) OutputResult(bestDistribution map[string]int) {
 	// 输出各模型（不同计算方法）的局内、局外面板及【单模型】的技能伤害明细
 	for _, model := range i.Initializations { // 注意这里使用的是 Initialization 集合
 		if !status {
-			internalPanel := model.CurrentPanel
-			fmt.Println("局内面板:")
+			fmt.Println("--------------------------------------------------")
+			fmt.Println("局外面板:")
 			var penetration float64 = 0
 			if bestDistribution[common.Penetrate] == 3 {
 				penetration = 8
@@ -48,31 +51,24 @@ func (i *Initializations) OutputResult(bestDistribution map[string]int) {
 			if bestDistribution[common.Penetrate] == 10 {
 				penetration = 24
 			}
-			fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%, 增伤: %.2f%%, 穿透: %.2f%%，破防: %.2f%%\n",
+			attack := float64(bestDistribution[common.AttackPowerPercentage])*3 + i.Gain.AttackPowerPercentage
+			fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%,精通: %.0f, 穿透率: %.2f%%\n",
+				i.Basic.BasicAttack*(1+attack/100)+i.Gain.AttackValue+float64(i.Condition.AttackValueMin*9),
+				i.Basic.BasicCritical+float64(bestDistribution[common.Critical])*2.4,
+				i.Basic.BasicExplosiveInjury+float64(bestDistribution[common.ExplosiveInjury])*4.8,
+				i.Basic.BasicProficient+float64(bestDistribution[common.Proficient])*9,
+				penetration,
+			)
+			internalPanel := model.CurrentPanel
+			fmt.Println("局内面板:")
+			fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%, 增伤: %.2f%%, 穿透: %.2f%%，精通: %.0f， 破防: %.2f%%\n",
 				internalPanel.Attack,
 				internalPanel.Critical,
 				internalPanel.ExplosiveInjury,
 				internalPanel.IncreasedDamage,
+				internalPanel.Proficient,
 				i.Defense.Penetration+penetration,
 				internalPanel.DefenseBreak,
-			)
-			fmt.Println("--------------------------------------------------")
-			fmt.Println("局外面板:")
-			if bestDistribution[common.Penetrate] == 3 {
-				penetration = 8
-			}
-			if bestDistribution[common.Penetrate] == 13 {
-				penetration = 32
-			}
-			if bestDistribution[common.Penetrate] == 10 {
-				penetration = 24
-			}
-			attack := float64(bestDistribution[common.AttackPowerPercentage])*3 + i.Gain.AttackPowerPercentage
-			fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%,穿透: %.2f%%\n",
-				i.Basic.BasicAttack*(1+attack/100)+i.Gain.AttackValue,
-				i.Basic.BasicCritical+float64(bestDistribution[common.Critical])*2.4,
-				i.Basic.BasicExplosiveInjury+float64(bestDistribution[common.ExplosiveInjury])*4.8,
-				penetration,
 			)
 			status = true
 		}

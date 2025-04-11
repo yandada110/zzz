@@ -15,37 +15,34 @@ const (
 )
 
 func MagnificationBase月城柳() []*Magnification {
-	var aa float64 = 0
 	return []*Magnification{
-		&Magnification{
-			MagnificationValue:       1035.7,
-			TriggerTimes:             1,
-			Name:                     "连携技",
-			AttackInternalPercentage: aa,
+		{
+			MagnificationValue: 126.6 + 193.3 + 258.8,
+			TriggerTimes:       6,
+			Critical:           12,
+			Name:               "普攻",
+			IncreasedDamage:    40,
 		},
-		//&Magnification{
-		//	MagnificationValue: common.AbnormalMagnification[common.Physical],
-		//	TriggerTimes:       3.5,
-		//	Name:               "强击",
-		//	DamageType:         common.Abnormal,
-		//	DisorderType:       common.Physical,
-		//	SpecialDamage:      50,
-		//},
-		&Magnification{
-			MagnificationValue: common.DisorderMagnification[common.Physical],
-			TriggerTimes:       1,
-			Name:               "畏缩结算",
-			DamageType:         common.Disorder,
-			DisorderType:       common.Physical,
-			TimeConsumption:    0,
+		{
+			MagnificationValue: 788.3,
+			TriggerTimes:       2,
+			Critical:           12,
+			Name:               "强化特殊技",
+			IncreasedDamage:    40,
+		},
+		{
+			MagnificationValue: 4282.8,
+			TriggerTimes:       2.5,
+			Critical:           12,
+			Name:               "拔刀",
+			IncreasedDamage:    40 + 60,
 		},
 		&Magnification{
-			MagnificationValue: common.DisorderMagnification[common.Fire],
-			TriggerTimes:       1,
-			Name:               "火结算",
-			DamageType:         common.Disorder,
-			DisorderType:       common.Fire,
-			TimeConsumption:    0,
+			MagnificationValue: common.AbnormalMagnification[common.Ice],
+			TriggerTimes:       2,
+			Name:               "碎冰",
+			DamageType:         common.Abnormal,
+			DisorderType:       common.Ice,
 		},
 		&Magnification{
 			MagnificationValue: common.DisorderMagnification[common.Ice],
@@ -53,23 +50,14 @@ func MagnificationBase月城柳() []*Magnification {
 			Name:               "冰结算",
 			DamageType:         common.Disorder,
 			DisorderType:       common.Ice,
-			TimeConsumption:    0,
+			TimeConsumption:    -5,
 		},
-		&Magnification{
-			MagnificationValue: common.DisorderMagnification[common.Ether],
+		{
+			MagnificationValue: 4776.1,
 			TriggerTimes:       1,
-			Name:               "以太结算",
-			DamageType:         common.Disorder,
-			DisorderType:       common.Ether,
-			TimeConsumption:    0,
-		},
-		&Magnification{
-			MagnificationValue: common.DisorderMagnification[common.Electricity],
-			TriggerTimes:       1,
-			Name:               "电结算",
-			DamageType:         common.Disorder,
-			DisorderType:       common.Electricity,
-			TimeConsumption:    0,
+			Critical:           12,
+			Name:               "终结技",
+			IncreasedDamage:    40 + 60 + 30,
 		},
 	}
 }
@@ -97,6 +85,7 @@ func (i *Initializations) InitializationBase0命(role *Role.BaseRole, article *a
 		BasicExplosiveInjury:     role.ExplosiveInjury,                       // 基础爆伤（角色+武器+2件套+4号位）
 		BasicIncreasedDamage:     role.IncreasedDamage,                       // 基础增伤（角色+武器+驱动盘）
 		BasicReductionResistance: role.ReductionResistance,                   // 基础减抗（角色+武器+驱动盘）
+		BasicProficient:          role.Proficient,                            // 精通
 	}
 	if i.NumberFour == common.Critical {
 		i.Basic.BasicCritical += 24

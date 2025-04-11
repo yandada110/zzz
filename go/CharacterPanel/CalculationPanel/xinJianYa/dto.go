@@ -34,6 +34,7 @@ func (i *Initializations) DeepCopyData(list []*Initialization) *Initializations 
 		Basic:           i.Basic.DeepCopy(),
 		Gain:            i.Gain.DeepCopy(),
 		Defense:         i.Defense.DeepCopy(),
+		Condition:       i.Condition.DeepCopy(),
 		Initializations: copyList,
 	}
 }
@@ -77,6 +78,14 @@ func (d *Defense) DeepCopy() *Defense {
 		return nil
 	}
 	copyD := *d
+	return &copyD
+}
+
+func (c *Condition) DeepCopy() *Condition {
+	if c == nil {
+		return nil
+	}
+	copyD := *c
 	return &copyD
 }
 
