@@ -13,7 +13,7 @@ func 悠真01朋克青衣01丽娜11() *Initializations {
 		NumberFour: common.ExplosiveInjury,
 	}
 	// 初始化基础数值
-	init.InitializationBase朋克(Role.YouZhen(), arms.CanXinQingNang(true, true))
+	init.InitializationBase朋克(Role.YouZhen(), arms.CanXinQingNang(true))
 	// 初始化角色增益
 	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.LiNa11()})
 
@@ -38,7 +38,7 @@ func 悠真01如影青衣01丽娜11() *Initializations {
 		NumberFour: common.ExplosiveInjury,
 	}
 	// 初始化基础数值
-	init.InitializationBase如影(Role.YouZhen(), arms.CanXinQingNang(true, true))
+	init.InitializationBase如影(Role.YouZhen(), arms.CanXinQingNang(true))
 	// 初始化角色增益
 	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.LiNa11()})
 
@@ -63,7 +63,7 @@ func 悠真01雷暴青衣01丽娜11() *Initializations {
 		NumberFour: common.ExplosiveInjury,
 	}
 	// 初始化基础数值
-	init.InitializationBase雷暴(Role.YouZhen(), arms.CanXinQingNang(true, true))
+	init.InitializationBase雷暴(Role.YouZhen(), arms.CanXinQingNang(true))
 	// 初始化角色增益
 	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.LiNa11()})
 
@@ -88,7 +88,7 @@ func 悠真01朋克青衣01妮可65() *Initializations {
 		NumberFour: common.ExplosiveInjury,
 	}
 	// 初始化基础数值
-	init.InitializationBase朋克(Role.YouZhen(), arms.CanXinQingNang(true, true))
+	init.InitializationBase朋克(Role.YouZhen(), arms.CanXinQingNang(true))
 	// 初始化角色增益
 	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.ShiHengNiKe65()})
 
@@ -113,7 +113,7 @@ func 悠真01雷暴青衣01妮可65() *Initializations {
 		NumberFour: common.ExplosiveInjury,
 	}
 	// 初始化基础数值
-	init.InitializationBase雷暴(Role.YouZhen(), arms.CanXinQingNang(true, true))
+	init.InitializationBase雷暴(Role.YouZhen(), arms.CanXinQingNang(true))
 	// 初始化角色增益
 	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.ShiHengNiKe65()})
 
@@ -138,7 +138,7 @@ func 悠真01朋克青衣01露西65() *Initializations {
 		NumberFour: common.ExplosiveInjury,
 	}
 	// 初始化基础数值
-	init.InitializationBase朋克(Role.YouZhen(), arms.CanXinQingNang(true, true))
+	init.InitializationBase朋克(Role.YouZhen(), arms.CanXinQingNang(true))
 	// 初始化角色增益
 	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.LuXi65YaoBai()})
 
@@ -163,7 +163,7 @@ func 悠真01如影青衣01露西65() *Initializations {
 		NumberFour: common.ExplosiveInjury,
 	}
 	// 初始化基础数值
-	init.InitializationBase如影(Role.YouZhen(), arms.CanXinQingNang(true, true))
+	init.InitializationBase如影(Role.YouZhen(), arms.CanXinQingNang(true))
 	// 初始化角色增益
 	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.LuXi65YaoBai()})
 
@@ -188,7 +188,7 @@ func 悠真01雷暴青衣01露西65() *Initializations {
 		NumberFour: common.ExplosiveInjury,
 	}
 	// 初始化基础数值
-	init.InitializationBase雷暴(Role.YouZhen(), arms.CanXinQingNang(true, true))
+	init.InitializationBase雷暴(Role.YouZhen(), arms.CanXinQingNang(true))
 	// 初始化角色增益
 	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.LuXi65YaoBai()})
 
@@ -213,7 +213,7 @@ func 悠真61朋克青衣01嘉音00() *Initializations {
 		NumberFour: common.ExplosiveInjury,
 	}
 	// 初始化基础数值
-	init.InitializationBase1(Role.YouZhen(), arms.CanXinQingNang(true, true))
+	init.InitializationBase1(Role.YouZhen(), arms.CanXinQingNang(true))
 	// 初始化角色增益
 	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.JiaYin00()})
 
@@ -238,7 +238,7 @@ func 悠真61如影青衣01嘉音00() *Initializations {
 		NumberFour: common.ExplosiveInjury,
 	}
 	// 初始化基础数值
-	init.InitializationBase2(Role.YouZhen(), arms.CanXinQingNang(true, true))
+	init.InitializationBase2(Role.YouZhen(), arms.CanXinQingNang(true))
 	// 初始化角色增益
 	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.JiaYin00()})
 
@@ -263,7 +263,7 @@ func 悠真61雷暴青衣01嘉音00() *Initializations {
 		NumberFour: common.ExplosiveInjury,
 	}
 	// 初始化基础数值
-	init.InitializationBase3(Role.YouZhen(), arms.CanXinQingNang(true, true))
+	init.InitializationBase3(Role.YouZhen(), arms.CanXinQingNang(true))
 	// 初始化角色增益
 	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.JiaYin00()})
 

@@ -91,8 +91,6 @@ func (o *Output) DeepCopy() *Output {
 type Initializations struct {
 	Name            string            // 队伍名称
 	NumberFour      string            // 4号位固定属性 暴击或者爆伤
-	NumberSix       string            // 6号位固定属性 暴击或者爆伤
-	NumberFive      string            // 5号位固定属性 暴击或者爆伤
 	Basic           *Basic            // 角色基础面板，不变
 	Gain            *Gain             // 队友增益，不变
 	Defense         *Defense          // 破防收益，不变
@@ -115,27 +113,30 @@ type ExternalPanel struct {
 }
 
 type Basic struct {
-	BasicAttack              float64
-	BasicCritical            float64
-	BasicExplosiveInjury     float64
-	BasicIncreasedDamage     float64
-	BasicReductionResistance float64
-	BasicVulnerable          float64
-	BasicSpecialDamage       float64
-	Penetration              float64
+	BasicAttack              float64 // 攻击
+	BasicCritical            float64 // 暴击
+	BasicExplosiveInjury     float64 // 爆伤
+	BasicIncreasedDamage     float64 // 增伤
+	BasicReductionResistance float64 // 减抗
+	BasicVulnerable          float64 // 易伤
+	BasicSpecialDamage       float64 // 特殊乘区增伤
+	Penetration              float64 // 穿透
+	BasicProficient          float64 // 精通
+	AddTime                  float64 // 角色自身延长异常时间
 }
 
 type CurrentPanel struct {
-	Attack              float64
-	Critical            float64
-	ExplosiveInjury     float64
-	IncreasedDamage     float64
-	ReductionResistance float64
-	Vulnerable          float64
-	SpecialDamage       float64
-	Penetration         float64
-	DefenseBreak        float64
-	PenetrationValue    float64
+	Attack              float64 // 攻击
+	Critical            float64 // 暴击
+	ExplosiveInjury     float64 // 爆伤
+	IncreasedDamage     float64 // 增伤
+	ReductionResistance float64 // 减抗
+	Vulnerable          float64 // 易伤
+	SpecialDamage       float64 // 特殊乘区增伤
+	Penetration         float64 // 穿透
+	DefenseBreak        float64 // 破防
+	PenetrationValue    float64 // 穿透值
+	Proficient          float64 // 精通
 }
 
 type Magnification struct {
@@ -157,33 +158,21 @@ type Magnification struct {
 
 // 队友提供的局内增益效果
 type Gain struct {
-	AttackValue              float64
-	AttackValue2             float64
-	AttackPowerPercentage    float64
-	AttackInternalPercentage float64
-	Critical                 float64
-	ExplosiveInjury          float64
-	IncreasedDamage          float64
-	ReductionResistance      float64
-	Vulnerable               float64
-	SpecialDamage            float64
-	Penetration              float64
-	DefenseBreak             float64
-	PenetrationValue         float64
-}
-
-// 失衡状态下，额外提供的增益效果
-type ImbalanceGain struct {
-	AttackValue              float64
-	AttackValue2             float64
-	AttackPowerPercentage    float64
-	AttackInternalPercentage float64
-	Critical                 float64
-	ExplosiveInjury          float64
-	IncreasedDamage          float64
-	ReductionResistance      float64
-	Vulnerable               float64
-	SpecialDamage            float64
+	AttackValue              float64 // 攻击-局外攻击力2号位，副词条
+	AttackValue2             float64 // 攻击-局内攻击力值-嘉音，凯撒
+	AttackPowerPercentage    float64 // 攻击百分比-局外-5号位，音擎主词条-2件套，副词条
+	AttackInternalPercentage float64 // 攻击百分比-局内-驱动盘四件套-阿炮
+	Critical                 float64 // 暴击 包括角色局内暴击率-队友暴击率
+	ExplosiveInjury          float64 // 爆伤 队友爆伤，角色局内爆伤
+	IncreasedDamage          float64 // 增伤
+	ReductionResistance      float64 // 减抗
+	Vulnerable               float64 // 易伤
+	SpecialDamage            float64 // 特殊城区
+	Penetration              float64 // 穿透
+	DefenseBreak             float64 // 破防
+	PenetrationValue         float64 // 穿透值
+	Proficient               float64 // 精通
+	AddTime                  float64 // 异常时间延长
 }
 
 type Defense struct {
@@ -193,11 +182,13 @@ type Defense struct {
 }
 
 type Output struct {
-	BasicDamageArea         float64
-	IncreasedDamageArea     float64
-	ExplosiveInjuryArea     float64
-	DefenseArea             float64
-	ReductionResistanceArea float64
-	VulnerableArea          float64
-	SpecialDamageArea       float64
+	BasicDamageArea         float64 // 基础区
+	IncreasedDamageArea     float64 // 增伤区
+	ExplosiveInjuryArea     float64 // 爆伤区
+	DefenseArea             float64 // 防御区
+	ReductionResistanceArea float64 // 减抗区
+	VulnerableArea          float64 // 易伤区
+	SpecialDamageArea       float64 // 特殊区
+	GradeArea               float64 // 等级区
+	ProficientArea          float64 // 精通区
 }

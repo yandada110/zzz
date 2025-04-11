@@ -96,6 +96,21 @@ func YouZhen() *BaseRole {
 	}
 }
 
+func ZhuYuan() *BaseRole {
+	return &BaseRole{
+		AttackValue:         919,
+		Critical:            5,
+		ExplosiveInjury:     78.8,
+		Proficient:          92,
+		IncreasedDamage:     0,
+		ReductionResistance: 0,
+		BasicVulnerable:     0,
+		BasicSpecialDamage:  0,
+		Penetration:         0,
+		DefenseBreak:        0,
+	}
+}
+
 // 星见雅 /*
 func XinJianYa() *BaseRole {
 	return &BaseRole{
