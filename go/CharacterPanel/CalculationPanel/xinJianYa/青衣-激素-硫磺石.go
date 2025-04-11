@@ -6,20 +6,20 @@ import (
 	"zzz/CharacterPanel/common"
 )
 
-func 悠真硫磺石青衣01妮可65() *Initializations {
-	name := "悠真硫磺石青衣01妮可65"
+func 悠真_硫磺石_朋克青衣01丽娜11() *Initializations {
+	name := "悠真_硫磺石_朋克青衣01丽娜11"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.Critical,
 	}
 	// 初始化基础数值
-	init.InitializationBase1(Role.YouZhen(), arms.LiuHuangShi(true))
+	init.InitializationBase朋克(Role.YouZhen(), arms.LiuHuangShi(false))
 	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.ShiHengNiKe65()})
+	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.LiNa11()})
 
 	init.Initializations = []*Initialization{
 		{
-			Magnifications: MagnificationBase如影专武6命(),
+			Magnifications: MagnificationBase硫磺石(),
 			Gain: &Gain{
 				Vulnerable: 50,
 			},
@@ -31,120 +31,20 @@ func 悠真硫磺石青衣01妮可65() *Initializations {
 	return init
 }
 
-func 悠真硫磺石青衣01丽娜11() *Initializations {
-	name := "悠真硫磺石青衣01丽娜11"
+func 悠真_硫磺石_如影青衣01丽娜11() *Initializations {
+	name := "悠真_硫磺石_如影青衣01丽娜11"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.Critical,
 	}
 	// 初始化基础数值
-	init.InitializationBase1(Role.YouZhen(), arms.LiuHuangShi(true))
+	init.InitializationBase如影(Role.YouZhen(), arms.LiuHuangShi(false))
 	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.ShiHengNiKe65()})
-
-	init.Initializations = []*Initialization{
-		&Initialization{
-			Magnifications: MagnificationBase如影专武6命(),
-			Gain: &Gain{
-				Vulnerable: 50,
-			},
-			Name:         name + "-失衡",
-			Output:       &Output{},
-			CurrentPanel: &CurrentPanel{},
-		},
-	}
-	return init
-}
-
-func 悠真硫磺石青衣00丽娜11() *Initializations {
-	name := "悠真硫磺石青衣00丽娜11"
-	init := &Initializations{
-		Name:       name,
-		NumberFour: common.Critical,
-	}
-	// 初始化基础数值
-	init.InitializationBase1(Role.YouZhen(), arms.LiuHuangShi(true))
-	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi00(), Role.LiNa11()})
-
-	init.Initializations = []*Initialization{
-		&Initialization{
-			Magnifications: MagnificationBase如影专武6命(),
-			Gain: &Gain{
-				Vulnerable: 50,
-			},
-			Name:         name + "-失衡",
-			Output:       &Output{},
-			CurrentPanel: &CurrentPanel{},
-		},
-	}
-	return init
-}
-
-func 悠真硫磺石青衣00丽娜10() *Initializations {
-	name := "悠真硫磺石青衣00丽娜10"
-	init := &Initializations{
-		Name:       name,
-		NumberFour: common.Critical,
-	}
-	// 初始化基础数值
-	init.InitializationBase1(Role.YouZhen(), arms.LiuHuangShi(true))
-	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi00(), Role.LiNa10()})
-
-	init.Initializations = []*Initialization{
-		&Initialization{
-			Magnifications: MagnificationBase如影专武6命(),
-			Gain: &Gain{
-				Vulnerable: 50,
-			},
-			Name:         name + "-失衡",
-			Output:       &Output{},
-			CurrentPanel: &CurrentPanel{},
-		},
-	}
-	return init
-}
-
-func 悠真硫磺石青衣01丽娜10() *Initializations {
-	name := "悠真硫磺石青衣01丽娜11"
-	init := &Initializations{
-		Name:       name,
-		NumberFour: common.Critical,
-	}
-	// 初始化基础数值
-	init.InitializationBase1(Role.YouZhen(), arms.LiuHuangShi(true))
-	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.LiNa10()})
-
-	init.Initializations = []*Initialization{
-		&Initialization{
-			Magnifications: MagnificationBase如影专武6命(),
-			Gain: &Gain{
-				Vulnerable: 50,
-			},
-			Name:         name + "-失衡",
-			Output:       &Output{},
-			CurrentPanel: &CurrentPanel{},
-		},
-	}
-	return init
-}
-
-func 悠真硫磺石青衣01露西65() *Initializations {
-	name := "悠真硫磺石青衣01露西65"
-	init := &Initializations{
-		Name:       name,
-		NumberFour: common.Critical,
-	}
-	// 初始化基础数值
-	init.InitializationBase1(Role.YouZhen(), arms.LiuHuangShi(true))
-	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.LuXi65YaoBai()})
+	init.InitializationRole([]*Role.BuffCharacter{Role.QingYi01(), Role.LiNa11()})
 
 	init.Initializations = []*Initialization{
 		{
-			Magnifications: MagnificationBase如影专武6命(),
+			Magnifications: MagnificationBase硫磺石(),
 			Gain: &Gain{
 				Vulnerable: 50,
 			},

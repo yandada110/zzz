@@ -29,15 +29,12 @@ func (i *Initializations) DeepCopyData(list []*Initialization) *Initializations 
 		}
 	}
 	return &Initializations{
-		Name:                 i.Name,
-		NumberFour:           i.NumberFour,
-		AttackCount:          i.AttackCount,
-		CriticalCount:        i.CriticalCount,
-		ExplosiveInjuryCount: i.ExplosiveInjuryCount,
-		Basic:                i.Basic.DeepCopy(),
-		Gain:                 i.Gain.DeepCopy(),
-		Defense:              i.Defense.DeepCopy(),
-		Initializations:      copyList,
+		Name:            i.Name,
+		NumberFour:      i.NumberFour,
+		Basic:           i.Basic.DeepCopy(),
+		Gain:            i.Gain.DeepCopy(),
+		Defense:         i.Defense.DeepCopy(),
+		Initializations: copyList,
 	}
 }
 
@@ -91,17 +88,16 @@ func (o *Output) DeepCopy() *Output {
 	return &copyO
 }
 
-// ------------------------ 数据结构定义 ------------------------
 type Initializations struct {
-	Name                 string            // 队伍名称
-	NumberFour           string            // 4号位固定属性 暴击或者爆伤
-	AttackCount          int               // 攻击力词条基础上限
-	CriticalCount        int               // 暴击词条基础上限
-	ExplosiveInjuryCount int               // 爆伤词条基础上限
-	Basic                *Basic            // 角色基础面板，不变
-	Gain                 *Gain             // 队友增益，不变
-	Defense              *Defense          // 破防收益，不变
-	Initializations      []*Initialization // 计算不同模型集合（可以包含不同模型）
+	Name            string            // 队伍名称
+	NumberFour      string            // 4号位固定属性 暴击或者爆伤
+	NumberSix       string            // 6号位固定属性 暴击或者爆伤
+	NumberFive      string            // 5号位固定属性 暴击或者爆伤
+	Basic           *Basic            // 角色基础面板，不变
+	Gain            *Gain             // 队友增益，不变
+	Defense         *Defense          // 破防收益，不变
+	Initializations []*Initialization // 计算不同模型集合（可以包含不同模型）
+	Condition       *Condition        // 词条限制条件
 }
 
 type Initialization struct {
@@ -143,17 +139,20 @@ type CurrentPanel struct {
 }
 
 type Magnification struct {
-	MagnificationValue       float64
-	TriggerTimes             float64
-	Name                     string
-	IncreasedDamage          float64
-	ReductionResistance      float64
-	DefenseBreak             float64
-	Penetration              float64
-	SpecialDamage            float64
-	ExplosiveInjury          float64
-	AttackInternalPercentage float64
-	Critical                 float64
+	MagnificationValue       float64 // 基础倍率 如技能倍率，异常倍率，紊乱倍率
+	TriggerTimes             float64 // 计算次数
+	Name                     string  // 技能名称
+	IncreasedDamage          float64 // 增伤
+	ReductionResistance      float64 // 减抗
+	DefenseBreak             float64 // 破防
+	Penetration              float64 // 穿透
+	SpecialDamage            float64 // 特殊增伤
+	ExplosiveInjury          float64 // 爆伤
+	AttackInternalPercentage float64 // 局内攻击力
+	Critical                 float64 // 暴击率
+	DamageType               string  // 伤害类型，默认直伤类型
+	DisorderType             string  // 紊乱伤害类型
+	TimeConsumption          float64 // 异常消耗时间量
 }
 
 // 队友提供的局内增益效果

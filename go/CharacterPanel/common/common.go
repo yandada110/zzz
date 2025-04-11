@@ -51,6 +51,15 @@ const (
 	GainFormInsideFixed     = 2 // 固定值增益
 )
 
+const (
+	AttackPercentageMin = 13 // 攻击力百分比词条基础上限
+	AttackValueMin      = 4  // 攻击力值词条基础上限
+	ProficientMin       = 8  // 精通词条基础上限
+	CriticalMin         = 8  // 暴击词条基础上限
+	ExplosiveInjuryMin  = 8  // 爆伤词条基础上限
+	PenetrationValueMin = 6  // 穿透值基础上限
+)
+
 // AllowedGroupB 定义允许的增伤、穿透原始分配组合
 var AllowedGroupB = [][2]int{
 	{0, 13},

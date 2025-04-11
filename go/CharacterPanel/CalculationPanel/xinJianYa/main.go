@@ -10,9 +10,7 @@ import (
 func main() {
 	// 初始化各套队伍（示例，具体初始化函数需自行实现）
 	initializations := []*Initializations{
-		悠真01朋克青衣01丽娜11(),
-		悠真01如影青衣01丽娜11(),
-		悠真01雷暴青衣01丽娜11(),
+		星见雅01月城柳00嘉音00(),
 	}
 	// 针对每套队伍进行计算
 	for idx, initialization := range initializations {
@@ -115,6 +113,7 @@ func (i *Initializations) FindOptimalDistribution() (bestSim *Initializations, b
 			common.IncreasedDamage:       dist[3],
 			common.Penetrate:             dist[4],
 			common.AttackValue:           dist[5],
+			common.Proficient:            dist[6],
 		}
 		var damage = 0.0
 		var lastSim []*Initialization

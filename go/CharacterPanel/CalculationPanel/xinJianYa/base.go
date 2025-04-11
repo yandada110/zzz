@@ -5,10 +5,6 @@ import (
 )
 
 // CalculateExternalPanel 根据当前模型和词条分配计算局外面板
-//
-//	攻击力 = BasicAttack * (1 + (AttackPowerPercentage + 攻击力词条数*3)/100) + AttackValue
-//	暴击率 = BasicCritical + 暴击词条数*2.4
-//	爆伤   = BasicExplosiveInjury + (爆伤词条数 + 暴击转换爆伤词条数量)*4.8
 func (i *Initializations) CalculateExternalPanel(distribution map[string]int) *ExternalPanel {
 	attack := i.Basic.BasicAttack*(1+(i.Gain.AttackPowerPercentage+float64(distribution[common.AttackPowerPercentage])*3)/100) + i.Gain.AttackValue
 	critical := i.Basic.BasicCritical + float64(distribution[common.Critical])*2.4
@@ -31,11 +27,11 @@ func (i *Initializations) CharacterPanelWithDistribution(initialization *Initial
 	i.HandleBasicCritical(initialization, common.Critical, distribution[common.Critical])
 	i.HandleBasicExplosiveInjury(initialization, common.ExplosiveInjury, distribution[common.ExplosiveInjury])
 	i.HandleBasicIncreasedDamage(initialization, common.IncreasedDamage, distribution[common.IncreasedDamage])
-	i.HandlePenetrateDamage(initialization, common.Penetrate, distribution[common.Penetrate])
+	i.HandlePenetrateDamage(initialization, distribution[common.Penetrate])
 }
 
 // ===== 以下各函数处理词条加成 =====
-// HandleBasicAttack 根据攻击力词条增加攻击力
+
 func (i *Initializations) HandleBasicAttack(initialization *Initialization, key string, count int, attackInternalPercentage float64) {
 	attackPowerPercentage := i.Gain.AttackPowerPercentage + initialization.Gain.AttackPowerPercentage
 	if key == common.AttackPowerPercentage {
@@ -80,18 +76,16 @@ func (i *Initializations) HandleBasicIncreasedDamage(initialization *Initializat
 }
 
 // HandlePenetrateDamage 根据穿透词条更新穿透率
-func (i *Initializations) HandlePenetrateDamage(initialization *Initialization, key string, count int) {
+func (i *Initializations) HandlePenetrateDamage(initialization *Initialization, count int) {
 	increasedDamage := i.Defense.Penetration
-	if key == common.Penetrate {
-		if count == 3 {
-			increasedDamage += 8
-		}
-		if count == 10 {
-			increasedDamage += 24
-		}
-		if count == 13 {
-			increasedDamage += 32
-		}
+	if count == 3 {
+		increasedDamage += 8
+	}
+	if count == 10 {
+		increasedDamage += 24
+	}
+	if count == 13 {
+		increasedDamage += 32
 	}
 	initialization.CurrentPanel.Penetration = i.Basic.Penetration + increasedDamage
 	initialization.CurrentPanel.DefenseBreak = i.Defense.DefenseBreak
@@ -126,9 +120,42 @@ func (i *Initializations) InitializationArea(initialization *Initialization, mag
 	initialization.SpecialDamageArea()
 }
 
-func (i *Initialization) BasicDamageArea(initializations *Initializations, magnification *Magnification, distribution map[string]int) {
+func (i *Initialization) BasicDamageArea(magnification *Magnification, distribution map[string]int) {
+	i.HandleDamageArea(magnification, distribution)
+}
+
+func (i *Initialization) HandleDamageArea(magnification *Magnification, distribution map[string]int) {
+	switch magnification.DamageType {
+	case common.Disorder:
+		i.Output.BasicDamageArea = i.HandleDisorderArea(magnification)
+	case common.Abnormal:
+		i.Output.BasicDamageArea = i.CurrentPanel.Attack * magnification.MagnificationValue / 100 * magnification.TriggerTimes
+	default:
+		i.handleDamageArea(i, magnification, distribution)
+		i.Output.BasicDamageArea = i.CurrentPanel.Attack * magnification.MagnificationValue / 100 * magnification.TriggerTimes
+	}
+}
+
+func (i *Initialization) handleDamageArea(initializations *Initializations, magnification *Magnification, distribution map[string]int) {
 	initializations.HandleBasicAttack(i, common.AttackPowerPercentage, distribution[common.AttackPowerPercentage], magnification.AttackInternalPercentage)
 	i.Output.BasicDamageArea = i.CurrentPanel.Attack * magnification.MagnificationValue / 100 * magnification.TriggerTimes
+}
+
+func (i *Initialization) HandleDisorderArea(magnification *Magnification) (basicDamageArea float64) {
+	switch magnification.DisorderType {
+	case common.Fire:
+		basicDamageArea = common.FireArea(common.TimeTotal, magnification.TimeConsumption, magnification.MagnificationValue)
+	case common.Electricity:
+		basicDamageArea = common.ElectricityArea(common.TimeTotal, magnification.TimeConsumption, magnification.MagnificationValue)
+	case common.Physical:
+		basicDamageArea = common.PhysicalArea(common.TimeTotal, magnification.TimeConsumption, magnification.MagnificationValue)
+	case common.Ice:
+		basicDamageArea = common.IceArea(common.TimeTotal, magnification.TimeConsumption, magnification.MagnificationValue)
+	case common.Ether:
+		basicDamageArea = common.EtherArea(common.TimeTotal, magnification.TimeConsumption, magnification.MagnificationValue)
+	}
+	//i.Output.BasicDamageArea = basicDamageArea
+	return basicDamageArea
 }
 
 func (i *Initialization) IncreasedDamageArea(magnification *Magnification) {
@@ -156,121 +183,4 @@ func (i *Initialization) VulnerableArea() {
 
 func (i *Initialization) SpecialDamageArea() {
 	i.Output.SpecialDamageArea = 1 + (i.CurrentPanel.SpecialDamage)/100
-}
-
-func (i *Initializations) initializationCount() {
-	// 暴击词条上限
-	critical := i.Basic.BasicCritical + i.Gain.Critical
-	remaining := 100 - critical
-	// 计算最大可用词条数，向下取整
-	i.CriticalCount = int(remaining / 2.4)
-
-	// 计算最终暴击率
-	finalCritical := critical + float64(i.CriticalCount)*2.4
-
-	// 如果最终暴击率超过 100，则减少 1 个词条
-	if finalCritical > 100 {
-		i.CriticalCount--
-	}
-	// 爆伤词条上限
-	i.ExplosiveInjuryCount = ExplosiveInjuryEntriesLimit[i.NumberFour]
-	i.AttackCount = AttackPercentageEntriesLimit[i.NumberFour]
-}
-
-func (i *Initializations) checkCondition(slots map[string]int) bool {
-	pairStatus := false
-	// 例如：校验（穿透+增伤）词条数量是否满足要求
-	for _, pair := range common.AllowedGroupB {
-		if slots[common.IncreasedDamage] == pair[0] && slots[common.Penetrate] == pair[1] {
-			pairStatus = true
-			break
-		}
-	}
-	if !pairStatus {
-		return pairStatus
-	}
-	fiveStatus := false
-	// 校验穿透固定之后，其他属性条件是否满足
-	// 处理阈值问题，每个磁盘单个属性，最多5个有效词条，其中其中3号位可以+3词条，5号位+10词条，需要校验穿透和增伤词条数量，才可以确定阈值的上限是否有提升，判断穿透率的数值，提升不同属性的阈值上限
-	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 0 {
-		// 三个词条总数必须大于13
-		if slots[common.Critical]+slots[common.ExplosiveInjury]+slots[common.AttackPowerPercentage] >= 13 {
-			if slots[common.Critical] >= 3 || slots[common.ExplosiveInjury] >= 3 {
-				// 2件套选择暴击或者爆伤的情况,5号位必须是攻击力
-				if slots[common.AttackPowerPercentage] >= 10 {
-					if (i.AttackCount+10 >= slots[common.AttackPowerPercentage]) && (i.CriticalCount+i.ExplosiveInjuryCount+3 >= slots[common.Critical]+slots[common.ExplosiveInjury]) {
-						fiveStatus = true
-					}
-				}
-			} else {
-				// 2件套，5号位都是攻击力
-				if slots[common.AttackPowerPercentage] >= 13 {
-					if i.AttackCount+13 >= slots[common.AttackPowerPercentage] {
-						fiveStatus = true
-					}
-				}
-			}
-		}
-	}
-	// 增伤+穿透 =3，说明2件套无法分配，攻击力必须>=10
-	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 3 {
-		if slots[common.AttackPowerPercentage] >= 14 && i.CriticalCount >= slots[common.Critical] && i.ExplosiveInjuryCount >= slots[common.ExplosiveInjury] {
-			return true
-		}
-		if i.AttackCount+10 >= slots[common.AttackPowerPercentage] {
-			fiveStatus = true
-		}
-	}
-	// 增伤+穿透 =10，说明5号位无法分配，2件套可以是攻击，暴击，爆伤任意一个
-	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 10 {
-		if slots[common.Critical] >= 3 || slots[common.ExplosiveInjury] >= 3 || slots[common.AttackPowerPercentage] >= 3 {
-			if i.AttackCount+i.CriticalCount+i.ExplosiveInjuryCount+3 >= slots[common.AttackPowerPercentage]+slots[common.Critical]+slots[common.ExplosiveInjury] {
-				fiveStatus = true
-			}
-		}
-	}
-	//if slots[common.IncreasedDamage]+slots[common.Penetrate] == 13 {
-	if i.AttackCount <= slots[common.AttackPowerPercentage] {
-		fiveStatus = false
-	}
-	if i.CriticalCount <= slots[common.Critical] {
-		fiveStatus = false
-	}
-	if i.ExplosiveInjuryCount <= slots[common.ExplosiveInjury] {
-		fiveStatus = false
-	}
-	//}
-	// 攻击力最少都有4个词条
-	if slots[common.IncreasedDamage]+slots[common.Penetrate] >= 10 {
-		if slots[common.AttackPowerPercentage] < 4 {
-			return false
-		}
-	} else {
-		if slots[common.AttackPowerPercentage] < 14 {
-			return false
-		}
-	}
-
-	if i.NumberFour == common.Critical {
-		if slots[common.Critical] < 5 {
-			return false
-		}
-	}
-	if i.NumberFour == common.ExplosiveInjury {
-		if slots[common.Critical] < 6 {
-			return false
-		}
-	}
-	if i.NumberFour == common.ExplosiveInjury {
-		if slots[common.ExplosiveInjury] < 5 {
-			return false
-		}
-	}
-	if i.NumberFour == common.Critical {
-		if slots[common.ExplosiveInjury] < 6 {
-			return false
-		}
-	}
-
-	return fiveStatus
 }
