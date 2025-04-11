@@ -25,10 +25,11 @@ func (i *Initializations) CharacterPanelWithDistribution(initialization *Initial
 		SpecialDamage:       i.Basic.BasicSpecialDamage + i.Gain.SpecialDamage + initialization.Gain.SpecialDamage,
 	}
 	//i.HandleBasicAttack(initialization, common.AttackPowerPercentage, distribution[common.AttackPowerPercentage], 0)
-	i.HandleBasicCritical(initialization, common.Critical, distribution[common.Critical])
-	i.HandleBasicExplosiveInjury(initialization, common.ExplosiveInjury, distribution[common.ExplosiveInjury])
-	i.HandleBasicIncreasedDamage(initialization, common.IncreasedDamage, distribution[common.IncreasedDamage])
+	i.HandleBasicCritical(initialization, distribution[common.Critical])
+	i.HandleBasicExplosiveInjury(initialization, distribution[common.ExplosiveInjury])
+	i.HandleBasicIncreasedDamage(initialization, distribution[common.IncreasedDamage])
 	i.HandlePenetrateDamage(initialization, distribution[common.Penetrate])
+	i.HandleBasicProficient(initialization, distribution[common.Proficient])
 }
 
 // ===== 以下各函数处理词条加成 =====
@@ -42,36 +43,30 @@ func (i *Initializations) HandleBasicAttack(initialization *Initialization, key 
 }
 
 // HandleBasicCritical 根据暴击词条更新暴击率，并计算转换为爆伤的词条数
-func (i *Initializations) HandleBasicCritical(initialization *Initialization, key string, count int) {
+func (i *Initializations) HandleBasicCritical(initialization *Initialization, count int) {
 	critical := i.Gain.Critical + initialization.Gain.Critical
-	if key == common.Critical {
-		critical += 2.4 * float64(count)
-	}
+	critical += 2.4 * float64(count)
 	initialization.CurrentPanel.Critical = i.Basic.BasicCritical + critical
 }
 
 // HandleBasicExplosiveInjury 根据爆伤词条更新爆伤
-func (i *Initializations) HandleBasicExplosiveInjury(initialization *Initialization, key string, count int) {
+func (i *Initializations) HandleBasicExplosiveInjury(initialization *Initialization, count int) {
 	explosiveInjury := i.Gain.ExplosiveInjury + initialization.Gain.ExplosiveInjury
-	if key == common.ExplosiveInjury {
-		explosiveInjury += 4.8 * float64(count)
-	}
+	explosiveInjury += 4.8 * float64(count)
 	initialization.CurrentPanel.ExplosiveInjury = i.Basic.BasicExplosiveInjury + explosiveInjury
 }
 
 // HandleBasicIncreasedDamage 根据增伤词条更新增伤
-func (i *Initializations) HandleBasicIncreasedDamage(initialization *Initialization, key string, count int) {
+func (i *Initializations) HandleBasicIncreasedDamage(initialization *Initialization, count int) {
 	increasedDamage := i.Gain.IncreasedDamage + initialization.Gain.IncreasedDamage
-	if key == common.IncreasedDamage {
-		if count == 3 {
-			increasedDamage += 10
-		}
-		if count == 10 {
-			increasedDamage += 30
-		}
-		if count == 13 {
-			increasedDamage += 40
-		}
+	if count == 3 {
+		increasedDamage += 10
+	}
+	if count == 10 {
+		increasedDamage += 30
+	}
+	if count == 13 {
+		increasedDamage += 40
 	}
 	initialization.CurrentPanel.IncreasedDamage = i.Basic.BasicIncreasedDamage + increasedDamage
 }
@@ -93,6 +88,13 @@ func (i *Initializations) HandlePenetrateDamage(initialization *Initialization, 
 	initialization.CurrentPanel.PenetrationValue = i.Defense.PenetrationValue
 }
 
+// HandleBasicProficient 处理递增精通
+func (i *Initializations) HandleBasicProficient(initialization *Initialization, count int) {
+	critical := i.Gain.Proficient + initialization.Gain.Proficient
+	critical += 9 * float64(count)
+	initialization.CurrentPanel.Proficient = i.Basic.BasicProficient + critical
+}
+
 // ===== 以下各函数计算各分区加成 =====
 
 func (i *Initializations) CalculatingTotalDamage(initialization *Initialization, distribution map[string]int) float64 {
@@ -101,7 +103,7 @@ func (i *Initializations) CalculatingTotalDamage(initialization *Initialization,
 		i.InitializationArea(initialization, mag, distribution)
 		switch mag.DamageType {
 		case common.Disorder:
-
+			totalDamage += i.DisorderDamage(initialization)
 		case common.Abnormal:
 			totalDamage += i.AbnormalDamage(initialization)
 		default:
@@ -129,8 +131,7 @@ func (i *Initializations) AbnormalDamage(initialization *Initialization) float64
 		initialization.Output.VulnerableArea *
 		initialization.Output.SpecialDamageArea *
 		initialization.Output.GradeArea *
-		initialization.Output.ProficientArea *
-		initialization.Output.ExplosiveInjuryArea
+		initialization.Output.ProficientArea
 }
 
 func (i *Initializations) DisorderDamage(initialization *Initialization) float64 {
@@ -141,8 +142,7 @@ func (i *Initializations) DisorderDamage(initialization *Initialization) float64
 		initialization.Output.VulnerableArea *
 		initialization.Output.SpecialDamageArea *
 		initialization.Output.GradeArea *
-		initialization.Output.ProficientArea *
-		initialization.Output.ExplosiveInjuryArea
+		initialization.Output.ProficientArea
 }
 
 func (i *Initializations) InitializationArea(initialization *Initialization, magnification *Magnification, distribution map[string]int) {
@@ -162,20 +162,29 @@ func (i *Initialization) BasicDamageArea(initializations *Initializations, magni
 }
 
 func (i *Initialization) HandleDamageArea(initializations *Initializations, magnification *Magnification, distribution map[string]int) {
+	initializations.HandleBasicAttack(i, common.AttackPowerPercentage, distribution[common.AttackPowerPercentage], magnification.AttackInternalPercentage)
 	switch magnification.DamageType {
 	case common.Disorder:
-		i.Output.BasicDamageArea = i.HandleDisorderArea(magnification)
+		i.HandleDisorderArea(magnification)
 	case common.Abnormal:
-		i.Output.BasicDamageArea = i.CurrentPanel.Attack * magnification.MagnificationValue / 100 * magnification.TriggerTimes
+		i.handleAbnormalArea(magnification)
 	default:
-		i.handleDamageArea(initializations, magnification, distribution)
-		i.Output.BasicDamageArea = i.CurrentPanel.Attack * magnification.MagnificationValue / 100 * magnification.TriggerTimes
+		i.handleDamageArea(magnification)
 	}
 }
 
-func (i *Initialization) handleDamageArea(initializations *Initializations, magnification *Magnification, distribution map[string]int) {
-	initializations.HandleBasicAttack(i, common.AttackPowerPercentage, distribution[common.AttackPowerPercentage], magnification.AttackInternalPercentage)
+func (i *Initialization) handleDamageArea(magnification *Magnification) {
 	i.Output.BasicDamageArea = i.CurrentPanel.Attack * magnification.MagnificationValue / 100 * magnification.TriggerTimes
+}
+
+func (i *Initialization) handleAbnormalArea(magnification *Magnification) {
+	// 强击-碎冰只有次数，异常，感电，计算剩余秒的伤害量
+	var number float64 = 1
+	// 火和以太，0.5秒一次伤害
+	if magnification.DisorderType == common.Ether || magnification.DisorderType == common.Fire {
+		number = 2
+	}
+	i.Output.BasicDamageArea = i.CurrentPanel.Attack * magnification.MagnificationValue / 100 * magnification.TriggerTimes * (common.TimeTotal - magnification.TimeConsumption) * number
 }
 
 func (i *Initialization) HandleDisorderArea(magnification *Magnification) (basicDamageArea float64) {
@@ -191,7 +200,7 @@ func (i *Initialization) HandleDisorderArea(magnification *Magnification) (basic
 	case common.Ether:
 		basicDamageArea = common.EtherArea(common.TimeTotal, magnification.TimeConsumption, magnification.MagnificationValue)
 	}
-	//i.Output.BasicDamageArea = basicDamageArea
+	i.Output.BasicDamageArea = i.CurrentPanel.Attack * basicDamageArea
 	return basicDamageArea
 }
 

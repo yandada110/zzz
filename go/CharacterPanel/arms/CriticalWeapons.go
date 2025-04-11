@@ -82,7 +82,6 @@ func QianMianRiYun(type1 bool) *MainArticle {
 
 /*
 *
-<<<<<<< HEAD
 霰落星殿
 */
 func XiaLuoXingDian(type1 bool) *MainArticle {
@@ -104,9 +103,13 @@ func XiaLuoXingDian(type1 bool) *MainArticle {
 	//		GainForm: common.GainFormInsideFixed, // 被动效果增益值
 	//	})
 	//}
-=======
-加农转子
+	return m
+}
+
+/**
+  加农转子
 */
+
 func JiaNongZhuanZi(type1 bool, number float64) *MainArticle {
 	m := &MainArticle{}
 	m.BaseAttackValue = 594
@@ -123,6 +126,5 @@ func JiaNongZhuanZi(type1 bool, number float64) *MainArticle {
 			GainForm: common.GainFormInsideFixed,      // 被动效果增益值
 		})
 	}
->>>>>>> 51ddede8329cf574d00d3720fc9254a7de8d4e99
 	return m
 }

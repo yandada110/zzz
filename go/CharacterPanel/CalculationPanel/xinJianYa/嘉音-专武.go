@@ -21,6 +21,7 @@ func 星见雅01月城柳00嘉音00() *Initializations {
 		{
 			Magnifications: MagnificationBase月城柳(),
 			Name:           name + "-站场",
+			Gain:           &Gain{},
 			Output:         &Output{},
 			CurrentPanel:   &CurrentPanel{},
 		},

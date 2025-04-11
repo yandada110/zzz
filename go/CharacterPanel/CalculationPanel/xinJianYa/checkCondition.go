@@ -68,10 +68,10 @@ func (i *Initializations) initializationCount() {
 	}
 
 	// 攻击值-穿透值上限
-	i.Condition.AttackValueMax = 30
+	i.Condition.AttackValueMax = 25
 	i.Condition.PenetrationValueMax = 30
-	i.Condition.AttackValueMin = 30
-	i.Condition.PenetrationValueMin = 30
+	i.Condition.AttackValueMin = 5
+	i.Condition.PenetrationValueMin = 6
 }
 
 func (i *Initializations) checkCondition(slots map[string]int) bool {
@@ -87,14 +87,6 @@ func (i *Initializations) checkCondition(slots map[string]int) bool {
 		return false
 	}
 
-	// 攻击值也是固定值，不满足的直接过滤，这里可以修改，看具体角色，是否要用到
-	if slots[common.AttackValue] < i.Condition.AttackValueMin || slots[common.AttackValue] > i.Condition.AttackValueMax {
-		return false
-	}
-	// 穿透值也是固定值，不满足的直接过滤，这里可以修改，看具体角色，是否要用到
-	//if slots[common.PenetrationValue] < i.Condition.PenetrationValueMin || slots[common.AttackValue] > i.Condition.PenetrationValueMax {
-	//	return false
-	//}
 	// 爆伤不满足退出
 	if slots[common.ExplosiveInjury] < i.Condition.ExplosiveInjuryMin || slots[common.ExplosiveInjury] > i.Condition.ExplosiveInjuryMax {
 		return false
@@ -107,7 +99,6 @@ func (i *Initializations) checkCondition(slots map[string]int) bool {
 	if slots[common.Proficient] < i.Condition.ProficientMin || slots[common.Proficient] > i.Condition.ProficientMax {
 		return false
 	}
-	status = false
 	// 假设穿透率-增伤都是0
 	if !i.handle穿透增伤0(slots) {
 		return false
@@ -118,11 +109,11 @@ func (i *Initializations) checkCondition(slots map[string]int) bool {
 	}
 	// 假设穿透率-增伤都是10
 	attackPercentageMin, attackPercentageMax, status := i.handle穿透增伤10(slots)
-	if status {
+	if !status {
 		return false
 	}
 	// 攻击不满足退出
-	if slots[common.Proficient] < attackPercentageMin || slots[common.Proficient] > attackPercentageMax {
+	if slots[common.AttackPowerPercentage] < attackPercentageMin || slots[common.AttackPowerPercentage] > attackPercentageMax {
 		return false
 	}
 	return true
@@ -156,9 +147,9 @@ func (i *Initializations) handle穿透增伤3(slots map[string]int) bool {
 }
 
 func (i *Initializations) handle穿透增伤10(slots map[string]int) (int, int, bool) {
-	var attackPercentageMin, attackPercentageMax int
+	var attackPercentageMin, attackPercentageMax = i.Condition.AttackPercentageMin, i.Condition.AttackPercentageMax
 	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 10 {
-		attackPercentageMin = i.Condition.AttackPercentageMin + 1
+		attackPercentageMin++
 		attackPercentageMax = attackPercentageMin + 3 + 10 + attackPercentageMin
 		// 必须要有一个是2件套
 		if (slots[common.Proficient] < i.Condition.ProficientMin+3) && (slots[common.ExplosiveInjury] < i.Condition.ExplosiveInjuryMin+3) && (slots[common.Critical] < i.Condition.CriticalMin+3) && (slots[common.AttackPowerPercentage] < attackPercentageMin+3) {

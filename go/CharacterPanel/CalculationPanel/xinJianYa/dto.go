@@ -91,6 +91,8 @@ func (o *Output) DeepCopy() *Output {
 type Initializations struct {
 	Name            string            // 队伍名称
 	NumberFour      string            // 4号位固定属性 暴击或者爆伤
+	NumberSix       string            // 6号位固定属性攻击，或者其他
+	NumberFive      string            // 5号位固定属性攻击，或者其他
 	Basic           *Basic            // 角色基础面板，不变
 	Gain            *Gain             // 队友增益，不变
 	Defense         *Defense          // 破防收益，不变

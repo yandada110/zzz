@@ -11,53 +11,14 @@ const (
 	IncreasedDamage          = "IncreasedDamage"          // 增伤
 	Penetrate                = "Penetrate"                // 穿透
 	AttackValue              = "AttackValue"              // 攻击力值
-	Proficient               = "BasicProficient"          // 精通
+	Proficient               = "Proficient"               // 精通
 	DefenseBreak             = "DefenseBreak"             // 破防
 	PenetrationValue         = "PenetrationValue"         // 穿透值
 )
 
-var AttackPercentageEntriesLimit = map[string]int{
-	Critical:        15,
-	ExplosiveInjury: 15,
-	Proficient:      15,
-}
-
-var ExplosiveInjuryEntriesLimit = map[string]int{
-	Critical:        30,
-	ExplosiveInjury: 25,
-	Proficient:      30,
-}
-
-var ProficientEntriesLimit = map[string]int{
-	Critical:        30,
-	ExplosiveInjury: 30,
-	Proficient:      25,
-}
-
-var AttackValueEntriesLimit = map[string]int{
-	Critical:        30,
-	ExplosiveInjury: 30,
-	Proficient:      30,
-}
-
-var PenetrationValueEntriesLimit = map[string]int{
-	Critical:        30,
-	ExplosiveInjury: 30,
-	Proficient:      30,
-}
-
 const (
 	GainFormInsideTheBureau = 1 // 局内增益
 	GainFormInsideFixed     = 2 // 固定值增益
-)
-
-const (
-	AttackPercentageMin = 13 // 攻击力百分比词条基础上限
-	AttackValueMin      = 4  // 攻击力值词条基础上限
-	ProficientMin       = 8  // 精通词条基础上限
-	CriticalMin         = 8  // 暴击词条基础上限
-	ExplosiveInjuryMin  = 8  // 爆伤词条基础上限
-	PenetrationValueMin = 6  // 穿透值基础上限
 )
 
 // AllowedGroupB 定义允许的增伤、穿透原始分配组合
@@ -105,45 +66,57 @@ var DisorderMagnification = map[string]float64{
 }
 
 func FireArea(totalTime, usedTime, rate float64) float64 {
-	significance := 2.0
+	// 将 rate 转换为小数，如 50 -> 0.5
+	r := rate / 100
 	remaining := totalTime - usedTime
-	steps := math.Floor(remaining/rate) * significance
-	return 4.5 + steps*rate/100
+
+	// 计算 (totalTime - usedTime) / 0.5
+	value := remaining / r
+
+	// 按 2 的倍数向下取整，等效于 Excel 的 FLOOR(value, 2)
+	floored := 2 * math.Floor(value/2)
+
+	// 返回结果：4.5 + (取整后的值 * 0.5)
+	return 4.5 + floored*r
 }
 
 func PhysicalArea(totalTime, usedTime, rate float64) float64 {
 	significance := 2.0
+	rate = rate / 100
 	// 计算剩余时间
 	remaining := totalTime - usedTime
 	// 将 remaining 向下取整到最接近的 2 的倍数
 	floored := math.Floor(remaining/significance) * significance
 	// 最终结果：4.5 + (floored * multiplier)
-	return 4.5 + floored*rate/100
+	return 4.5 + floored*rate
 }
 
 func EtherArea(totalTime, usedTime, rate float64) float64 {
+	rate = rate / 100
 	// 第一步：计算 (totalTime - usedTime) / step
 	ratio := (totalTime - usedTime) / 0.5
 	// 第二步：向下取整到最接近的 2 的倍数
 	floored := math.Floor(ratio/2) * 2
 	// 第三步：乘以倍率再加上 4.5
-	return 4.5 + floored*rate/100
+	return 4.5 + floored*rate
 }
 
 func IceArea(totalTime, usedTime, rate float64) float64 {
+	rate = rate / 100
 	significance := 2.0
 	// 计算剩余时间
 	remaining := totalTime - usedTime
 	// 将 remaining 向下取整到最接近的 2 的倍数
 	floored := math.Floor(remaining/significance) * significance
 	// 最终结果：4.5 + (floored * multiplier)
-	return 4.5 + floored*rate/100
+	return 4.5 + floored*rate
 }
 
 func ElectricityArea(totalTime, usedTime, rate float64) float64 {
+	rate = rate / 100
 	significance := 2.0
 	remaining := totalTime - usedTime
 	// 向下取整到最近的 2 的倍数
 	floored := math.Floor(remaining/significance) * significance
-	return 4.5 + floored*rate/100
+	return 4.5 + floored*rate
 }
