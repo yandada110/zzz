@@ -18,28 +18,28 @@ func MagnificationBase月城柳() []*Magnification {
 	return []*Magnification{
 		{
 			MagnificationValue: 126.6 + 193.3 + 258.8,
-			TriggerTimes:       6,
+			TriggerTimes:       3,
 			Critical:           12,
 			Name:               "普攻",
 			IncreasedDamage:    40,
 		},
 		{
 			MagnificationValue: 788.3,
-			TriggerTimes:       2,
+			TriggerTimes:       1,
 			Critical:           12,
 			Name:               "强化特殊技",
 			IncreasedDamage:    40,
 		},
 		{
 			MagnificationValue: 4282.8,
-			TriggerTimes:       2.5,
+			TriggerTimes:       2,
 			Critical:           12,
 			Name:               "拔刀",
 			IncreasedDamage:    40 + 60,
 		},
 		&Magnification{
 			MagnificationValue: common.AbnormalMagnification[common.Ice],
-			TriggerTimes:       2,
+			TriggerTimes:       1,
 			Name:               "碎冰",
 			DamageType:         common.Abnormal,
 			DisorderType:       common.Ice,
@@ -103,7 +103,7 @@ func (i *Initializations) InitializationBase0命(role *Role.BaseRole, article *a
 	i.Gain = &Gain{
 		AttackValue:              316, // 攻击力值增加(固定2号位数值)
 		AttackValue2:             0,   // 攻击力值增加(局内加的固定攻击力)
-		AttackPowerPercentage:    30,  // 局外攻击力百分比(6号位+武器主词条+5号位+4号位+副词条)
+		AttackPowerPercentage:    0,   // 局外攻击力百分比(6号位+武器主词条+5号位+4号位+副词条)
 		AttackInternalPercentage: 0,   // 局内攻击力百分比(武器，4件套)
 		Critical:                 12,  // 增加暴击（角色+武器+4件套）
 		ExplosiveInjury:          46,  // 增加爆伤（角色+武器+2件套+4号位）
@@ -111,6 +111,9 @@ func (i *Initializations) InitializationBase0命(role *Role.BaseRole, article *a
 		ReductionResistance:      0,   // 减抗（百分比）
 		Vulnerable:               0,   // 易伤（百分比）
 		SpecialDamage:            0,   // 特殊增伤（百分比）
+	}
+	if i.NumberSix == common.AttackPowerPercentage {
+		i.Gain.AttackPowerPercentage = 30
 	}
 	if article.Type == common.AttackPowerPercentage {
 		i.Gain.AttackPowerPercentage += article.MainArticle

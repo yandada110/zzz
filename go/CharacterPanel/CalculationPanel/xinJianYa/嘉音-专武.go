@@ -10,7 +10,8 @@ func 星见雅01月城柳00嘉音00() *Initializations {
 	name := "星见雅01月城柳00嘉音00"
 	init := &Initializations{
 		Name:       name,
-		NumberFour: common.ExplosiveInjury,
+		NumberFour: common.Critical,
+		NumberSix:  common.AttackPowerPercentage,
 	}
 	// 初始化基础数值
 	init.InitializationBase0命(Role.XinJianYa(), arms.XiaLuoXingDian(true))

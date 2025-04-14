@@ -61,7 +61,7 @@ func (i *Initializations) OutputResult(bestDistribution map[string]int) {
 			)
 			internalPanel := model.CurrentPanel
 			fmt.Println("局内面板:")
-			fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%, 增伤: %.2f%%, 穿透: %.2f%%，精通: %.0f， 破防: %.2f%%\n",
+			fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%, 增伤: %.2f%%, 精通: %.0f， 穿透: %.2f%%，破防: %.2f%%\n",
 				internalPanel.Attack,
 				internalPanel.Critical,
 				internalPanel.ExplosiveInjury,

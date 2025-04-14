@@ -182,9 +182,13 @@ func (i *Initialization) handleAbnormalArea(magnification *Magnification) {
 	var number float64 = 1
 	// 火和以太，0.5秒一次伤害
 	if magnification.DisorderType == common.Ether || magnification.DisorderType == common.Fire {
-		number = 2
+		number = (common.TimeTotal - magnification.TimeConsumption) * 2
 	}
-	i.Output.BasicDamageArea = i.CurrentPanel.Attack * magnification.MagnificationValue / 100 * magnification.TriggerTimes * (common.TimeTotal - magnification.TimeConsumption) * number
+	// 火和以太，0.5秒一次伤害
+	if magnification.DisorderType == common.Electricity {
+		number = common.TimeTotal - magnification.TimeConsumption
+	}
+	i.Output.BasicDamageArea = i.CurrentPanel.Attack * magnification.MagnificationValue / 100 * magnification.TriggerTimes * number
 }
 
 func (i *Initialization) HandleDisorderArea(magnification *Magnification) (basicDamageArea float64) {
