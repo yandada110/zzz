@@ -39,3 +39,15 @@ func FeiNiaoXingMeng(type1 bool, number float64) *MainArticle {
 	}
 	return m
 }
+
+/*
+*
+双生泣星
+*/
+func ShuangShengQiXing(type1 bool) *MainArticle {
+	m := &MainArticle{}
+	m.BaseAttackValue = 594
+	m.MainArticle = 25
+	m.Type = common.AttackPowerPercentage
+	return m
+}

@@ -75,6 +75,9 @@ func (i *Initializations) initializationCount() {
 }
 
 func (i *Initializations) checkCondition(slots map[string]int) bool {
+	if slots[common.ExplosiveInjury] > 6 || slots[common.Critical] > 6 {
+		return false
+	}
 	status := false
 	// 增伤-穿透率是固定值，不满足的直接过滤
 	for _, pair := range common.AllowedGroupB {

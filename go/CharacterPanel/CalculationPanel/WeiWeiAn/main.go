@@ -10,7 +10,11 @@ import (
 func main() {
 	// 初始化各套队伍（示例，具体初始化函数需自行实现）
 	initializations := []*Initializations{
-		星见雅01月城柳00嘉音00(),
+		简01薇薇安01嘉音00(),
+		简01薇薇安0双生嘉音00(),
+		简01薇薇安1双生嘉音00(),
+		简01薇薇安11嘉音00(),
+		简01薇薇安21嘉音00(),
 	}
 	// 针对每套队伍进行计算
 	for idx, initialization := range initializations {
@@ -78,7 +82,7 @@ func (i *Initializations) OutputResult(bestDistribution map[string]int) {
 		fmt.Println(model.Name, "-最终伤害:")
 		// 对每个技能分别调用 InitializationArea 更新输出数据后计算伤害
 		i.CharacterPanelWithDistribution(model, bestDistribution)
-		totalModelSkillDamage := i.CalculatingTotalDamage(model, bestDistribution)
+		totalModelSkillDamage := i.CalculatingTotalDamage1(model, bestDistribution)
 		fmt.Printf("  技能总伤害: %.6f\n", totalModelSkillDamage)
 		fmt.Println("--------------------------------------------------")
 	}

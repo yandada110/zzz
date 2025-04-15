@@ -115,6 +115,27 @@ func (i *Initializations) CalculatingTotalDamage(initialization *Initialization,
 	return totalDamage
 }
 
+func (i *Initializations) CalculatingTotalDamage1(initialization *Initialization, distribution map[string]int) float64 {
+	totalDamage := 0.0
+	for _, mag := range initialization.Magnifications {
+		i.InitializationArea(initialization, mag, distribution)
+		var bamage float64
+		switch mag.DamageType {
+		case common.Disorder:
+			bamage = i.DisorderDamage(initialization)
+		case common.Abnormal:
+			bamage = i.AbnormalDamage(initialization)
+		case common.Different:
+			bamage = i.DifferentDamage(initialization)
+		default:
+			bamage = i.DirectInjuryDamage(initialization)
+		}
+		//fmt.Printf("  %s总伤害: %.6f\n", mag.Name, bamage)
+		totalDamage += bamage
+	}
+	return totalDamage
+}
+
 func (i *Initializations) DirectInjuryDamage(initialization *Initialization) float64 {
 	return initialization.Output.BasicDamageArea *
 		initialization.Output.IncreasedDamageArea *
@@ -166,7 +187,7 @@ func (i *Initializations) InitializationArea(initialization *Initialization, mag
 	initialization.ReductionResistanceArea(magnification)
 	initialization.VulnerableArea()
 	initialization.SpecialDamageArea()
-	initialization.ProficientArea(initialization)
+	initialization.ProficientArea(initialization, magnification)
 	initialization.GradeArea(initialization)
 }
 
@@ -207,7 +228,7 @@ func (i *Initialization) handleAbnormalArea(magnification *Magnification) {
 }
 
 func (i *Initialization) handleDifferentArea(magnification *Magnification) {
-	i.Output.BasicDamageArea = magnification.Damage * i.CurrentPanel.Proficient / 10 * magnification.MagnificationValue / 100 * magnification.TriggerTimes
+	i.Output.BasicDamageArea = magnification.Damage * (i.CurrentPanel.Proficient + magnification.Proficient) / 10 * magnification.MagnificationValue / 100 * magnification.TriggerTimes
 }
 
 func (i *Initialization) HandleDisorderArea(magnification *Magnification) (basicDamageArea float64) {
@@ -254,8 +275,8 @@ func (i *Initialization) SpecialDamageArea() {
 	i.Output.SpecialDamageArea = 1 + (i.CurrentPanel.SpecialDamage)/100
 }
 
-func (i *Initialization) ProficientArea(initialization *Initialization) {
-	initialization.Output.ProficientArea = i.CurrentPanel.Proficient / 100
+func (i *Initialization) ProficientArea(initialization *Initialization, magnification *Magnification) {
+	initialization.Output.ProficientArea = (i.CurrentPanel.Proficient + magnification.Proficient) / 100
 }
 
 func (i *Initialization) GradeArea(initialization *Initialization) {

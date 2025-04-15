@@ -25,15 +25,15 @@ func 简01赛斯65嘉音00() *Initializations {
 			Output:         &Output{},
 			CurrentPanel:   &CurrentPanel{},
 		},
-		&Initialization{
-			Magnifications: MagnificationBase2(),
-			Gain: &Gain{
-				Vulnerable: 25,
-			},
-			Name:         name + "-失衡",
-			Output:       &Output{},
-			CurrentPanel: &CurrentPanel{},
-		},
+		//&Initialization{
+		//	Magnifications: MagnificationBase2(),
+		//	Gain: &Gain{
+		//		Vulnerable: 25,
+		//	},
+		//	Name:         name + "-失衡",
+		//	Output:       &Output{},
+		//	CurrentPanel: &CurrentPanel{},
+		//},
 	}
 	return init
 }

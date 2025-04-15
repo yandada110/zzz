@@ -166,6 +166,7 @@ type Magnification struct {
 	DisorderType             string  // 紊乱伤害类型
 	TimeConsumption          float64 // 异常消耗时间量
 	Damage                   float64 // 针对异常伤害-计算异放伤害
+	Proficient               float64 // 精通
 }
 
 // 队友提供的局内增益效果
