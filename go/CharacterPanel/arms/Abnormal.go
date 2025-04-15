@@ -23,16 +23,16 @@ func CuiFengQianCi(type1 bool) *MainArticle {
 
 /*
 *
-淬锋钳刺
+飞鸟星梦
 */
-func FeiNiaoXingMeng(type1 bool) *MainArticle {
+func FeiNiaoXingMeng(type1 bool, number float64) *MainArticle {
 	m := &MainArticle{}
 	m.BaseAttackValue = 713
 	m.MainArticle = 90
 	m.Type = common.Proficient
 	if type1 {
 		m.OtherBenefits = append(m.OtherBenefits, &OtherBenefits{
-			Value:    20,                         // 被动效果增益值
+			Value:    20 * number,                // 被动效果增益值
 			Type:     common.Proficient,          // 被动效果增益值
 			GainForm: common.GainFormInsideFixed, // 被动效果增益值
 		})

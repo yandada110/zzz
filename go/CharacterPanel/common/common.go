@@ -36,6 +36,7 @@ const (
 	DirectInjury = "DirectInjury" // 直伤
 	Abnormal     = "Abnormal"     // 异常
 	Disorder     = "Disorder"     // 紊乱
+	Different    = "Different"    // 异放
 )
 
 // 异常伤害倍率固定
@@ -63,6 +64,14 @@ var DisorderMagnification = map[string]float64{
 	Physical:    7.5,
 	Ice:         7.5,
 	Ether:       62.5,
+}
+
+var DifferentMagnification = map[string]float64{
+	Fire:        8,
+	Electricity: 3.2,
+	Physical:    0.75,
+	Ice:         1.08,
+	Ether:       6.15,
 }
 
 func FireArea(totalTime, usedTime, rate float64) float64 {

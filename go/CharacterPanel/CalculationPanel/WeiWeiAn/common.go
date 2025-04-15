@@ -9,116 +9,68 @@ import (
 // ------------------------ 常量定义 ------------------------
 const (
 	// 每个队伍可分配的词条数（示例值）
-	GlobalMainArticle = 50
+	GlobalMainArticle = 58
 	// 词条类型数量
 	GlobalMainArticleTypeCount = 6
-	// 暴击值上限
-	CriticalCount = 100
 )
 
 func MagnificationBase1() []*Magnification {
 	return []*Magnification{
-		&Magnification{
-			MagnificationValue: 72.4 + 125 + 167.1 + 327.3 + 197.8 + 582.8,
-			TriggerTimes:       6,
-			Name:               "普攻",
-			DamageType:         common.DirectInjury,
-		},
-		&Magnification{
-			MagnificationValue: 602.2 + 323,
-			TriggerTimes:       3,
-			Name:               "萨霍夫跳",
-			DamageType:         common.DirectInjury,
-		},
-		&Magnification{
-			MagnificationValue: 683.3,
-			TriggerTimes:       5,
-			Name:               "闪避反击",
-			DamageType:         common.DirectInjury,
-		},
-		&Magnification{
-			MagnificationValue: 1150,
-			TriggerTimes:       2,
-			Name:               "强化特殊技",
-			DamageType:         common.DirectInjury,
-		},
-		&Magnification{
-			MagnificationValue: common.AbnormalMagnification[common.Physical],
-			TriggerTimes:       3.5,
-			Name:               "强击",
-			DamageType:         common.Abnormal,
+		//{
+		//	MagnificationValue: 160.5,
+		//	TriggerTimes:       6,
+		//	Name:               "群居浮游",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//{
+		//	MagnificationValue: 440,
+		//	TriggerTimes:       3,
+		//	Name:               "落雨生花",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//{
+		//	MagnificationValue: 1185.5,
+		//	TriggerTimes:       5,
+		//	Name:               "强化特殊技",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//{
+		//	MagnificationValue: 747.9,
+		//	TriggerTimes:       2,
+		//	Name:               "格挡反击",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//{
+		//	MagnificationValue: 3374.2,
+		//	TriggerTimes:       2,
+		//	Name:               "终结技",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//{
+		//	MagnificationValue: 55,
+		//	TriggerTimes:       60 / 0.55,
+		//	Name:               "薇薇安的语言",
+		//	DamageType:         common.DirectInjury,
+		//},
+		// 这里需要处理一下，如果是简，那么这个就跟强击收益有关
+		{
+			MagnificationValue: common.DifferentMagnification[common.Physical],
+			TriggerTimes:       1,
+			Name:               "异放",
+			DamageType:         common.Different,
 			DisorderType:       common.Physical,
-			SpecialDamage:      50,
+			Damage:             25,
 		},
-		&Magnification{
-			MagnificationValue: common.DisorderMagnification[common.Physical],
-			TriggerTimes:       1,
-			Name:               "畏缩结算",
-			DamageType:         common.Disorder,
-			DisorderType:       common.Physical,
-			TimeConsumption:    0,
-		},
+		//{
+		//	MagnificationValue: common.DisorderMagnification[common.Ether],
+		//	TriggerTimes:       1,
+		//	Name:               "以太结算",
+		//	DamageType:         common.Disorder,
+		//	DisorderType:       common.Ether,
+		//	TimeConsumption:    3,
+		//	IncreasedDamage:    12 + 25,
+		//},
 	}
-}
-
-func MagnificationBase2() []*Magnification {
-	return []*Magnification{
-		&Magnification{
-			MagnificationValue: 602.2 + 323,
-			TriggerTimes:       3,
-			Name:               "萨霍夫跳",
-			DamageType:         common.DirectInjury,
-		},
-		&Magnification{
-			MagnificationValue: 1150,
-			TriggerTimes:       1,
-			Name:               "强化特殊技",
-			DamageType:         common.DirectInjury,
-		},
-		&Magnification{
-			MagnificationValue: 1266.2 + 1266.2 + 2941.3,
-			TriggerTimes:       1,
-			Name:               "双连携+终结技",
-			DamageType:         common.DirectInjury,
-		},
-		&Magnification{
-			MagnificationValue: common.AbnormalMagnification[common.Physical],
-			TriggerTimes:       2.5,
-			Name:               "强击",
-			DamageType:         common.Abnormal,
-			SpecialDamage:      50,
-		},
-	}
-}
-
-func (i *Initializations) InitializationBase1(role *Role.BaseRole, article *arms.MainArticle) {
-	i.Basic = &Basic{
-		BasicAttack:              role.AttackValue + article.BaseAttackValue, // 基础攻击力（角色+专武）
-		BasicCritical:            role.Critical,                              // 基础暴击（角色+武器+2件套+4号位）
-		BasicExplosiveInjury:     role.ExplosiveInjury,                       // 基础爆伤（角色+武器+2件套+4号位）
-		BasicIncreasedDamage:     role.IncreasedDamage,                       // 基础增伤（角色+武器+驱动盘）
-		BasicReductionResistance: role.ReductionResistance,                   // 基础减抗（角色+武器+驱动盘）
-		BasicProficient:          role.Proficient,                            // 基础精通（角色）
-	}
-	i.Gain = &Gain{
-		AttackValue:              316, // 攻击力值增加(固定2号位数值)
-		AttackValue2:             600, // 攻击力值增加(局内加的固定攻击力)
-		AttackPowerPercentage:    0,   // 局外攻击力百分比(6号位+武器主词条+5号位+4号位+副词条)
-		AttackInternalPercentage: 0,   // 局内攻击力百分比(武器，4件套)
-		Critical:                 0,   // 增加暴击（角色+武器+4件套）
-		ExplosiveInjury:          0,   // 增加爆伤（角色+武器+2件套+4号位）
-		IncreasedDamage:          0,   // 增伤（角色自身）
-		ReductionResistance:      0,   // 减抗（百分比）
-		Vulnerable:               0,   // 易伤（百分比）
-		SpecialDamage:            0,   // 特殊增伤（百分比）
-	}
-	i.Defense = &Defense{
-		Penetration:      role.Penetration,  // 穿透率（百分比）
-		DefenseBreak:     role.DefenseBreak, // 破防百分比（百分比）
-		PenetrationValue: 0,                 // 穿透值（固定值）
-	}
-	i.HandleNumberFour()
-	i.HandleArticleType(article)
 }
 
 func (i *Initializations) InitializationRole(buffCharacters []*Role.BuffCharacter) {
@@ -131,13 +83,21 @@ func (i *Initializations) InitializationRole(buffCharacters []*Role.BuffCharacte
 		i.Gain.ReductionResistance += buffCharacter.ReductionResistance
 		i.Gain.Vulnerable += buffCharacter.Vulnerable
 		i.Gain.SpecialDamage += buffCharacter.SpecialDamage
-		i.Gain.Proficient += buffCharacter.Proficient
 		i.Defense.Penetration += buffCharacter.Penetration
 		i.Defense.DefenseBreak += buffCharacter.DefenseBreak
 	}
 }
 
-func (i *Initializations) HandleNumberFour() {
+// 0命
+func (i *Initializations) InitializationBase0命(role *Role.BaseRole, article *arms.MainArticle) {
+	i.Basic = &Basic{
+		BasicAttack:              role.AttackValue + article.BaseAttackValue, // 基础攻击力（角色+专武）
+		BasicCritical:            role.Critical,                              // 基础暴击（角色+武器+2件套+4号位）
+		BasicExplosiveInjury:     role.ExplosiveInjury,                       // 基础爆伤（角色+武器+2件套+4号位）
+		BasicIncreasedDamage:     role.IncreasedDamage,                       // 基础增伤（角色+武器+驱动盘）
+		BasicReductionResistance: role.ReductionResistance,                   // 基础减抗（角色+武器+驱动盘）
+		BasicProficient:          role.Proficient,                            // 精通
+	}
 	if i.NumberFour == common.Critical {
 		i.Basic.BasicCritical += 24
 	}
@@ -145,28 +105,34 @@ func (i *Initializations) HandleNumberFour() {
 		i.Basic.BasicExplosiveInjury += 48
 	}
 	if i.NumberFour == common.Proficient {
-		i.Basic.BasicProficient += 92
+		i.Basic.BasicProficient += 90
 	}
-}
 
-func (i *Initializations) HandleArticleType(article *arms.MainArticle) {
 	if article.Type == common.Critical {
 		i.Basic.BasicCritical += article.MainArticle
 	}
 	if article.Type == common.ExplosiveInjury {
 		i.Basic.BasicExplosiveInjury += article.MainArticle
 	}
-	if article.Type == common.Proficient {
-		i.Basic.BasicProficient += article.MainArticle
+	i.Gain = &Gain{
+		AttackValue:              316, // 攻击力值增加(固定2号位数值)
+		AttackValue2:             0,   // 攻击力值增加(局内加的固定攻击力)
+		AttackPowerPercentage:    0,   // 局外攻击力百分比(6号位+武器主词条+5号位+4号位+副词条)
+		AttackInternalPercentage: 0,   // 局内攻击力百分比(武器，4件套)
+		Critical:                 0,   // 增加暴击（角色+武器+4件套）
+		ExplosiveInjury:          0,   // 增加爆伤（角色+武器+2件套+4号位）
+		IncreasedDamage:          0,   // 增伤（队友百分比）
+		ReductionResistance:      0,   // 减抗（百分比）
+		Vulnerable:               0,   // 易伤（百分比）
+		SpecialDamage:            0,   // 特殊增伤（百分比）
+	}
+	if i.NumberSix == common.AttackPowerPercentage {
+		i.Gain.AttackPowerPercentage = 30
 	}
 	if article.Type == common.AttackPowerPercentage {
 		i.Gain.AttackPowerPercentage += article.MainArticle
 	}
-	i.HandleOtherBenefit(article.OtherBenefits)
-}
-
-func (i *Initializations) HandleOtherBenefit(OtherBenefits []*arms.OtherBenefits) {
-	for _, OtherBenefit := range OtherBenefits {
+	for _, OtherBenefit := range article.OtherBenefits {
 		if OtherBenefit.Type == common.Critical {
 			i.Gain.Critical += OtherBenefit.Value
 		}
@@ -185,5 +151,10 @@ func (i *Initializations) HandleOtherBenefit(OtherBenefits []*arms.OtherBenefits
 		if OtherBenefit.Type == common.ReductionResistance {
 			i.Gain.ReductionResistance += OtherBenefit.Value
 		}
+	}
+	i.Defense = &Defense{
+		Penetration:      role.Penetration,  // 穿透率（百分比）
+		DefenseBreak:     role.DefenseBreak, // 破防百分比（百分比）
+		PenetrationValue: 0,                 // 穿透值（固定值）
 	}
 }
