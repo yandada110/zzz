@@ -170,13 +170,6 @@ func (i *Initializations) DisorderDamage(initialization *Initialization) float64
 
 func (i *Initializations) DifferentDamage(initialization *Initialization) float64 {
 	return initialization.Output.BasicDamageArea
-	//initialization.Output.IncreasedDamageArea *
-	//initialization.Output.DefenseArea *
-	//initialization.Output.ReductionResistanceArea *
-	//initialization.Output.VulnerableArea *
-	//initialization.Output.SpecialDamageArea *
-	//initialization.Output.GradeArea *
-	//initialization.Output.ProficientArea
 }
 
 func (i *Initializations) InitializationArea(initialization *Initialization, magnification *Magnification, distribution map[string]int) {
@@ -228,7 +221,7 @@ func (i *Initialization) handleAbnormalArea(magnification *Magnification) {
 }
 
 func (i *Initialization) handleDifferentArea(magnification *Magnification) {
-	i.Output.BasicDamageArea = magnification.Damage * (i.CurrentPanel.Proficient + magnification.Proficient) / 10 * magnification.MagnificationValue / 100 * magnification.TriggerTimes
+	i.Output.BasicDamageArea = magnification.Damage * (i.CurrentPanel.Proficient + magnification.Proficient) / 10 * magnification.MagnificationValue / 100 * magnification.TriggerTimes * (1 + magnification.ReductionResistance/100)
 }
 
 func (i *Initialization) HandleDisorderArea(magnification *Magnification) (basicDamageArea float64) {

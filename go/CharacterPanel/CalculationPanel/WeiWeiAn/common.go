@@ -68,7 +68,7 @@ func MagnificationBase1() []*Magnification {
 		},
 		{
 			MagnificationValue: common.DisorderMagnification[common.Ether],
-			TriggerTimes:       2,
+			TriggerTimes:       2.5,
 			Name:               "以太结算",
 			DamageType:         common.Disorder,
 			DisorderType:       common.Ether,
@@ -336,15 +336,16 @@ func MagnificationBase1薇薇安11() []*Magnification {
 			Name:               "异放",
 			DamageType:         common.Different,
 			DisorderType:       common.Physical,
-			Damage:             720067,
+			Damage:             779150,
 		},
 		{
 			MagnificationValue: common.DisorderMagnification[common.Ether],
-			TriggerTimes:       2,
+			TriggerTimes:       2.5,
 			Name:               "以太结算",
 			DamageType:         common.Disorder,
 			DisorderType:       common.Ether,
 			TimeConsumption:    2,
+			IncreasedDamage:    12 + 25 + 16,
 		},
 	}
 }
@@ -399,12 +400,12 @@ func MagnificationBase1薇薇安21() []*Magnification {
 			Name:                "异放",
 			DamageType:          common.Different,
 			DisorderType:        common.Physical,
-			Damage:              720067,
+			Damage:              779150,
 			ReductionResistance: 20,
 		},
 		{
 			MagnificationValue: common.DisorderMagnification[common.Ether],
-			TriggerTimes:       2,
+			TriggerTimes:       3,
 			Name:               "以太结算",
 			DamageType:         common.Disorder,
 			DisorderType:       common.Ether,
