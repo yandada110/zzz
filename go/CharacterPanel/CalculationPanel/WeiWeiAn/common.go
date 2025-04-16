@@ -9,9 +9,9 @@ import (
 // ------------------------ 常量定义 ------------------------
 const (
 	// 每个队伍可分配的词条数（示例值）
-	GlobalMainArticle = 58
+	GlobalMainArticle = 43
 	// 词条类型数量
-	GlobalMainArticleTypeCount = 6
+	GlobalMainArticleTypeCount = 4
 )
 
 func MagnificationBase1() []*Magnification {

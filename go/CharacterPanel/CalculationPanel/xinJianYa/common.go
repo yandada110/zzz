@@ -9,9 +9,9 @@ import (
 // ------------------------ 常量定义 ------------------------
 const (
 	// 每个队伍可分配的词条数（示例值）
-	GlobalMainArticle = 58
+	GlobalMainArticle = 53
 	// 词条类型数量
-	GlobalMainArticleTypeCount = 6
+	GlobalMainArticleTypeCount = 5
 )
 
 func MagnificationBase月城柳() []*Magnification {

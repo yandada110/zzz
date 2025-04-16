@@ -99,8 +99,6 @@ func (i *Initializations) FindOptimalDistribution() (bestSim *Initializations, b
 	bestDistribution = make(map[string]int)
 	//初始化属性词条的上限
 	i.initializationCount()
-	// 不计算攻击力值词条，默认为5个词条
-	i.Basic.BasicAttack += float64(i.Condition.AttackValueMin * 9)
 	// 遍历所有分配方案
 	for _, dist := range distributions {
 		total++
@@ -110,7 +108,6 @@ func (i *Initializations) FindOptimalDistribution() (bestSim *Initializations, b
 			common.ExplosiveInjury:       dist[2],
 			common.IncreasedDamage:       dist[3],
 			common.Penetrate:             dist[4],
-			common.Proficient:            dist[5],
 		}
 		var damage = 0.0
 		var lastSim []*Initialization

@@ -29,7 +29,7 @@ func main() {
 			bestDistribution[common.ExplosiveInjury],
 			bestDistribution[common.Proficient],
 			initialization.Condition.AttackValueMin,
-			0,
+			initialization.Condition.PenetrationValueMin,
 			bestDistribution[common.IncreasedDamage],
 			bestDistribution[common.Penetrate],
 		)
@@ -56,16 +56,17 @@ func (i *Initializations) OutputResult(bestDistribution map[string]int) {
 				penetration = 24
 			}
 			attack := float64(bestDistribution[common.AttackPowerPercentage])*3 + i.Gain.AttackPowerPercentage
-			fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%,精通: %.0f, 穿透率: %.2f%%\n",
-				i.Basic.BasicAttack*(1+attack/100)+i.Gain.AttackValue+float64(i.Condition.AttackValueMin*9),
+			fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%,精通: %.0f, 穿透率: %.2f%%, 穿透值: %d \n",
+				i.Basic.BasicAttack*(1+attack/100)+i.Gain.AttackValue+float64(i.Condition.AttackValueMin*19),
 				i.Basic.BasicCritical+float64(bestDistribution[common.Critical])*2.4,
 				i.Basic.BasicExplosiveInjury+float64(bestDistribution[common.ExplosiveInjury])*4.8,
 				i.Basic.BasicProficient+float64(bestDistribution[common.Proficient])*9,
 				penetration,
+				i.Condition.PenetrationValueMin*9,
 			)
 			internalPanel := model.CurrentPanel
 			fmt.Println("局内面板:")
-			fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%, 增伤: %.2f%%, 精通: %.0f， 穿透: %.2f%%，破防: %.2f%%\n",
+			fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%, 增伤: %.2f%%, 精通: %.0f， 穿透: %.2f%%，破防: %.2f%%， 穿透值: %d\n ",
 				internalPanel.Attack,
 				internalPanel.Critical,
 				internalPanel.ExplosiveInjury,
@@ -73,6 +74,7 @@ func (i *Initializations) OutputResult(bestDistribution map[string]int) {
 				internalPanel.Proficient,
 				i.Defense.Penetration+penetration,
 				internalPanel.DefenseBreak,
+				i.Condition.PenetrationValueMin*9,
 			)
 			status = true
 		}
@@ -103,18 +105,16 @@ func (i *Initializations) FindOptimalDistribution() (bestSim *Initializations, b
 	bestDistribution = make(map[string]int)
 	//初始化属性词条的上限
 	i.initializationCount()
-	// 不计算攻击力值词条，默认为5个词条
-	i.Basic.BasicAttack += float64(i.Condition.AttackValueMin * 9)
 	// 遍历所有分配方案
 	for _, dist := range distributions {
 		total++
 		distribution := map[string]int{
 			common.AttackPowerPercentage: dist[0],
-			common.Critical:              dist[1],
-			common.ExplosiveInjury:       dist[2],
-			common.IncreasedDamage:       dist[3],
-			common.Penetrate:             dist[4],
-			common.Proficient:            dist[5],
+			//common.Critical:              dist[1],
+			//common.ExplosiveInjury:       dist[2],
+			common.IncreasedDamage: dist[1],
+			common.Penetrate:       dist[2],
+			common.Proficient:      dist[3],
 		}
 		var damage = 0.0
 		var lastSim []*Initialization
@@ -133,6 +133,7 @@ func (i *Initializations) FindOptimalDistribution() (bestSim *Initializations, b
 			if initialization.CurrentPanel.Penetration > 100 {
 				initialization.CurrentPanel.Penetration = 100
 			}
+			initialization.CurrentPanel.PenetrationValue = float64(i.Condition.PenetrationValueMin * 9)
 			damage += i.CalculatingTotalDamage(initialization, distribution)
 			lastSim = append(lastSim, initialization.DeepCopy())
 		}
