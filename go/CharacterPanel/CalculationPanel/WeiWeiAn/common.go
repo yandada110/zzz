@@ -59,12 +59,12 @@ func MagnificationBase1() []*Magnification {
 		},
 		// 这里需要处理一下，如果是简，那么这个就跟强击收益有关
 		{
-			MagnificationValue: common.DifferentMagnification[common.Physical],
+			MagnificationValue: common.DifferentMagnification[common.Electricity],
 			TriggerTimes:       6,
 			Name:               "异放",
 			DamageType:         common.Different,
-			DisorderType:       common.Physical,
-			Damage:             720067,
+			DisorderType:       common.Electricity,
+			Damage:             100000,
 		},
 		{
 			MagnificationValue: common.DisorderMagnification[common.Ether],
