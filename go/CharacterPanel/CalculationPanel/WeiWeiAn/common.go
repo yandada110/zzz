@@ -440,16 +440,6 @@ func (i *Initializations) InitializationBase0命(role *Role.BaseRole, article *a
 		BasicReductionResistance: role.ReductionResistance,                   // 基础减抗（角色+武器+驱动盘）
 		BasicProficient:          role.Proficient,                            // 精通
 	}
-	if i.NumberFour == common.Critical {
-		i.Basic.BasicCritical += 24
-	}
-	if i.NumberFour == common.ExplosiveInjury {
-		i.Basic.BasicExplosiveInjury += 48
-	}
-	if i.NumberFour == common.Proficient {
-		i.Basic.BasicProficient += 90
-	}
-
 	if article.Type == common.Critical {
 		i.Basic.BasicCritical += article.MainArticle
 	}
@@ -474,7 +464,45 @@ func (i *Initializations) InitializationBase0命(role *Role.BaseRole, article *a
 	if article.Type == common.AttackPowerPercentage {
 		i.Gain.AttackPowerPercentage += article.MainArticle
 	}
-	for _, OtherBenefit := range article.OtherBenefits {
+	i.Defense = &Defense{
+		Penetration:      role.Penetration,  // 穿透率（百分比）
+		DefenseBreak:     role.DefenseBreak, // 破防百分比（百分比）
+		PenetrationValue: 0,                 // 穿透值（固定值）
+	}
+	i.HandleNumberFour()
+	i.HandleArticleType(article)
+}
+
+func (i *Initializations) HandleNumberFour() {
+	if i.NumberFour == common.Critical {
+		i.Basic.BasicCritical += 24
+	}
+	if i.NumberFour == common.ExplosiveInjury {
+		i.Basic.BasicExplosiveInjury += 48
+	}
+	if i.NumberFour == common.Proficient {
+		i.Basic.BasicProficient += 92
+	}
+}
+
+func (i *Initializations) HandleArticleType(article *arms.MainArticle) {
+	if article.Type == common.Critical {
+		i.Basic.BasicCritical += article.MainArticle
+	}
+	if article.Type == common.ExplosiveInjury {
+		i.Basic.BasicExplosiveInjury += article.MainArticle
+	}
+	if article.Type == common.Proficient {
+		i.Basic.BasicProficient += article.MainArticle
+	}
+	if article.Type == common.AttackPowerPercentage {
+		i.Gain.AttackPowerPercentage += article.MainArticle
+	}
+	i.HandleOtherBenefit(article.OtherBenefits)
+}
+
+func (i *Initializations) HandleOtherBenefit(OtherBenefits []*arms.OtherBenefits) {
+	for _, OtherBenefit := range OtherBenefits {
 		if OtherBenefit.Type == common.Critical {
 			i.Gain.Critical += OtherBenefit.Value
 		}
@@ -493,10 +521,5 @@ func (i *Initializations) InitializationBase0命(role *Role.BaseRole, article *a
 		if OtherBenefit.Type == common.ReductionResistance {
 			i.Gain.ReductionResistance += OtherBenefit.Value
 		}
-	}
-	i.Defense = &Defense{
-		Penetration:      role.Penetration,  // 穿透率（百分比）
-		DefenseBreak:     role.DefenseBreak, // 破防百分比（百分比）
-		PenetrationValue: 0,                 // 穿透值（固定值）
 	}
 }
