@@ -52,7 +52,7 @@ func MagnificationBase1() []*Magnification {
 		},
 		{
 			MagnificationValue: 55,
-			TriggerTimes:       48 / 0.55,
+			TriggerTimes:       52 / 0.55,
 			Name:               "薇薇安的语言",
 			DamageType:         common.DirectInjury,
 			IncreasedDamage:    12 + 25,
@@ -60,7 +60,7 @@ func MagnificationBase1() []*Magnification {
 		// 这里需要处理一下，如果是简，那么这个就跟强击收益有关
 		{
 			MagnificationValue: common.DifferentMagnification[common.Physical],
-			TriggerTimes:       12,
+			TriggerTimes:       6,
 			Name:               "异放",
 			DamageType:         common.Different,
 			DisorderType:       common.Physical,
@@ -68,7 +68,7 @@ func MagnificationBase1() []*Magnification {
 		},
 		{
 			MagnificationValue: common.DisorderMagnification[common.Ether],
-			TriggerTimes:       2.5,
+			TriggerTimes:       2,
 			Name:               "以太结算",
 			DamageType:         common.Disorder,
 			DisorderType:       common.Ether,
