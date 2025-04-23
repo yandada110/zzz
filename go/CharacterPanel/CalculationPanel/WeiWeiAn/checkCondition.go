@@ -46,7 +46,7 @@ func (i *Initializations) initializationCount() {
 
 	// 百分比攻击力
 	i.Condition.AttackPercentageMin = 3
-	// 1，2,3号位
+	// 1,2,3号位
 	i.Condition.AttackPercentageMax = i.Condition.AttackPercentageMin * 5
 	if i.NumberFour != common.AttackPowerPercentage {
 		i.Condition.AttackPercentageMin++
@@ -59,7 +59,7 @@ func (i *Initializations) initializationCount() {
 
 	// 精通上限
 	i.Condition.ProficientMin = 5
-	// 1，2，3，5，6号位
+	// 1,2,3,5,6号位
 	i.Condition.ProficientMax = i.Condition.ProficientMin * 5
 	if i.NumberFour != common.Proficient {
 		i.Condition.ProficientMin++
@@ -161,7 +161,6 @@ func (i *Initializations) handle穿透增伤3(condition *Condition, slots map[st
 func (i *Initializations) handle穿透增伤10(condition *Condition, slots map[string]int) bool {
 	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 10 {
 		condition.AttackPercentageMin++
-		condition.AttackValueMin++
 		// 必须要有一个是2件套
 		if (slots[common.Proficient] < i.Condition.ProficientMin+3) && (slots[common.AttackPowerPercentage] < i.Condition.AttackPercentageMin+3) {
 			return false

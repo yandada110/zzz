@@ -17,52 +17,32 @@ const (
 func MagnificationBase1() []*Magnification {
 	return []*Magnification{
 		{
-			MagnificationValue: 440,
-			TriggerTimes:       6,
-			Name:               "落雨生花",
+			MagnificationValue: 1916.2,
+			TriggerTimes:       2 * 2,
+			Name:               "双喷",
 			DamageType:         common.DirectInjury,
 		},
 		{
-			MagnificationValue: 1185.5,
-			TriggerTimes:       1,
-			Name:               "强化特殊技",
+			MagnificationValue: 350,
+			TriggerTimes:       50. / 1.5,
+			Name:               "余烬",
 			DamageType:         common.DirectInjury,
+			IncreasedDamage:    30,
 		},
 		{
-			MagnificationValue: 747.9,
-			TriggerTimes:       2,
-			Name:               "格挡反击",
-			DamageType:         common.DirectInjury,
-		},
-		{
-			MagnificationValue: 3374.2,
+			MagnificationValue: 4025.2,
 			TriggerTimes:       1,
 			Name:               "终结技",
 			DamageType:         common.DirectInjury,
 		},
 		{
-			MagnificationValue: 55,
-			TriggerTimes:       30 / 0.55,
-			Name:               "薇薇安的语言",
-			DamageType:         common.DirectInjury,
-		},
-		// 这里需要处理一下，如果是简，那么这个就跟强击收益有关
-		{
-			MagnificationValue: common.DifferentMagnification[common.Physical],
-			TriggerTimes:       6,
-			Name:               "异放",
-			DamageType:         common.Different,
-			DisorderType:       common.Physical,
-			Damage:             1488434,
-		},
-		{
-			MagnificationValue: common.DisorderMagnification[common.Ether],
+			MagnificationValue: common.DisorderMagnification[common.Fire],
 			TriggerTimes:       2,
-			Name:               "以太结算",
+			Name:               "火结算",
 			DamageType:         common.Disorder,
-			DisorderType:       common.Ether,
-			TimeConsumption:    3,
-			IncreasedDamage:    12,
+			DisorderType:       common.Fire,
+			TimeConsumption:    0,
+			IncreasedDamage:    30,
 		},
 	}
 }
@@ -503,7 +483,7 @@ func (i *Initializations) InitializationBase0命(role *Role.BaseRole, article *a
 		AttackInternalPercentage: 0,   // 局内攻击力百分比(武器，4件套)
 		Critical:                 0,   // 增加暴击（角色+武器+4件套）
 		ExplosiveInjury:          0,   // 增加爆伤（角色+武器+2件套+4号位）
-		IncreasedDamage:          0,   // 增伤（队友百分比）
+		IncreasedDamage:          35,  // 增伤（队友百分比）
 		ReductionResistance:      0,   // 减抗（百分比）
 		Vulnerable:               0,   // 易伤（百分比）
 		SpecialDamage:            0,   // 特殊增伤（百分比）
@@ -512,9 +492,9 @@ func (i *Initializations) InitializationBase0命(role *Role.BaseRole, article *a
 		i.Gain.AttackPowerPercentage = 30
 	}
 	i.Defense = &Defense{
-		Penetration:      role.Penetration,       // 穿透率（百分比）
-		DefenseBreak:     role.DefenseBreak + 15, // 破防百分比（百分比）
-		PenetrationValue: 0,                      // 穿透值（固定值）
+		Penetration:      role.Penetration,  // 穿透率（百分比）
+		DefenseBreak:     role.DefenseBreak, // 破防百分比（百分比）
+		PenetrationValue: 0,                 // 穿透值（固定值）
 	}
 	i.HandleNumberFour()
 	i.HandleArticleType(article)

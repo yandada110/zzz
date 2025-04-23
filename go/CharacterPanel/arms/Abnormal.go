@@ -51,3 +51,29 @@ func ShuangShengQiXing(type1 bool) *MainArticle {
 	m.Type = common.AttackPowerPercentage
 	return m
 }
+
+/*
+*
+灼心摇壶
+*/
+func ZhuoXinYaoHu(type1 bool, type2 bool) *MainArticle {
+	m := &MainArticle{}
+	m.BaseAttackValue = 713
+	m.MainArticle = 30
+	m.Type = common.AttackPowerPercentage
+	if type1 {
+		m.OtherBenefits = append(m.OtherBenefits, &OtherBenefits{
+			Value:    35,                         // 被动效果增益值
+			Type:     common.IncreasedDamage,     // 被动效果增益值
+			GainForm: common.GainFormInsideFixed, // 被动效果增益值
+		})
+	}
+	if type2 {
+		m.OtherBenefits = append(m.OtherBenefits, &OtherBenefits{
+			Value:    50,                         // 被动效果增益值
+			Type:     common.Proficient,          // 被动效果增益值
+			GainForm: common.GainFormInsideFixed, // 被动效果增益值
+		})
+	}
+	return m
+}

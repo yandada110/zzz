@@ -1,8 +1,6 @@
 package main
 
-import (
-	"zzz/CharacterPanel/common"
-)
+import "zzz/CharacterPanel/common"
 
 type Condition struct {
 	AttackPercentageMax int // 攻击力百分比词条基础上限
@@ -35,10 +33,7 @@ func (i *Initializations) initializationCount() {
 	if finalCritical > 100 {
 		i.Condition.CriticalMax--
 	}
-	i.Condition.CriticalMin = 5
-	if i.NumberFour != common.Critical {
-		i.Condition.CriticalMin++
-	}
+
 	// 爆伤词条
 	i.Condition.ExplosiveInjuryMin = 5
 	// 5个磁盘+4
@@ -91,107 +86,88 @@ func (i *Initializations) checkCondition(slots map[string]int) bool {
 	if !status {
 		return false
 	}
+	condition := &Condition{
+		AttackPercentageMax: i.Condition.AttackPercentageMax,
+		ProficientMax:       i.Condition.ProficientMax,
+		CriticalMax:         i.Condition.CriticalMax,
+		ExplosiveInjuryMax:  i.Condition.ExplosiveInjuryMax,
+		AttackValueMax:      i.Condition.AttackValueMax,
+		PenetrationValueMax: i.Condition.PenetrationValueMax,
+
+		AttackPercentageMin: i.Condition.AttackPercentageMin,
+		ProficientMin:       i.Condition.ProficientMin,
+		CriticalMin:         i.Condition.CriticalMin,
+		ExplosiveInjuryMin:  i.Condition.ExplosiveInjuryMin,
+		AttackValueMin:      i.Condition.AttackValueMin,
+		PenetrationValueMin: i.Condition.PenetrationValueMin,
+	}
 	// 假设穿透率-增伤都是0
-	if !i.handle穿透增伤0(slots) {
+	if !i.handle穿透增伤0(condition, slots) {
 		return false
 	}
 	// 假设穿透率-增伤都是3
-	if !i.handle穿透增伤3(slots) {
+	if !i.handle穿透增伤3(condition, slots) {
 		return false
 	}
 	// 假设穿透率-增伤都是10
-	if !i.handle穿透增伤10(slots) {
+	if !i.handle穿透增伤10(condition, slots) {
 		return false
 	}
-	// 假设穿透率-增伤都是13
-	if !i.handle穿透增伤13(slots) {
+	// 精通不满足退出
+	if slots[common.Proficient] < i.Condition.ProficientMin || slots[common.Proficient] > i.Condition.ProficientMax {
 		return false
 	}
-	// 爆伤不满足退出
-	if slots[common.ExplosiveInjury] < i.Condition.ExplosiveInjuryMin || slots[common.ExplosiveInjury] > i.Condition.ExplosiveInjuryMax {
-		return false
-	}
-	// 暴击不满足退出
-	if slots[common.Critical] < i.Condition.CriticalMin || slots[common.Critical] > i.Condition.CriticalMax {
-		return false
-	}
-	//// 精通不满足退出
-	//if slots[common.Proficient] < i.Condition.ProficientMin || slots[common.Proficient] > i.Condition.ProficientMax {
-	//	return false
-	//}
 	// 攻击不满足退出
-	if slots[common.AttackPowerPercentage] < i.Condition.AttackPercentageMin || slots[common.AttackPowerPercentage] > i.Condition.AttackPercentageMax {
+	if slots[common.AttackPowerPercentage] < condition.AttackPercentageMin || slots[common.AttackPowerPercentage] > condition.AttackPercentageMax {
 		return false
 	}
-	//fmt.Println("测试数据", handleValue(slots[common.AttackPowerPercentage], i.Condition.AttackPercentageMin)+handleValue(slots[common.ExplosiveInjury], i.Condition.ExplosiveInjuryMin)+handleValue(slots[common.Critical], i.Condition.CriticalMin))
-	// 百分比攻击+暴击+爆伤词条的有效词条数量不会超过24个词条
-	if handleValue(slots[common.AttackPowerPercentage], i.Condition.AttackPercentageMin)+handleValue(slots[common.ExplosiveInjury], i.Condition.ExplosiveInjuryMin)+handleValue(slots[common.Critical], i.Condition.CriticalMin) != 24 {
-		return false
-	}
+	// 不计算攻击力值词条，默认为5个词条
 	i.Basic.BasicAttackValue = float64(i.Condition.AttackValueMin * 19)
 	return true
 }
 
-func (i *Initializations) handle穿透增伤0(slots map[string]int) bool {
+func (i *Initializations) handle穿透增伤0(condition *Condition, slots map[string]int) bool {
 	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 0 {
 		// 5号位必须是攻击力
 		if slots[common.AttackPowerPercentage] < i.Condition.AttackPercentageMin+10 {
 			return false
 		}
-		i.Condition.AttackPercentageMax += 10
+		condition.AttackPercentageMax += 10
 		// 假设，2件套是其他的情况下
 		if slots[common.AttackPowerPercentage] < i.Condition.AttackPercentageMin+13 {
 			// 必须要有一个是2件套
-			if (slots[common.ExplosiveInjury] < i.Condition.ExplosiveInjuryMin+3) && (slots[common.Critical] < i.Condition.CriticalMin+3) {
+			if slots[common.Proficient] < i.Condition.ProficientMin+3 {
 				return false
 			}
-			i.Condition.ExplosiveInjuryMax += 3
+			condition.ProficientMax += 3
 		} else {
-			i.Condition.AttackPercentageMax += 3
+			condition.AttackPercentageMax += 3
 		}
 	}
 	return true
 }
 
-func (i *Initializations) handle穿透增伤3(slots map[string]int) bool {
+func (i *Initializations) handle穿透增伤3(condition *Condition, slots map[string]int) bool {
 	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 3 {
 		// 5号位必须是攻击力
 		if slots[common.AttackPowerPercentage] < i.Condition.AttackPercentageMin+10 {
 			return false
 		}
-		i.Condition.AttackPercentageMax += 10
+		condition.AttackPercentageMax += 10
 	}
 	return true
 }
 
-func (i *Initializations) handle穿透增伤10(slots map[string]int) bool {
+func (i *Initializations) handle穿透增伤10(condition *Condition, slots map[string]int) bool {
 	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 10 {
-		i.Condition.AttackPercentageMin++
-		i.Condition.AttackValueMin++
+		condition.AttackPercentageMin++
+		condition.AttackValueMin++
 		// 必须要有一个是2件套
-		if (slots[common.AttackPowerPercentage] < i.Condition.AttackPercentageMin+3) && (slots[common.ExplosiveInjury] < i.Condition.ExplosiveInjuryMin+3) && (slots[common.Critical] < i.Condition.CriticalMin+3) {
+		if (slots[common.Proficient] < i.Condition.ProficientMin+3) && (slots[common.AttackPowerPercentage] < i.Condition.AttackPercentageMin+3) {
 			return false
 		}
-		i.Condition.AttackPercentageMax += 3
-		i.Condition.ExplosiveInjuryMax += 3
+		condition.ProficientMax += 3
+		condition.AttackPercentageMax += 3
 	}
 	return true
-}
-
-func (i *Initializations) handle穿透增伤13(slots map[string]int) bool {
-	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 13 {
-		i.Condition.AttackPercentageMin++
-		i.Condition.AttackValueMin++
-		i.Condition.AttackPercentageMax += 3
-		i.Condition.ExplosiveInjuryMax += 3
-	}
-	return true
-}
-
-func handleValue(value, min int) int {
-	number := value - min
-	if number <= 0 {
-		return 0
-	}
-	return number
 }
