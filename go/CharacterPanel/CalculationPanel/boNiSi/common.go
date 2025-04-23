@@ -16,28 +16,28 @@ const (
 
 func MagnificationBase1() []*Magnification {
 	return []*Magnification{
-		{
-			MagnificationValue: 1916.2,
-			TriggerTimes:       2 * 2,
-			Name:               "双喷",
-			DamageType:         common.DirectInjury,
-		},
-		{
-			MagnificationValue: 350,
-			TriggerTimes:       50. / 1.5,
-			Name:               "余烬",
-			DamageType:         common.DirectInjury,
-			IncreasedDamage:    30,
-		},
-		{
-			MagnificationValue: 4025.2,
-			TriggerTimes:       1,
-			Name:               "终结技",
-			DamageType:         common.DirectInjury,
-		},
+		//{
+		//	MagnificationValue: 1916.2,
+		//	TriggerTimes:       2 * 2,
+		//	Name:               "双喷",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//{
+		//	MagnificationValue: 350,
+		//	TriggerTimes:       50. / 1.5,
+		//	Name:               "余烬",
+		//	DamageType:         common.DirectInjury,
+		//	IncreasedDamage:    30,
+		//},
+		//{
+		//	MagnificationValue: 4025.2,
+		//	TriggerTimes:       1,
+		//	Name:               "终结技",
+		//	DamageType:         common.DirectInjury,
+		//},
 		{
 			MagnificationValue: common.DisorderMagnification[common.Fire],
-			TriggerTimes:       2,
+			TriggerTimes:       1,
 			Name:               "火结算",
 			DamageType:         common.Disorder,
 			DisorderType:       common.Fire,
@@ -466,15 +466,6 @@ func (i *Initializations) InitializationBase0命(role *Role.BaseRole, article *a
 		BasicIncreasedDamage:     role.IncreasedDamage,                       // 基础增伤（角色+武器+驱动盘）
 		BasicReductionResistance: role.ReductionResistance,                   // 基础减抗（角色+武器+驱动盘）
 		BasicProficient:          role.Proficient,                            // 精通
-	}
-	if article.Type == common.Critical {
-		i.Basic.BasicCritical += article.MainArticle
-	}
-	if article.Type == common.ExplosiveInjury {
-		i.Basic.BasicExplosiveInjury += article.MainArticle
-	}
-	if article.Type == common.Proficient {
-		i.Basic.BasicProficient += article.MainArticle
 	}
 	i.Gain = &Gain{
 		AttackValue:              316, // 攻击力值增加(固定2号位数值)

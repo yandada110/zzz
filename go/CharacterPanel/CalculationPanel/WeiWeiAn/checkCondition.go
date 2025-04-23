@@ -74,7 +74,6 @@ func (i *Initializations) initializationCount() {
 }
 
 func (i *Initializations) checkCondition(slots map[string]int) bool {
-	i.initializationCount()
 	status := false
 	// 增伤-穿透率是固定值，不满足的直接过滤
 	for _, pair := range common.AllowedGroupB {
@@ -121,8 +120,6 @@ func (i *Initializations) checkCondition(slots map[string]int) bool {
 	if slots[common.AttackPowerPercentage] < condition.AttackPercentageMin || slots[common.AttackPowerPercentage] > condition.AttackPercentageMax {
 		return false
 	}
-	// 不计算攻击力值词条，默认为5个词条
-	i.Basic.BasicAttackValue = float64(i.Condition.AttackValueMin * 19)
 	return true
 }
 

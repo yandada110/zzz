@@ -21,7 +21,7 @@ func WeiWeiAn() *BaseRole {
 		AttackValue:         880,
 		Critical:            5,
 		ExplosiveInjury:     50,
-		Proficient:          144,
+		Proficient:          118,
 		IncreasedDamage:     0,
 		ReductionResistance: 0,
 		BasicVulnerable:     0,
