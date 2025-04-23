@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math"
 	"zzz/CharacterPanel/common"
 )
@@ -39,7 +40,7 @@ func (i *Initializations) HandleBasicAttack(initialization *Initialization, key 
 	if key == common.AttackPowerPercentage {
 		attackPowerPercentage += 3 * float64(count)
 	}
-	initialization.CurrentPanel.Attack = (i.Basic.BasicAttack*(1+attackPowerPercentage/100) + i.Gain.AttackValue + float64(i.Condition.AttackValueMin*19)) * (1 + (i.Gain.AttackInternalPercentage+attackInternalPercentage)/100)
+	initialization.CurrentPanel.Attack = (i.Basic.BasicAttack*(1+attackPowerPercentage/100)+i.Gain.AttackValue+float64(i.Condition.AttackValueMin*19))*(1+(i.Gain.AttackInternalPercentage+attackInternalPercentage)/100) + i.Gain.AttackValue2
 }
 
 // HandleBasicCritical 根据暴击词条更新暴击率，并计算转换为爆伤的词条数
@@ -130,7 +131,7 @@ func (i *Initializations) CalculatingTotalDamage1(initialization *Initialization
 		default:
 			bamage = i.DirectInjuryDamage(initialization)
 		}
-		//fmt.Printf("  %s总伤害: %.6f\n", mag.Name, bamage)
+		fmt.Printf("  %s总伤害: %.6f\n", mag.Name, bamage)
 		totalDamage += bamage
 	}
 	return totalDamage
@@ -179,7 +180,7 @@ func (i *Initializations) InitializationArea(initialization *Initialization, mag
 	i.DefenseArea(initialization, magnification)
 	initialization.ReductionResistanceArea(magnification)
 	initialization.VulnerableArea()
-	initialization.SpecialDamageArea()
+	initialization.SpecialDamageArea(magnification)
 	initialization.ProficientArea(initialization, magnification)
 	initialization.GradeArea(initialization)
 }
@@ -264,8 +265,8 @@ func (i *Initialization) VulnerableArea() {
 	i.Output.VulnerableArea = 1 + (i.CurrentPanel.Vulnerable)/100
 }
 
-func (i *Initialization) SpecialDamageArea() {
-	i.Output.SpecialDamageArea = 1 + (i.CurrentPanel.SpecialDamage)/100
+func (i *Initialization) SpecialDamageArea(magnification *Magnification) {
+	i.Output.SpecialDamageArea = 1 + (i.CurrentPanel.SpecialDamage+magnification.SpecialDamage)/100
 }
 
 func (i *Initialization) ProficientArea(initialization *Initialization, magnification *Magnification) {

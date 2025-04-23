@@ -16,7 +16,7 @@ func 简01赛斯嘉音00() *Initializations {
 	// 初始化基础数值
 	init.InitializationBase1(Role.JianDu(), arms.CuiFengQianCi(true))
 	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.SaiSi(), Role.JiaYin00()})
+	init.InitializationRole([]*Role.BuffCharacter{Role.JiaYin00()})
 
 	init.Initializations = []*Initialization{
 		{

@@ -17,14 +17,8 @@ const (
 func MagnificationBase1() []*Magnification {
 	return []*Magnification{
 		&Magnification{
-			MagnificationValue: 72.4 + 125 + 167.1 + 327.3 + 197.8 + 582.8,
-			TriggerTimes:       6,
-			Name:               "普攻",
-			DamageType:         common.DirectInjury,
-		},
-		&Magnification{
 			MagnificationValue: 602.2 + 323,
-			TriggerTimes:       3,
+			TriggerTimes:       2,
 			Name:               "萨霍夫跳",
 			DamageType:         common.DirectInjury,
 		},
@@ -41,11 +35,27 @@ func MagnificationBase1() []*Magnification {
 			DamageType:         common.DirectInjury,
 		},
 		&Magnification{
+			MagnificationValue: 2941.3,
+			TriggerTimes:       1,
+			Name:               "终结技",
+			DamageType:         common.DirectInjury,
+		},
+		&Magnification{
 			MagnificationValue: common.AbnormalMagnification[common.Physical],
 			TriggerTimes:       4,
 			Name:               "强击",
 			DamageType:         common.Abnormal,
-			SpecialDamage:      50,
+			SpecialDamage:      100,
+			IncreasedDamage:    0,
+			DefenseBreak:       15,
+		},
+		{
+			MagnificationValue: common.DisorderMagnification[common.Physical],
+			TriggerTimes:       2,
+			Name:               "物理结算",
+			DamageType:         common.Disorder,
+			DisorderType:       common.Physical,
+			TimeConsumption:    -3,
 			IncreasedDamage:    0,
 		},
 	}
@@ -91,16 +101,16 @@ func (i *Initializations) InitializationBase1(role *Role.BaseRole, article *arms
 		BasicProficient:          role.Proficient,                            // 基础精通（角色）
 	}
 	i.Gain = &Gain{
-		AttackValue:              316, // 攻击力值增加(固定2号位数值)
-		AttackValue2:             600, // 攻击力值增加(局内加的固定攻击力)
-		AttackPowerPercentage:    0,   // 局外攻击力百分比(6号位+武器主词条+5号位+4号位+副词条)
-		AttackInternalPercentage: 0,   // 局内攻击力百分比(武器，4件套)
-		Critical:                 0,   // 增加暴击（角色+武器+4件套）
-		ExplosiveInjury:          0,   // 增加爆伤（角色+武器+2件套+4号位）
-		IncreasedDamage:          0,   // 增伤（角色自身）
-		ReductionResistance:      0,   // 减抗（百分比）
-		Vulnerable:               0,   // 易伤（百分比）
-		SpecialDamage:            0,   // 特殊增伤（百分比）
+		AttackValue:              316,     // 攻击力值增加(固定2号位数值)
+		AttackValue2:             600,     // 攻击力值增加(局内加的固定攻击力)
+		AttackPowerPercentage:    0,       // 局外攻击力百分比(6号位+武器主词条+5号位+4号位+副词条)
+		AttackInternalPercentage: 0,       // 局内攻击力百分比(武器，4件套)
+		Critical:                 0,       // 增加暴击（角色+武器+4件套）
+		ExplosiveInjury:          0,       // 增加爆伤（角色+武器+2件套+4号位）
+		IncreasedDamage:          75 + 30, // 增伤（角色自身）
+		ReductionResistance:      0,       // 减抗（百分比）
+		Vulnerable:               0,       // 易伤（百分比）
+		SpecialDamage:            0,       // 特殊增伤（百分比）
 	}
 	i.Defense = &Defense{
 		Penetration:      role.Penetration,  // 穿透率（百分比）

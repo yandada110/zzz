@@ -17,54 +17,43 @@ const (
 func MagnificationBase1() []*Magnification {
 	return []*Magnification{
 		{
-			MagnificationValue: 160.5,
-			TriggerTimes:       6,
-			Name:               "群居浮游",
-			DamageType:         common.DirectInjury,
-			IncreasedDamage:    12 + 25,
-		},
-		{
 			MagnificationValue: 440,
-			TriggerTimes:       12,
+			TriggerTimes:       6,
 			Name:               "落雨生花",
 			DamageType:         common.DirectInjury,
-			IncreasedDamage:    12 + 25,
 		},
 		{
 			MagnificationValue: 1185.5,
-			TriggerTimes:       4,
+			TriggerTimes:       1,
 			Name:               "强化特殊技",
 			DamageType:         common.DirectInjury,
-			IncreasedDamage:    12 + 25,
 		},
 		{
 			MagnificationValue: 747.9,
-			TriggerTimes:       4,
+			TriggerTimes:       2,
 			Name:               "格挡反击",
 			DamageType:         common.DirectInjury,
-			IncreasedDamage:    12 + 25,
 		},
 		{
-			MagnificationValue: 3374.2 + 1317.8,
+			MagnificationValue: 3374.2,
 			TriggerTimes:       1,
-			Name:               "终结技+连携技",
+			Name:               "终结技",
 			DamageType:         common.DirectInjury,
 		},
 		{
 			MagnificationValue: 55,
-			TriggerTimes:       52 / 0.55,
+			TriggerTimes:       30 / 0.55,
 			Name:               "薇薇安的语言",
 			DamageType:         common.DirectInjury,
-			IncreasedDamage:    12 + 25,
 		},
 		// 这里需要处理一下，如果是简，那么这个就跟强击收益有关
 		{
-			MagnificationValue: common.DifferentMagnification[common.Electricity],
+			MagnificationValue: common.DifferentMagnification[common.Physical],
 			TriggerTimes:       6,
 			Name:               "异放",
 			DamageType:         common.Different,
-			DisorderType:       common.Electricity,
-			Damage:             100000,
+			DisorderType:       common.Physical,
+			Damage:             1488434,
 		},
 		{
 			MagnificationValue: common.DisorderMagnification[common.Ether],
@@ -72,7 +61,65 @@ func MagnificationBase1() []*Magnification {
 			Name:               "以太结算",
 			DamageType:         common.Disorder,
 			DisorderType:       common.Ether,
-			TimeConsumption:    2,
+			TimeConsumption:    3,
+			IncreasedDamage:    12,
+		},
+	}
+}
+
+func MagnificationBase2() []*Magnification {
+	return []*Magnification{
+		{
+			MagnificationValue: 440,
+			TriggerTimes:       5,
+			Name:               "落雨生花",
+			DamageType:         common.DirectInjury,
+			IncreasedDamage:    25,
+		},
+		{
+			MagnificationValue: 1185.5,
+			TriggerTimes:       1,
+			Name:               "强化特殊技",
+			DamageType:         common.DirectInjury,
+			IncreasedDamage:    25,
+		},
+		{
+			MagnificationValue: 747.9,
+			TriggerTimes:       2,
+			Name:               "格挡反击",
+			DamageType:         common.DirectInjury,
+			IncreasedDamage:    25,
+		},
+		{
+			MagnificationValue: 3374.2,
+			TriggerTimes:       1,
+			Name:               "终结技",
+			DamageType:         common.DirectInjury,
+			IncreasedDamage:    25,
+		},
+		{
+			MagnificationValue: 55,
+			TriggerTimes:       30 / 0.55,
+			Name:               "薇薇安的语言",
+			DamageType:         common.DirectInjury,
+			IncreasedDamage:    25,
+		},
+		// 这里需要处理一下，如果是简，那么这个就跟强击收益有关
+		{
+			MagnificationValue: common.DifferentMagnification[common.Electricity],
+			TriggerTimes:       5,
+			Name:               "异放",
+			DamageType:         common.Different,
+			DisorderType:       common.Electricity,
+			Damage:             94513,
+		},
+		{
+			MagnificationValue: common.DisorderMagnification[common.Ether],
+			TriggerTimes:       6,
+			Name:               "以太结算",
+			DamageType:         common.Disorder,
+			DisorderType:       common.Ether,
+			TimeConsumption:    3,
 			IncreasedDamage:    12 + 25,
 		},
 	}
@@ -465,9 +512,9 @@ func (i *Initializations) InitializationBase0命(role *Role.BaseRole, article *a
 		i.Gain.AttackPowerPercentage += article.MainArticle
 	}
 	i.Defense = &Defense{
-		Penetration:      role.Penetration,  // 穿透率（百分比）
-		DefenseBreak:     role.DefenseBreak, // 破防百分比（百分比）
-		PenetrationValue: 0,                 // 穿透值（固定值）
+		Penetration:      role.Penetration,       // 穿透率（百分比）
+		DefenseBreak:     role.DefenseBreak + 15, // 破防百分比（百分比）
+		PenetrationValue: 0,                      // 穿透值（固定值）
 	}
 	i.HandleNumberFour()
 	i.HandleArticleType(article)

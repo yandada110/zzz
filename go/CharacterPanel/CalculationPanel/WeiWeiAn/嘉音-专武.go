@@ -30,21 +30,21 @@ func 简01薇薇安01嘉音00() *Initializations {
 	return init
 }
 
-func 简01薇薇安0双生嘉音00() *Initializations {
-	name := "简01薇薇安0双生嘉音00"
+func 柳01薇薇安01嘉音00() *Initializations {
+	name := "柳01薇薇安01嘉音00"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.Proficient,
 		//NumberSix:  common.AttackPowerPercentage,
 	}
 	// 初始化基础数值
-	init.InitializationBase0命(Role.WeiWeiAn(), arms.ShuangShengQiXing(true))
+	init.InitializationBase0命(Role.WeiWeiAn(), arms.FeiNiaoXingMeng(true, 6))
 	// 初始化角色增益
 	init.InitializationRole([]*Role.BuffCharacter{Role.JiaYin00()})
 
 	init.Initializations = []*Initialization{
 		{
-			Magnifications: MagnificationBase双生(),
+			Magnifications: MagnificationBase2(),
 			Name:           name + "-站场",
 			Gain:           &Gain{},
 			Output:         &Output{},
