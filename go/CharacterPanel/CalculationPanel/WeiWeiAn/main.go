@@ -10,12 +10,12 @@ import (
 func main() {
 	// 初始化各套队伍（示例，具体初始化函数需自行实现）
 	initializations := []*Initializations{
-		//简01薇薇安01嘉音00(),
+		简01薇薇安01嘉音00(),
 		//柳01薇薇安01嘉音00(),
 		//简01薇薇安0双生嘉音00(),
 		//柳01薇薇安0双生嘉音00(),
-		简01薇薇安0大月卡嘉音00(),
-		柳01薇薇安0大月卡嘉音00(),
+		//简01薇薇安0大月卡嘉音00(),
+		//柳01薇薇安0大月卡嘉音00(),
 	}
 	// 针对每套队伍进行计算
 	for idx, initialization := range initializations {
@@ -135,7 +135,7 @@ func (i *Initializations) FindOptimalDistribution() (bestSim *Initializations, b
 			}
 			// 不计算攻击力值词条，默认为5个词条
 			i.Basic.BasicAttackValue = float64(i.Condition.AttackValueMin * 19)
-			initialization.CurrentPanel.PenetrationValue = float64(i.Condition.PenetrationValueMin * 9)
+			i.Basic.PenetrationValue = i.Defense.PenetrationValue + float64(i.Condition.PenetrationValueMin*9)
 			damage += i.CalculatingTotalDamage(initialization, distribution)
 			lastSim = append(lastSim, initialization.DeepCopy())
 		}

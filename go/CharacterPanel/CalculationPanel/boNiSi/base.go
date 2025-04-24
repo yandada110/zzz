@@ -254,7 +254,7 @@ func (i *Initializations) DefenseArea(initialization *Initialization, magnificat
 	characterBase, TotalDefense := 793.783, 873.1613
 	penetration := (initialization.CurrentPanel.Penetration + magnification.Penetration) / 100
 	defenseBreak := (initialization.CurrentPanel.DefenseBreak + magnification.DefenseBreak) / 100
-	initialization.Output.DefenseArea = characterBase / (TotalDefense*(1-penetration)*(1-defenseBreak) - initialization.CurrentPanel.PenetrationValue + characterBase)
+	initialization.Output.DefenseArea = characterBase / (TotalDefense*(1-penetration)*(1-defenseBreak) - i.Basic.PenetrationValue + characterBase)
 }
 
 func (i *Initialization) ReductionResistanceArea(magnification *Magnification) {

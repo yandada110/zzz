@@ -6,8 +6,8 @@ import (
 	"zzz/CharacterPanel/common"
 )
 
-func 柏妮思01薇薇安01嘉音00() *Initializations {
-	name := "柏妮思01薇薇安01嘉音00"
+func 柏妮思01嘉音00() *Initializations {
+	name := "柏妮思01嘉音00"
 	init := &Initializations{
 		Name:       name,
 		NumberFour: common.Proficient,
@@ -16,7 +16,7 @@ func 柏妮思01薇薇安01嘉音00() *Initializations {
 	// 初始化基础数值
 	init.InitializationBase0命(Role.BoNiSi(), arms.ZhuoXinYaoHu(true, true))
 	// 初始化角色增益
-	init.InitializationRole([]*Role.BuffCharacter{Role.JiaYin00()})
+	init.InitializationRole([]*Role.BuffCharacter{})
 
 	init.Initializations = []*Initialization{
 		{

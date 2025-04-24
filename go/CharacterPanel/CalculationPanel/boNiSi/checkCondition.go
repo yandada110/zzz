@@ -46,7 +46,7 @@ func (i *Initializations) initializationCount() {
 
 	// 百分比攻击力
 	i.Condition.AttackPercentageMin = 3
-	// 1，2,3号位
+	// 1,2,3号位
 	i.Condition.AttackPercentageMax = i.Condition.AttackPercentageMin * 5
 	if i.NumberFour != common.AttackPowerPercentage {
 		i.Condition.AttackPercentageMin++
@@ -59,7 +59,7 @@ func (i *Initializations) initializationCount() {
 
 	// 精通上限
 	i.Condition.ProficientMin = 5
-	// 1，2，3，5，6号位
+	// 1,2,3,5,6号位
 	i.Condition.ProficientMax = i.Condition.ProficientMin * 5
 	if i.NumberFour != common.Proficient {
 		i.Condition.ProficientMin++
@@ -74,7 +74,6 @@ func (i *Initializations) initializationCount() {
 }
 
 func (i *Initializations) checkCondition(slots map[string]int) bool {
-	i.initializationCount()
 	status := false
 	// 增伤-穿透率是固定值，不满足的直接过滤
 	for _, pair := range common.AllowedGroupB {
@@ -121,8 +120,6 @@ func (i *Initializations) checkCondition(slots map[string]int) bool {
 	if slots[common.AttackPowerPercentage] < condition.AttackPercentageMin || slots[common.AttackPowerPercentage] > condition.AttackPercentageMax {
 		return false
 	}
-	// 不计算攻击力值词条，默认为5个词条
-	i.Basic.BasicAttackValue = float64(i.Condition.AttackValueMin * 19)
 	return true
 }
 
@@ -161,7 +158,6 @@ func (i *Initializations) handle穿透增伤3(condition *Condition, slots map[st
 func (i *Initializations) handle穿透增伤10(condition *Condition, slots map[string]int) bool {
 	if slots[common.IncreasedDamage]+slots[common.Penetrate] == 10 {
 		condition.AttackPercentageMin++
-		condition.AttackValueMin++
 		// 必须要有一个是2件套
 		if (slots[common.Proficient] < i.Condition.ProficientMin+3) && (slots[common.AttackPowerPercentage] < i.Condition.AttackPercentageMin+3) {
 			return false

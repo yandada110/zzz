@@ -17,20 +17,25 @@ const (
 func MagnificationBase1() []*Magnification {
 	return []*Magnification{
 		//{
-		//	MagnificationValue: 1916.2,
-		//	TriggerTimes:       2 * 2,
-		//	Name:               "双喷",
+		//	MagnificationValue: 440,
+		//	TriggerTimes:       6,
+		//	Name:               "落雨生花",
 		//	DamageType:         common.DirectInjury,
 		//},
 		//{
-		//	MagnificationValue: 350,
-		//	TriggerTimes:       50. / 1.5,
-		//	Name:               "余烬",
+		//	MagnificationValue: 1185.5,
+		//	TriggerTimes:       1,
+		//	Name:               "强化特殊技",
 		//	DamageType:         common.DirectInjury,
-		//	IncreasedDamage:    30,
 		//},
 		//{
-		//	MagnificationValue: 4025.2,
+		//	MagnificationValue: 747.9,
+		//	TriggerTimes:       2,
+		//	Name:               "格挡反击",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//{
+		//	MagnificationValue: 3374.2,
 		//	TriggerTimes:       1,
 		//	Name:               "终结技",
 		//	DamageType:         common.DirectInjury,
@@ -42,7 +47,7 @@ func MagnificationBase1() []*Magnification {
 			DamageType:         common.Disorder,
 			DisorderType:       common.Fire,
 			TimeConsumption:    0,
-			IncreasedDamage:    30,
+			IncreasedDamage:    0,
 		},
 	}
 }
@@ -91,11 +96,11 @@ func MagnificationBase2() []*Magnification {
 			Name:               "异放",
 			DamageType:         common.Different,
 			DisorderType:       common.Electricity,
-			Damage:             94513,
+			Damage:             40000,
 		},
 		{
 			MagnificationValue: common.DisorderMagnification[common.Ether],
-			TriggerTimes:       6,
+			TriggerTimes:       1,
 			Name:               "以太结算",
 			DamageType:         common.Disorder,
 			DisorderType:       common.Ether,
@@ -155,7 +160,7 @@ func MagnificationBase双生() []*Magnification {
 			Name:               "异放",
 			DamageType:         common.Different,
 			DisorderType:       common.Physical,
-			Damage:             720067,
+			Damage:             400000,
 			Proficient:         48,
 		},
 		// 这里需要处理一下，如果是简，那么这个就跟强击收益有关
@@ -165,7 +170,7 @@ func MagnificationBase双生() []*Magnification {
 			Name:               "异放",
 			DamageType:         common.Different,
 			DisorderType:       common.Physical,
-			Damage:             650000,
+			Damage:             400000,
 			Proficient:         48 * 2,
 		},
 		{
@@ -184,7 +189,7 @@ func MagnificationBase双生() []*Magnification {
 			Name:               "异放",
 			DamageType:         common.Different,
 			DisorderType:       common.Physical,
-			Damage:             720067,
+			Damage:             400000,
 			Proficient:         48 * 3,
 		},
 		{
@@ -193,7 +198,111 @@ func MagnificationBase双生() []*Magnification {
 			Name:               "异放",
 			DamageType:         common.Different,
 			DisorderType:       common.Physical,
-			Damage:             720067,
+			Damage:             400000,
+			Proficient:         48 * 4,
+		},
+		{
+			MagnificationValue: common.DisorderMagnification[common.Ether],
+			TriggerTimes:       1,
+			Name:               "以太结算",
+			DamageType:         common.Disorder,
+			DisorderType:       common.Ether,
+			TimeConsumption:    2,
+			IncreasedDamage:    12 + 25,
+			Proficient:         48 * 4,
+		},
+	}
+}
+
+func MagnificationBase双生1() []*Magnification {
+	return []*Magnification{
+		{
+			MagnificationValue: 160.5,
+			TriggerTimes:       6,
+			Name:               "群居浮游",
+			DamageType:         common.DirectInjury,
+			IncreasedDamage:    12 + 25,
+		},
+		{
+			MagnificationValue: 440,
+			TriggerTimes:       12,
+			Name:               "落雨生花",
+			DamageType:         common.DirectInjury,
+			IncreasedDamage:    12 + 25,
+		},
+		{
+			MagnificationValue: 1185.5,
+			TriggerTimes:       4,
+			Name:               "强化特殊技",
+			DamageType:         common.DirectInjury,
+			IncreasedDamage:    12 + 25,
+		},
+		{
+			MagnificationValue: 747.9,
+			TriggerTimes:       4,
+			Name:               "格挡反击",
+			DamageType:         common.DirectInjury,
+			IncreasedDamage:    12 + 25,
+		},
+		{
+			MagnificationValue: 3374.2 + 1317.8,
+			TriggerTimes:       1,
+			Name:               "终结技+连携技",
+			DamageType:         common.DirectInjury,
+		},
+		{
+			MagnificationValue: 55,
+			TriggerTimes:       48 / 0.55,
+			Name:               "薇薇安的语言",
+			DamageType:         common.DirectInjury,
+			IncreasedDamage:    12 + 25,
+		},
+		// 这里需要处理一下，如果是简，那么这个就跟强击收益有关
+		{
+			MagnificationValue: common.DifferentMagnification[common.Electricity],
+			TriggerTimes:       1,
+			Name:               "异放",
+			DamageType:         common.Different,
+			DisorderType:       common.Electricity,
+			Damage:             40000,
+			Proficient:         48,
+		},
+		// 这里需要处理一下，如果是简，那么这个就跟强击收益有关
+		{
+			MagnificationValue: common.DifferentMagnification[common.Electricity],
+			TriggerTimes:       1,
+			Name:               "异放",
+			DamageType:         common.Different,
+			DisorderType:       common.Electricity,
+			Damage:             40000,
+			Proficient:         48 * 2,
+		},
+		{
+			MagnificationValue: common.DisorderMagnification[common.Ether],
+			TriggerTimes:       1,
+			Name:               "以太结算",
+			DamageType:         common.Disorder,
+			DisorderType:       common.Ether,
+			TimeConsumption:    2,
+			IncreasedDamage:    12 + 25,
+			Proficient:         48 * 2,
+		},
+		{
+			MagnificationValue: common.DifferentMagnification[common.Electricity],
+			TriggerTimes:       1,
+			Name:               "异放",
+			DamageType:         common.Different,
+			DisorderType:       common.Electricity,
+			Damage:             40000,
+			Proficient:         48 * 3,
+		},
+		{
+			MagnificationValue: common.DifferentMagnification[common.Physical],
+			TriggerTimes:       3,
+			Name:               "异放",
+			DamageType:         common.Different,
+			DisorderType:       common.Physical,
+			Damage:             40000,
 			Proficient:         48 * 4,
 		},
 		{
@@ -288,7 +397,7 @@ func MagnificationBase双生1命() []*Magnification {
 			Name:               "异放",
 			DamageType:         common.Different,
 			DisorderType:       common.Physical,
-			Damage:             779150,
+			Damage:             65000,
 			Proficient:         48 * 3,
 		},
 		{
@@ -297,7 +406,111 @@ func MagnificationBase双生1命() []*Magnification {
 			Name:               "异放",
 			DamageType:         common.Different,
 			DisorderType:       common.Physical,
+			Damage:             650000,
+			Proficient:         48 * 4,
+		},
+		{
+			MagnificationValue: common.DisorderMagnification[common.Ether],
+			TriggerTimes:       1,
+			Name:               "以太结算",
+			DamageType:         common.Disorder,
+			DisorderType:       common.Ether,
+			TimeConsumption:    2,
+			IncreasedDamage:    12 + 25 + 16,
+			Proficient:         48 * 4,
+		},
+	}
+}
+
+func MagnificationBase双生1命1() []*Magnification {
+	return []*Magnification{
+		{
+			MagnificationValue: 160.5,
+			TriggerTimes:       6,
+			Name:               "群居浮游",
+			DamageType:         common.DirectInjury,
+			IncreasedDamage:    12 + 25,
+		},
+		{
+			MagnificationValue: 440,
+			TriggerTimes:       12,
+			Name:               "落雨生花",
+			DamageType:         common.DirectInjury,
+			IncreasedDamage:    12 + 25,
+		},
+		{
+			MagnificationValue: 1185.5,
+			TriggerTimes:       4,
+			Name:               "强化特殊技",
+			DamageType:         common.DirectInjury,
+			IncreasedDamage:    12 + 25,
+		},
+		{
+			MagnificationValue: 747.9,
+			TriggerTimes:       4,
+			Name:               "格挡反击",
+			DamageType:         common.DirectInjury,
+			IncreasedDamage:    12 + 25,
+		},
+		{
+			MagnificationValue: 3374.2 + 1317.8,
+			TriggerTimes:       1,
+			Name:               "终结技+连携技",
+			DamageType:         common.DirectInjury,
+		},
+		{
+			MagnificationValue: 55,
+			TriggerTimes:       48 / 0.55,
+			Name:               "薇薇安的语言",
+			DamageType:         common.DirectInjury,
+			IncreasedDamage:    12 + 25,
+		},
+		// 这里需要处理一下，如果是简，那么这个就跟强击收益有关
+		{
+			MagnificationValue: common.DifferentMagnification[common.Physical],
+			TriggerTimes:       1,
+			Name:               "异放",
+			DamageType:         common.Different,
+			DisorderType:       common.Physical,
 			Damage:             779150,
+			Proficient:         48,
+		},
+		// 这里需要处理一下，如果是简，那么这个就跟强击收益有关
+		{
+			MagnificationValue: common.DifferentMagnification[common.Electricity],
+			TriggerTimes:       1,
+			Name:               "异放",
+			DamageType:         common.Electricity,
+			DisorderType:       common.Physical,
+			Damage:             30000,
+			Proficient:         48 * 2,
+		},
+		{
+			MagnificationValue: common.DisorderMagnification[common.Ether],
+			TriggerTimes:       1,
+			Name:               "以太结算",
+			DamageType:         common.Disorder,
+			DisorderType:       common.Ether,
+			TimeConsumption:    2,
+			IncreasedDamage:    12 + 25 + 16,
+			Proficient:         48 * 2,
+		},
+		{
+			MagnificationValue: common.DifferentMagnification[common.Physical],
+			TriggerTimes:       1,
+			Name:               "异放",
+			DamageType:         common.Different,
+			DisorderType:       common.Physical,
+			Damage:             50000,
+			Proficient:         48 * 3,
+		},
+		{
+			MagnificationValue: common.DifferentMagnification[common.Physical],
+			TriggerTimes:       3,
+			Name:               "异放",
+			DamageType:         common.Different,
+			DisorderType:       common.Physical,
+			Damage:             650000,
 			Proficient:         48 * 4,
 		},
 		{
@@ -474,7 +687,7 @@ func (i *Initializations) InitializationBase0命(role *Role.BaseRole, article *a
 		AttackInternalPercentage: 0,   // 局内攻击力百分比(武器，4件套)
 		Critical:                 0,   // 增加暴击（角色+武器+4件套）
 		ExplosiveInjury:          0,   // 增加爆伤（角色+武器+2件套+4号位）
-		IncreasedDamage:          35,  // 增伤（队友百分比）
+		IncreasedDamage:          25,  // 增伤（队友百分比）
 		ReductionResistance:      0,   // 减抗（百分比）
 		Vulnerable:               0,   // 易伤（百分比）
 		SpecialDamage:            0,   // 特殊增伤（百分比）
@@ -538,6 +751,9 @@ func (i *Initializations) HandleOtherBenefit(OtherBenefits []*arms.OtherBenefits
 		}
 		if OtherBenefit.Type == common.ReductionResistance {
 			i.Gain.ReductionResistance += OtherBenefit.Value
+		}
+		if OtherBenefit.Type == common.Proficient {
+			i.Gain.Proficient += OtherBenefit.Value
 		}
 	}
 }

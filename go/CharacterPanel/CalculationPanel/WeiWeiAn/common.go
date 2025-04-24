@@ -16,53 +16,53 @@ const (
 
 func MagnificationBase1() []*Magnification {
 	return []*Magnification{
-		{
-			MagnificationValue: 440,
-			TriggerTimes:       6,
-			Name:               "落雨生花",
-			DamageType:         common.DirectInjury,
-		},
-		{
-			MagnificationValue: 1185.5,
-			TriggerTimes:       1,
-			Name:               "强化特殊技",
-			DamageType:         common.DirectInjury,
-		},
-		{
-			MagnificationValue: 747.9,
-			TriggerTimes:       2,
-			Name:               "格挡反击",
-			DamageType:         common.DirectInjury,
-		},
-		{
-			MagnificationValue: 3374.2,
-			TriggerTimes:       1,
-			Name:               "终结技",
-			DamageType:         common.DirectInjury,
-		},
-		{
-			MagnificationValue: 55,
-			TriggerTimes:       30 / 0.55,
-			Name:               "薇薇安的语言",
-			DamageType:         common.DirectInjury,
-		},
-		// 这里需要处理一下，如果是简，那么这个就跟强击收益有关
-		{
-			MagnificationValue: common.DifferentMagnification[common.Physical],
-			TriggerTimes:       6,
-			Name:               "异放",
-			DamageType:         common.Different,
-			DisorderType:       common.Physical,
-			Damage:             650000,
-		},
+		//{
+		//	MagnificationValue: 440,
+		//	TriggerTimes:       6,
+		//	Name:               "落雨生花",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//{
+		//	MagnificationValue: 1185.5,
+		//	TriggerTimes:       1,
+		//	Name:               "强化特殊技",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//{
+		//	MagnificationValue: 747.9,
+		//	TriggerTimes:       2,
+		//	Name:               "格挡反击",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//{
+		//	MagnificationValue: 3374.2,
+		//	TriggerTimes:       1,
+		//	Name:               "终结技",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//{
+		//	MagnificationValue: 55,
+		//	TriggerTimes:       30 / 0.55,
+		//	Name:               "薇薇安的语言",
+		//	DamageType:         common.DirectInjury,
+		//},
+		//// 这里需要处理一下，如果是简，那么这个就跟强击收益有关
+		//{
+		//	MagnificationValue: common.DifferentMagnification[common.Physical],
+		//	TriggerTimes:       6,
+		//	Name:               "异放",
+		//	DamageType:         common.Different,
+		//	DisorderType:       common.Physical,
+		//	Damage:             650000,
+		//},
 		{
 			MagnificationValue: common.DisorderMagnification[common.Ether],
-			TriggerTimes:       2,
+			TriggerTimes:       1,
 			Name:               "以太结算",
 			DamageType:         common.Disorder,
 			DisorderType:       common.Ether,
-			TimeConsumption:    3,
-			IncreasedDamage:    12,
+			TimeConsumption:    0,
+			IncreasedDamage:    0,
 		},
 	}
 }

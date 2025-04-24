@@ -135,6 +135,7 @@ type Basic struct {
 	BasicProficient          float64 // 精通
 	AddTime                  float64 // 角色自身延长异常时间
 	BasicAttackValue         float64 // 攻击力值
+	PenetrationValue         float64 // 穿透值
 }
 
 type CurrentPanel struct {

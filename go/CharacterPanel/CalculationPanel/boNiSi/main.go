@@ -10,11 +10,12 @@ import (
 func main() {
 	// 初始化各套队伍（示例，具体初始化函数需自行实现）
 	initializations := []*Initializations{
-		柏妮思01薇薇安01嘉音00(),
+		柏妮思01嘉音00(),
+		//柳01薇薇安01嘉音00(),
 		//简01薇薇安0双生嘉音00(),
-		//简01薇薇安1双生嘉音00(),
-		//简01薇薇安11嘉音00(),
-		//简01薇薇安21嘉音00(),
+		//柳01薇薇安0双生嘉音00(),
+		//简01薇薇安0大月卡嘉音00(),
+		//柳01薇薇安0大月卡嘉音00(),
 	}
 	// 针对每套队伍进行计算
 	for idx, initialization := range initializations {
@@ -57,7 +58,7 @@ func (i *Initializations) OutputResult(bestDistribution map[string]int) {
 			}
 			attack := float64(bestDistribution[common.AttackPowerPercentage])*3 + i.Gain.AttackPowerPercentage
 			fmt.Printf("  攻击力: %.2f, 暴击: %.2f%%, 爆伤: %.2f%%,精通: %.0f, 穿透率: %.2f%%, 穿透值: %d \n",
-				i.Basic.BasicAttack*(1+attack/100)+i.Gain.AttackValue+float64(i.Condition.AttackValueMin*19),
+				i.Basic.BasicAttack*(1+attack/100)+i.Gain.AttackValue+i.Basic.BasicAttackValue,
 				i.Basic.BasicCritical+float64(bestDistribution[common.Critical])*2.4,
 				i.Basic.BasicExplosiveInjury+float64(bestDistribution[common.ExplosiveInjury])*4.8,
 				i.Basic.BasicProficient+float64(bestDistribution[common.Proficient])*9,
@@ -78,7 +79,6 @@ func (i *Initializations) OutputResult(bestDistribution map[string]int) {
 			)
 			status = true
 		}
-		// ---------------- 新增部分 ----------------
 		// 根据当前模型的最终参数，计算并输出各技能的伤害明细
 		fmt.Println("--------------------------------------------------")
 		fmt.Println(model.Name, "-最终伤害:")
@@ -133,7 +133,9 @@ func (i *Initializations) FindOptimalDistribution() (bestSim *Initializations, b
 			if initialization.CurrentPanel.Penetration > 100 {
 				initialization.CurrentPanel.Penetration = 100
 			}
-			initialization.CurrentPanel.PenetrationValue = float64(i.Condition.PenetrationValueMin * 9)
+			// 不计算攻击力值词条，默认为5个词条
+			i.Basic.BasicAttackValue = float64(i.Condition.AttackValueMin * 19)
+			i.Basic.PenetrationValue = i.Defense.PenetrationValue + float64(i.Condition.PenetrationValueMin*9)
 			damage += i.CalculatingTotalDamage(initialization, distribution)
 			lastSim = append(lastSim, initialization.DeepCopy())
 		}
